@@ -1,0 +1,36 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: COMMUNITY-SERVICE
+          uri: lb://COMMUNITY-SERVICE
+          predicates:
+            - Path=/api/v1/communities/**
+        - id: CITY-SERVICE
+          uri: lb://CITY-SERVICE
+          predicates:
+            - Path=/api/v1/cities/**
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/products/**
+        - id: PRODUCT-TO-COMMUNITY-SERVICE
+          uri: lb://PRODUCT-TO-COMMUNITY-SERVICE
+          predicates:
+            - Path=/api/v1/product-to-community/**
+    discovery:
+      locator:
+        enabled: true
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8787/eureka
+  instance:
+    hostname: localhost
