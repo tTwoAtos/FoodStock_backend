@@ -23,10 +23,10 @@ spring:
           uri: lb://PRODUCT-TO-COMMUNITY-SERVICE
           predicates:
             - Path=/api/v1/product-to-community/**
-        - id: PUBS-SERVICE
-          uri: lb://PUBS-SERVICE
+        - id: CATEGORY-SERVICE
+          uri: lb://CATEGORY-SERVICE
           predicates:
-            - Path=/api/v1/pubs/**
+            - Path=/api/v1/categories/**,/api/v1/productToCategories/**,/api/v1/productToCommunities/**
     discovery:
       locator:
         enabled: true
