@@ -8,6 +8,7 @@ import org.aelion.Products.productToCategory.dto.ProductToCategoryResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +29,7 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     @Value("${API_GATEWAY}")
     private String API_GATEWAY_URL;
 
-    private final String PRODUCT_URL_API = "http://PRODUCT-SERVICE/api/v1/products"
+    private final String PRODUCT_URL_API = "http://PRODUCT-SERVICE/api/v1/products";
 
 
     @Override
@@ -44,5 +45,12 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     @Override
     public ResponseEntity<?> add(String productEan, List<String> categoriesIds) {
 
+        ProductToCategory pdc = new ProductToCategory();
+        pdc.setProductId(productEan);
+        pdc.setCategoryIds(categoriesIds);
+
+        repository.save(pdc);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

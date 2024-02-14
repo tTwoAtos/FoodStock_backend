@@ -17,7 +17,7 @@ public class CategoryToCommunityController {
         return service.getAll();
     }
 
-    @GetMapping
+    @GetMapping("/{communityId}")
     public List<CategoryToCommunity> getCategorieByCommunityId(@PathVariable String communityId) {
         return service.getCategorieByCommunityId(communityId);
     }
