@@ -18,8 +18,8 @@ public class CategoryToCommunityController {
     }
 
     @GetMapping
-    public List<CategoryToCommunity> getCategorieByCommunityId(@PathVariable String communityId) {
-        return service.getCategorieByCommunityId(communityId);
+    public List<CategoryToCommunity> getAllCategoriesByCommunityId(@PathVariable String communityId) {
+        return service.getAllCategoriesByCommunityId(communityId);
     }
 
     @PostMapping

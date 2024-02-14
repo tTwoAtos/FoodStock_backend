@@ -22,5 +22,5 @@ public class CategoryToCommunity {
     private String communityId;
 
     @Column(nullable = false)
-    private Long preferencies_factor;
+    private Long preferenciesFactor;
 }

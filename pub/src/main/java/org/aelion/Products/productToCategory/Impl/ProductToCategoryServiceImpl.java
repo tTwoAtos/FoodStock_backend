@@ -28,7 +28,7 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     @Value("${API_GATEWAY}")
     private String API_GATEWAY_URL;
 
-    private final String PRODUCT_URL_API = "http://PRODUCT-SERVICE/api/v1/products"
+    private final String PRODUCT_URL_API = "http://PRODUCT-SERVICE/api/v1/products";
 
 
     @Override
@@ -43,6 +43,6 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
 
     @Override
     public ResponseEntity<?> add(String productEan, List<String> categoriesIds) {
-
+        return null;
     }
 }

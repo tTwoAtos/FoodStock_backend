@@ -7,7 +7,7 @@ import java.util.List;
 public interface CategoryToCommunityService {
     List<CategoryToCommunity> getAll();
 
-    List<CategoryToCommunity> getCategorieByCommunityId(String communityId);
+    List<CategoryToCommunity> getAllCategoriesByCommunityId(String communityId);
 
 
     ResponseEntity<?> add(CategoryToCommunity catToCom);
