@@ -9,5 +9,5 @@ public interface ProductToCategoryService {
 
     ResponseEntity<?> getById(String code);
 
-    ResponseEntity<?> add(ProductToCategory prodToCom);
+    ResponseEntity<?> add(String productId, List<String> categoryIds);
 }

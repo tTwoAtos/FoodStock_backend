@@ -4,6 +4,7 @@ import org.aelion.Products.categoryToCommunity.CategoryToCommunity;
 import org.aelion.Products.categoryToCommunity.CategoryToCommunityRepository;
 import org.aelion.Products.categoryToCommunity.CategoryToCommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     }
 
     @Override
-    public ResponseEntity<?> getById(String code) {
-        return null;
+    public List<CategoryToCommunity> getCategorieByCommunityId(String communityId) {
+        return repository.findAll(communityId,)
     }
 
     @Override

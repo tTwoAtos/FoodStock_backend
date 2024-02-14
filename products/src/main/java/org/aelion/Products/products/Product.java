@@ -17,7 +17,7 @@ public class Product {
     @Id
     private String EANCode;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -25,4 +25,7 @@ public class Product {
 
     @Column(nullable = false)
     private Long nbAdded;
+
+    @Column(nullable = false)
+    private String thumbnail;
 }

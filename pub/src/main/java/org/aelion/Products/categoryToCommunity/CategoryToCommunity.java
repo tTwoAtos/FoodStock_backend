@@ -12,13 +12,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryToCommunity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
+    @Id
     @Column(nullable = false)
     private String categoryId;
 
+    @Id
     @Column(nullable = false)
     private String communityId;
+
+    @Column(nullable = false)
+    private Long preferencies_factor;
 }

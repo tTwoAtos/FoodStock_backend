@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/categoryToCommunity")
+@RequestMapping("api/v1/productToCategory")
 public class ProductToCategoryController {
     @Autowired
     private ProductToCategoryService service;
@@ -17,9 +17,9 @@ public class ProductToCategoryController {
         return service.getAll();
     }
 
-    @PostMapping
-    public ResponseEntity<?> add(@PathVariable ProductToCategory prodToCom) {
-        return service.add(prodToCom);
+    @PostMapping("{productEan}")
+    public ResponseEntity<?> add(@PathVariable String productEan, @RequestBody List<String> categoriesIds) {
+        return service.add(productEan, categoriesIds);
     }
 
 }

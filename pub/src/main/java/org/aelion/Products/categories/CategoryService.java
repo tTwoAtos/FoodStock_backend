@@ -9,5 +9,5 @@ public interface CategoryService {
 
     ResponseEntity<?> getById(String code);
 
-    ResponseEntity<?> add(List<String> categories);
+    ResponseEntity<?> add(List<Category> categories, String productEan);
 }

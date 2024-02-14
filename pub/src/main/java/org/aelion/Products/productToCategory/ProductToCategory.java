@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -17,7 +19,7 @@ public class ProductToCategory {
     private Long id;
 
     @Column(nullable = false)
-    private String categoryId;
+    private List<String> categoryIds;
 
     @Column(length = 20, nullable = false)
     private String productId;

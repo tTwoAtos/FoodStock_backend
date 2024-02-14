@@ -38,9 +38,13 @@ public class ProductServiceImpl implements ProductService {
                             optionalProduct.get().getEANCode(),
                             optionalProduct.get().getName(),
                             optionalProduct.get().getNbScanned() + 1,
-                            optionalProduct.get().getNbAdded())
+                            optionalProduct.get().getNbAdded(),
+                            optionalProduct.get().getThumbnail()
+                    )
             );
+
             return new ResponseEntity<>(product, HttpStatus.OK);
+
         } else {
             Product product = getFromOpenFoodFact(code);
 
@@ -56,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = repository.findById(code).orElseThrow();
         product.setNbAdded(product.getNbAdded() + 1);
         repository.save(product);
-        
+
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
@@ -72,11 +76,22 @@ public class ProductServiceImpl implements ProductService {
         Map<String, Object> body = response.getBody();
 
         String name = (String) ((Map<String, Object>) body.get("product")).get("generic_name");
+        String thumbnail = (String) ((Map<String, Object>) body.get("product")).get("image_thumb_url");
+        List<String> categories = (List<String>) ((Map<List<String>, Object>) body.get("product")).get("categories_tags");
 
-        return repository.save(new Product(
-                code,
-                name,
-                0L, 0L)
+        categories.replaceAll((k) -> k.split(":")[1]);
+        Product product = repository.save(
+                new Product(
+                        code,
+                        name,
+                        0L,
+                        0L,
+                        thumbnail
+                )
         );
+
+        restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, ResponseEntity.class);
+        restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, ResponseEntity.class);
+        return product;
     }
 }

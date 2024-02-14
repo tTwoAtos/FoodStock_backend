@@ -17,6 +17,11 @@ public class CategoryToCommunityController {
         return service.getAll();
     }
 
+    @GetMapping
+    public List<CategoryToCommunity> getCategorieByCommunityId(@PathVariable String communityId) {
+        return service.getCategorieByCommunityId(communityId);
+    }
+
     @PostMapping
     public ResponseEntity<?> add(@PathVariable CategoryToCommunity catToCom) {
         return service.add(catToCom);
