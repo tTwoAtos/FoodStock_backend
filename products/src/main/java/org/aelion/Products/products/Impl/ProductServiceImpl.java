@@ -91,7 +91,6 @@ public class ProductServiceImpl implements ProductService {
         );
 
         restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, ResponseEntity.class);
-        restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, ResponseEntity.class);
         return product;
     }
 }
