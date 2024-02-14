@@ -1,4 +1,4 @@
-package org.aelion.Products.productToCategory.dto;
+package org.aelion.categories.categoryToCommunity.dto;
 
 import lombok.Getter;
 import lombok.Setter;
