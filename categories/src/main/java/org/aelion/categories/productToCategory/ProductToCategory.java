@@ -6,21 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(ProductToCategoryCompositeKey.class)
 public class ProductToCategory {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(nullable = false)
-    private List<String> categoryIds;
+    private String categoryId;
 
+    @Id
     @Column(length = 20, nullable = false)
     private String productId;
 }

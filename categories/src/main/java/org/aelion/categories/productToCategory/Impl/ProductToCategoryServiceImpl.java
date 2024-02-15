@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,12 +44,19 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     @Override
     public ResponseEntity<?> add(String productEan, List<String> categoriesIds) {
 
-        ProductToCategory pdc = new ProductToCategory();
-        pdc.setProductId(productEan);
-        pdc.setCategoryIds(categoriesIds);
+        List<ProductToCategory> list = new ArrayList<ProductToCategory>();
 
-        repository.save(pdc);
+        for(String categoriesId : categoriesIds){
+            ProductToCategory pdc = new ProductToCategory();
+            pdc.setProductId(productEan);
+            pdc.setCategoryId(categoriesId);
+            list.add(pdc);
+        }
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        List<ProductToCategory> repositoryPdc = repository.saveAll(list);
+
+        if(repositoryPdc.isEmpty())
+            return new ResponseEntity<>("Not found.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(repositoryPdc, HttpStatus.CREATED);
     }
 }
