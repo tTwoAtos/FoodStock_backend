@@ -21,7 +21,8 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
 
     @Override
     public List<CategoryToCommunity> getAllCategoriesByCommunityId(String communityId) {
-        return null;
+        return
+                repository.findByCommunityId(communityId);
     }
     @Override
     public ResponseEntity<?> add(CategoryToCommunity catToCom) {
