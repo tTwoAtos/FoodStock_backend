@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/categoryToCommunity")
+@RequestMapping("api/v1/categories/community")
 public class CategoryToCommunityController {
     @Autowired
     private CategoryToCommunityService service;
@@ -18,8 +18,8 @@ public class CategoryToCommunityController {
     }
 
     @GetMapping("/{communityId}")
-    public List<CategoryToCommunity> getCategoryByCommunityId(@PathVariable String communityId) {
-        return service.getAllCategoriesByCommunityId(communityId);
+    public ResponseEntity<?> getCategoryByCommunityId(@PathVariable String communityId) {
+        return service.getCategoriesByCommunityId(communityId);
     }
 
     @PostMapping

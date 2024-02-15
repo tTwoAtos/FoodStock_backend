@@ -14,13 +14,14 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     @Autowired
     private CategoryToCommunityRepository repository;
 
+
     @Override
     public List<CategoryToCommunity> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public List<CategoryToCommunity> getAllCategoriesByCommunityId(String communityId) {
+    public ResponseEntity<?> getCategoriesByCommunityId(String communityId) {
         return null;
     }
     @Override

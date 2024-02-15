@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.aelion.categories.categoryToCommunity.CategoryToCommunity;
 
 import java.util.List;
 
@@ -13,14 +14,14 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(ProductToCategory.class)
 public class ProductToCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
+    @Id
     @Column(nullable = false)
     private List<String> categoryIds;
 
+    @Id
     @Column(length = 20, nullable = false)
     private String productId;
 }

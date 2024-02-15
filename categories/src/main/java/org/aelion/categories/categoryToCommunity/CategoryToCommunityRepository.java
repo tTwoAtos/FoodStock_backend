@@ -7,6 +7,4 @@ import java.util.List;
 
 @Repository
 public interface CategoryToCommunityRepository extends JpaRepository<CategoryToCommunity, String> {
-//    List<CategoryToCommunity> findAllByCommunityId(String communityId);
-//    List<CategoryToCommunity> findAllByCommunityIdByOrderByPreferenciesFactorDesc(String communityId);
 }

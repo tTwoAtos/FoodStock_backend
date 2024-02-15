@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(CompositeKey.class)
+@IdClass(CategoryToCommunity.class)
 public class CategoryToCommunity {
 
     @Id
@@ -21,6 +21,7 @@ public class CategoryToCommunity {
     @Id
     @Column(nullable = false)
     private String communityId;
+
 
     @Column(nullable = false)
     private Long preferenciesFactor;
