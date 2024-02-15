@@ -5,21 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aelion.categories.categoryToCommunity.CategoryToCommunity;
-
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(ProductToCategory.class)
+@IdClass(ProductToCategoryCompositeKey.class)
 public class ProductToCategory {
 
     @Id
     @Column(nullable = false)
-    private List<String> categoryIds;
+    private String categoryId;
 
     @Id
     @Column(length = 20, nullable = false)

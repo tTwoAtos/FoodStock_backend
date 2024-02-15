@@ -1,5 +1,6 @@
 package org.aelion.categories.productToCategory;
 
+import org.aelion.categories.productToCategory.dto.CategoriesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class ProductToCategoryController {
     }
 
     @PostMapping("/{productEan}")
-    public ResponseEntity<?> add(@PathVariable String productEan, @RequestBody List<String> categoriesIds) {
-        return service.add(productEan, categoriesIds);
+    public ResponseEntity<?> add(@PathVariable String productEan, @RequestBody CategoriesDto dto) {
+        return service.add(productEan, dto.getCategoriesIds());
     }
 
 }
