@@ -11,14 +11,15 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(CompositeKey.class)
 public class CategoryToCommunity {
 
     @Id
+    @GeneratedValue
+    private Long id;
+
     @Column(nullable = false)
     private String categoryId;
 
-    @Id
     @Column(nullable = false)
     private String communityId;
 

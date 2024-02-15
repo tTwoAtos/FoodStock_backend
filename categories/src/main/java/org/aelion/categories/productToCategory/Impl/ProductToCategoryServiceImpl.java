@@ -1,11 +1,11 @@
 package org.aelion.categories.productToCategory.Impl;
 
+import org.aelion.categories.categories.Category;
 import org.aelion.categories.categories.CategoryRepository;
 import org.aelion.categories.productToCategory.ProductToCategory;
 import org.aelion.categories.productToCategory.ProductToCategoryRepository;
 import org.aelion.categories.productToCategory.ProductToCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,8 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+
 
     @Override
     public List<ProductToCategory> getAll() {
@@ -58,22 +60,13 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     @Override
     public ResponseEntity<?> getCategoriesIdsByProductEan(String productId){
 
-        List<String> categoriesIdList = new ArrayList<>();
+        List<ProductToCategory> ptcArrayByProductId = repository.findByProductId(productId);
 
-        // For each ProductToCategory in the database...
-        for(ProductToCategory pdc : repository.findAll())
-        {
-            String pdcProductId = pdc.getProductId();
+        List<String> categoriesIds = ptcArrayByProductId.stream().map((ProductToCategory cat) -> cat.getCategoryId()).toList();
 
-            // If there is a ProductToCategory.productId corresponding at the productID parameter
-            if(Objects.equals(pdcProductId, productId)){
-                categoriesIdList.add(pdc.getCategoryId());
-            }
-        }
-
-        if(categoriesIdList.isEmpty())
+        if(categoriesIds.isEmpty())
             return new ResponseEntity<>("Not categories was found with this product id " , HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(categoriesIdList, HttpStatus.FOUND);
+        return new ResponseEntity<>(categoriesIds, HttpStatus.FOUND);
     }
 }

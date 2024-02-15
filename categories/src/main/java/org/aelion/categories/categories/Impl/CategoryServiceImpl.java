@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,16 +33,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<?> add(List<Category> categories, String productEan) {
-        List<Category> resp = repository.saveAll(categories);
+    public ResponseEntity<?> add(List<String> categories, String productCode) {
+        List<Category> tmpCategories = new ArrayList<>();
+
+        for (String cat : categories){
+            Category tmpCat = new Category();
+            tmpCat.setName(cat);
+            tmpCategories.add(tmpCat);
+        }
+
+        System.out.println(tmpCategories);
+        List<Category> resp = repository.saveAll(tmpCategories);
 
         if (resp.isEmpty())
             return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
 
-        ResponseEntity<?> response = restTemplate.postForObject(API_GATEWAY + "/productToCategory/" + productEan, resp, ResponseEntity.class);
-
-        if (response.getBody() == null)
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }
