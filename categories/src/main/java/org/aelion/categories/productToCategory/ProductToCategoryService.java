@@ -10,4 +10,6 @@ public interface ProductToCategoryService {
     ResponseEntity<?> getById(String code);
 
     ResponseEntity<?> add(String productId, List<String> categoryIds);
+
+    ResponseEntity<?> getCategoriesIdsByProductEan(String productId);
 }
