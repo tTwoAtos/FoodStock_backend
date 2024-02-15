@@ -26,7 +26,7 @@ spring:
         - id: CATEGORY-SERVICE
           uri: lb://CATEGORY-SERVICE
           predicates:
-            - Path=/api/v1/categories/**,/api/v1/productToCategories/**,/api/v1/productToCommunities/**
+            - Path=/api/v1/categories/**
     discovery:
       locator:
         enabled: true
