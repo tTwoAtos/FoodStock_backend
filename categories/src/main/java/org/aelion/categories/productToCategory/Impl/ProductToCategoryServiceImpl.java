@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductToCategoryServiceImpl implements ProductToCategoryService {
@@ -24,12 +25,6 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Value("${API_GATEWAY}")
-    private String API_GATEWAY_URL;
-
-    private final String PRODUCT_URL_API = "http://PRODUCT-SERVICE/api/v1/products";
-
 
     @Override
     public List<ProductToCategory> getAll() {
@@ -58,5 +53,27 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
         if(repositoryPdc.isEmpty())
             return new ResponseEntity<>("Not found.", HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(repositoryPdc, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<?> getCategoriesIdsByProductEan(String productId){
+
+        List<String> categoriesIdList = new ArrayList<>();
+
+        // For each ProductToCategory in the database...
+        for(ProductToCategory pdc : repository.findAll())
+        {
+            String pdcProductId = pdc.getProductId();
+
+            // If there is a ProductToCategory.productId corresponding at the productID parameter
+            if(Objects.equals(pdcProductId, productId)){
+                categoriesIdList.add(pdc.getCategoryId());
+            }
+        }
+
+        if(categoriesIdList.isEmpty())
+            return new ResponseEntity<>("Not categories was found with this product id " , HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(categoriesIdList, HttpStatus.FOUND);
     }
 }
