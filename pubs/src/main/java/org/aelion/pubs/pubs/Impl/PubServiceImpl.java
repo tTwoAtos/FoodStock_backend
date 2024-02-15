@@ -1,96 +1,58 @@
 package org.aelion.pubs.pubs.Impl;
 
-import org.aelion.pubs.pubs.Pub;
-import org.aelion.pubs.pubs.PubRepository;
 import org.aelion.pubs.pubs.PubService;
+import org.aelion.pubs.pubs.dto.CategoryDto;
+import org.aelion.pubs.pubs.dto.CommunityDto;
+import org.aelion.pubs.pubs.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class PubServiceImpl implements PubService {
+
+    @Value("${API_GATEWAY}")
+    String API_GATEWAY;
+
     @Autowired
-    private PubRepository repository;
-    @Value("${OPEN_FOOD_FACT_API}")
-    private String foodFactApi;
+    RestTemplate restTemplate;
+
 
     @Override
-    public List<Pub> getAll() {
-        return repository.findAll();
+    public List<CategoryDto> findAllCategoriesOfCommunity(CommunityDto community) {
+        return null;
     }
 
     @Override
-    public ResponseEntity<?> getById(String code) {
-        Optional<Pub> optionalProduct = repository.findById(code);
-
-        if (optionalProduct.isPresent()) {
-            Pub product = repository.save(
-                    new Pub(
-                            optionalProduct.get().getEANCode(),
-                            optionalProduct.get().getName(),
-                            optionalProduct.get().getNbScanned() + 1,
-                            optionalProduct.get().getNbAdded(),
-                            optionalProduct.get().getThumbnail()
-                    )
-            );
-
-            return new ResponseEntity<>(product, HttpStatus.OK);
-
-        } else {
-            Pub product = getFromOpenFoodFact(code);
-
-            if (product != null)
-                return new ResponseEntity<>(product, HttpStatus.OK);
-            else
-                return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-        }
+    public List<CategoryDto> getTop5OfTheCategoriesInACommunity(CommunityDto community) {
+        return null;
     }
 
     @Override
-    public ResponseEntity<?> addedToCommunity(String code) {
-        Pub product = repository.findById(code).orElseThrow();
-        product.setNbAdded(product.getNbAdded() + 1);
-        repository.save(product);
+    public CommunityDto getCommunity(String communityId) throws Exception {
 
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        CommunityDto community = restTemplate.getForObject(API_GATEWAY + "/communities/" + communityId, CommunityDto.class);
+
+        if(community == null)
+            throw new Exception("There isn't community");
+
+        return community;
     }
 
-    private Pub getFromOpenFoodFact(String code) {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(foodFactApi + '/' + code, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {
-        });
+    @Override
+    public ResponseEntity<?> getPubProduct(String communityId) {
+        // 1) récup une catégory aléatoire d'une community de categoryToCommunity
+        restTemplate.getForObject(API_GATEWAY + "/categoryToCommunity/" + communityId, CommunityDto.class);
 
-        if (!response.hasBody()) {
-            return null;
-        }
+        // 2) récup un produit aléatoire de productToCategory qui possède la catégory du 1)
+        // 3) récup tt les catégories de ce produit dans productToCategory
+        // 4) Choisir 3 catégories random dans cette liste, et faire un appel a OpenFoodFact pour récup la liste des produit avec ces 3 catégories
+        // 5) Retourner un produit pub randon de cette liste
 
-        Map<String, Object> body = response.getBody();
-
-        String name = (String) ((Map<String, Object>) body.get("product")).get("generic_name");
-        String thumbnail = (String) ((Map<String, Object>) body.get("product")).get("image_thumb_url");
-        List<String> categories = (List<String>) ((Map<List<String>, Object>) body.get("product")).get("categories_tags");
-
-        categories.replaceAll((k) -> k.split(":")[1]);
-        Pub product = repository.save(
-                new Pub(
-                        code,
-                        name,
-                        0L,
-                        0L,
-                        thumbnail
-                )
-        );
-
-        restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, ResponseEntity.class);
-        return product;
+        return null;
     }
 }
