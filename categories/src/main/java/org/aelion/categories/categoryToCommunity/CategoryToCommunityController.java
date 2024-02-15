@@ -1,5 +1,6 @@
 package org.aelion.categories.categoryToCommunity;
 
+import org.aelion.categories.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,21 @@ public class CategoryToCommunityController {
     }
 
     @GetMapping("/{communityId}")
-    public ResponseEntity<?> getCategoryByCommunityId(@PathVariable String communityId) {
+    public List<CategoryToCommunity> getCategoriesByCommunityId(@PathVariable String communityId) {
+
         return service.getCategoriesByCommunityId(communityId);
+    }
+
+    @GetMapping("/{communityId}/{categoryId}")
+    public CategoryToCommunity getByCommunityIdAndCategoryId(@PathVariable String communityId, @PathVariable String categoryId) {
+
+        return service.getByCommunityIdAndCategoryId(communityId,categoryId);
+    }
+
+
+    @PostMapping("/{communityId}/{qte}")
+    public ResponseEntity<?> UpdatePreferenciesFactors(@PathVariable String communityId,@PathVariable Long qte, @RequestBody List<Category> categories) {
+        return service.UpdatePreferenciesFactors(communityId ,qte ,categories);
     }
 
     @PostMapping
