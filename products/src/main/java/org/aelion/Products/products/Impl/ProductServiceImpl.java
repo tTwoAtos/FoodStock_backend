@@ -3,6 +3,7 @@ package org.aelion.Products.products.Impl;
 import org.aelion.Products.products.Product;
 import org.aelion.Products.products.ProductRepository;
 import org.aelion.Products.products.ProductService;
+import org.aelion.Products.products.dto.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,6 +21,9 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private RestTemplate restTemplate;
     @Value("${OPEN_FOOD_FACT_API}")
     private String foodFactApi;
 
@@ -65,8 +69,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product getFromOpenFoodFact(String code) {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(foodFactApi + '/' + code, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {
+        RestTemplate tmpRestTemplate = new RestTemplate();
+        ResponseEntity<Map<String, Object>> response = tmpRestTemplate.exchange(foodFactApi + '/' + code, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {
         });
 
         if (!response.hasBody()) {
@@ -90,7 +94,8 @@ public class ProductServiceImpl implements ProductService {
                 )
         );
 
-        restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, ResponseEntity.class);
+        System.out.println("Test" + categories);
+        List<Category> res = restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, List.class);
         return product;
     }
 }
