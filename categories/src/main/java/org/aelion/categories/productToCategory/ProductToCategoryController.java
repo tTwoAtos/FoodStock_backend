@@ -5,17 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/v1/categories/products")
 public class ProductToCategoryController {
     @Autowired
     private ProductToCategoryService service;
 
-    @GetMapping
-    public List<ProductToCategory> getAll() {
-        return service.getAll();
+    @GetMapping("/{productEan}")
+    public ResponseEntity<?> getCategoriesIdsByProductId(@PathVariable String productEan) {
+        return service.getCategoriesIdsByProductEan(productEan);
     }
 
     @PostMapping("/{productEan}")
