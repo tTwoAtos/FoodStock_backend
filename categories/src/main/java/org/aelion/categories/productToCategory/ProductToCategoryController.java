@@ -23,8 +23,8 @@ public class ProductToCategoryController {
         if(productToCategories == null)
             return new ResponseEntity<>("Not categories was found with this product id " , HttpStatus.NOT_FOUND);
 
-        List<Long> categoriesIds = productToCategories.stream().map((ProductToCategory cat) -> cat.getCategoryId()).toList();
-        return new ResponseEntity<>(categoriesIds, HttpStatus.FOUND);
+//        List<Long> categoriesIds = productToCategories.stream().map((ProductToCategory cat) -> cat.getCategoryId()).toList();
+        return new ResponseEntity<>(productToCategories, HttpStatus.FOUND);
     }
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<?> getRandomProductByCategory(@PathVariable Long categoryId) {

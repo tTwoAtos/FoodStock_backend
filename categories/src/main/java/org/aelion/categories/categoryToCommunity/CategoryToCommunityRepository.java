@@ -12,5 +12,5 @@ public interface CategoryToCommunityRepository extends JpaRepository<CategoryToC
 
     List<CategoryToCommunity> findTop5ByCommunityIdOrderByPreferenciesFactorDesc(String communityId);
 
-    Optional<CategoryToCommunity> findByCommunityIdAndCategoryId(String communityId, String categoryId);
+    Optional<CategoryToCommunity> findByCommunityIdAndCategoryId(String communityId, Long categoryId);
 }
