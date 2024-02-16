@@ -4,6 +4,7 @@ import org.aelion.categories.categories.Category;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunity;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityRepository;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityService;
+import org.aelion.categories.productToCategory.ProductToCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +31,13 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     }
 
     @Override
-    public ResponseEntity<?> getByCommunityIdAndCategoryId(String communityId, String categoryId) {
+    public ResponseEntity<?> getByCommunityIdAndCategoryId(String communityId, Long categoryId) {
         Optional<CategoryToCommunity> optionalCategoryToCommunity= repository.findByCommunityIdAndCategoryId(communityId,categoryId);
         if(optionalCategoryToCommunity.isPresent()) {
             CategoryToCommunity categoryToCommunity = new CategoryToCommunity(
                     optionalCategoryToCommunity.get().getId(),
-                    optionalCategoryToCommunity.get().getCategoryId(),
                     optionalCategoryToCommunity.get().getCommunityId(),
+                    optionalCategoryToCommunity.get().getCategoryId(),
                     optionalCategoryToCommunity.get().getPreferenciesFactor()
             );
 
@@ -48,17 +49,18 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     }
 
     @Override
-    public ResponseEntity<?> UpdatePreferenciesFactors(String communityId , Long qte , List<Category> categories) {
+    public ResponseEntity<?> UpdatePreferenciesFactors(String communityId , Long qte , List<ProductToCategory> categories) {
 
-        for(Category category : categories){
-            String categoryId = category.getId().toString();
+        for(ProductToCategory category : categories){
+            Long categoryId = category.getCategoryId();
+            System.out.println("///"+categoryId+"/"+communityId+"/"+qte+"/"+category.toString() );
             Optional<CategoryToCommunity> optionalCategoryToCommunity= repository.findByCommunityIdAndCategoryId(communityId,categoryId);
 
             if(optionalCategoryToCommunity.isPresent()){
                 CategoryToCommunity categoryToCommunity = repository.save(new CategoryToCommunity(
                         optionalCategoryToCommunity.get().getId(),
-                        optionalCategoryToCommunity.get().getCategoryId(),
                         optionalCategoryToCommunity.get().getCommunityId(),
+                        optionalCategoryToCommunity.get().getCategoryId(),
                         optionalCategoryToCommunity.get().getPreferenciesFactor()+qte
                         )
                 );

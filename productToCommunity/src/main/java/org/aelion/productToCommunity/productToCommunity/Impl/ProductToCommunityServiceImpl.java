@@ -5,6 +5,7 @@ import org.aelion.productToCommunity.productToCommunity.ProductToCommunityReposi
 import org.aelion.productToCommunity.productToCommunity.ProductToCommunityService;
 import org.aelion.productToCommunity.productToCommunity.dto.Community;
 import org.aelion.productToCommunity.productToCommunity.dto.Product;
+import org.aelion.productToCommunity.productToCommunity.dto.ProductToCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,9 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
             return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
 
         restTemplate.postForObject(PRODUCT_API + "/addedToCommunity/" + PtoC.getProductId(), "", String.class);
-        List<String> productCategories = restTemplate.getForObject(CATEGORY_API + "/products/" + PtoC.getProductId(), List.class);
-        restTemplate.postForObject(CATEGORY_API + "/community/" + community.getId()+"/"+PtoC.getQte(), productCategories, String.class);
+        List<ProductToCategory> productCategoriesIds = restTemplate.getForObject(CATEGORY_API + "/products/" + PtoC.getProductId(), List.class);
+        System.out.println(productCategoriesIds + "///" + CATEGORY_API + "/community/" + community.getId() + "/" + PtoC.getQte());
+        restTemplate.postForObject(CATEGORY_API + "/community/" + community.getId() + "/" + PtoC.getQte(), productCategoriesIds, String.class);
 
         ProductToCommunity res = repository.save(PtoC);
 
