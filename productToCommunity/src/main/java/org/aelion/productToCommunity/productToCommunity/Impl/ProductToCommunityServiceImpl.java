@@ -18,6 +18,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
     private final static String PRODUCT_API = "http://PRODUCT-SERVICE/api/v1/products";
     private final static String CATEGORY_API = "http://CATEGORY-SERVICE/api/v1/categories";
+
     @Autowired
     private ProductToCommunityRepository repository;
 
@@ -39,7 +40,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
         restTemplate.postForObject(PRODUCT_API + "/addedToCommunity/" + PtoC.getProductId(), "", String.class);
         List<String> productCategories = restTemplate.getForObject(CATEGORY_API + "/products/" + PtoC.getProductId(), List.class);
-        restTemplate.postForObject(CATEGORY_API + "/community/" + community.getId(), productCategories, String.class);
+        restTemplate.postForObject(CATEGORY_API + "/community/" + community.getId()+"/"+PtoC.getQte(), productCategories, String.class);
 
         ProductToCommunity res = repository.save(PtoC);
 

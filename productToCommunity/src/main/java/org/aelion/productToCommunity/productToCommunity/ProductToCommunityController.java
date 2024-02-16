@@ -21,4 +21,8 @@ public class ProductToCommunityController {
     public ResponseEntity<?> getById(@RequestBody ProductToCommunity PtoC) {
         return service.add(PtoC);
     }
+
+
+
+
 }

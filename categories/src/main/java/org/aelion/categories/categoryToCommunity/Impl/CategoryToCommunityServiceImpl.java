@@ -4,13 +4,11 @@ import org.aelion.categories.categories.Category;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunity;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityRepository;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityService;
-import org.hibernate.query.spi.Limit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +30,21 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     }
 
     @Override
-    public CategoryToCommunity getByCommunityIdAndCategoryId(String communityId, String categoryId) {
-        return null;
+    public ResponseEntity<?> getByCommunityIdAndCategoryId(String communityId, String categoryId) {
+        Optional<CategoryToCommunity> optionalCategoryToCommunity= repository.findByCommunityIdAndCategoryId(communityId,categoryId);
+        if(optionalCategoryToCommunity.isPresent()) {
+            CategoryToCommunity categoryToCommunity = new CategoryToCommunity(
+                    optionalCategoryToCommunity.get().getId(),
+                    optionalCategoryToCommunity.get().getCategoryId(),
+                    optionalCategoryToCommunity.get().getCommunityId(),
+                    optionalCategoryToCommunity.get().getPreferenciesFactor()
+            );
+
+            return new ResponseEntity<>(categoryToCommunity, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
@@ -46,15 +57,15 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
             if(optionalCategoryToCommunity.isPresent()){
                 CategoryToCommunity categoryToCommunity = repository.save(new CategoryToCommunity(
                         optionalCategoryToCommunity.get().getId(),
-                        optionalCategoryToCommunity.get().getCommunityId(),
                         optionalCategoryToCommunity.get().getCategoryId(),
+                        optionalCategoryToCommunity.get().getCommunityId(),
                         optionalCategoryToCommunity.get().getPreferenciesFactor()+qte
                         )
                 );
             }else{
                 CategoryToCommunity ctoc = new CategoryToCommunity();
-                ctoc.setCommunityId(communityId);
                 ctoc.setCategoryId(categoryId);
+                ctoc.setCommunityId(communityId);
                 ctoc.setPreferenciesFactor(qte);
                 repository.save(ctoc);
             }
@@ -64,6 +75,7 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
 
     @Override
     public ResponseEntity<?> add(CategoryToCommunity catToCom) {
+        //Use UpdatePreferencisFactors
         return null;
     }
 }

@@ -11,7 +11,7 @@ public interface CategoryToCommunityService {
 
     List<CategoryToCommunity> getCategoriesByCommunityId(String communityId);
 
-    CategoryToCommunity getByCommunityIdAndCategoryId(String communityId,String categoryId);
+    ResponseEntity<?> getByCommunityIdAndCategoryId(String communityId,String categoryId);
 
     ResponseEntity<?> UpdatePreferenciesFactors(String communityId , Long qte , List<Category> categories);
 
