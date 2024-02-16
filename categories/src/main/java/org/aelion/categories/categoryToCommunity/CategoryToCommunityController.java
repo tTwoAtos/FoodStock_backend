@@ -25,11 +25,10 @@ public class CategoryToCommunityController {
     }
 
     @GetMapping("/{communityId}/{categoryId}")
-    public CategoryToCommunity getByCommunityIdAndCategoryId(@PathVariable String communityId, @PathVariable String categoryId) {
+    public ResponseEntity<?> getByCommunityIdAndCategoryId(@PathVariable String communityId, @PathVariable String categoryId) {
 
         return service.getByCommunityIdAndCategoryId(communityId,categoryId);
     }
-
 
     @PostMapping("/{communityId}/{qte}")
     public ResponseEntity<?> UpdatePreferenciesFactors(@PathVariable String communityId,@PathVariable Long qte, @RequestBody List<Category> categories) {

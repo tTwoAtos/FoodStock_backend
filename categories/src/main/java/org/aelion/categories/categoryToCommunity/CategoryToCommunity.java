@@ -18,10 +18,10 @@ public class CategoryToCommunity {
     private Long id;
 
     @Column(nullable = false)
-    private String categoryId;
+    private String communityId;
 
     @Column(nullable = false)
-    private String communityId;
+    private String categoryId;
 
     @Column(nullable = false)
     private Long preferenciesFactor;
