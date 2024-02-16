@@ -3,6 +3,7 @@ package org.aelion.categories.categories.Impl;
 import org.aelion.categories.categories.Category;
 import org.aelion.categories.categories.CategoryRepository;
 import org.aelion.categories.categories.CategoryService;
+import org.aelion.categories.productToCategory.Impl.ProductToCategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,13 +13,18 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Value("${API_GATEWAY}")
     String API_GATEWAY;
+
+    private final String CATEGORY_API = "http://localhost:4009/api/v1/categories";
     @Autowired
     private CategoryRepository repository;
+    @Autowired
+    private ProductToCategoryServiceImpl productToCategoryService;
     @Autowired
     private RestTemplate restTemplate;
 
@@ -39,13 +45,21 @@ public class CategoryServiceImpl implements CategoryService {
         for (String cat : categories){
             Category tmpCat = new Category();
             tmpCat.setName(cat);
+
+            Optional<Category> existingCat = repository.findByName(cat);
+            if (existingCat.isPresent())
+                tmpCat.setId(existingCat.get().getId());
+
             tmpCategories.add(tmpCat);
         }
 
-        System.out.println(tmpCategories);
         List<Category> resp = repository.saveAll(tmpCategories);
 
-        if (resp.isEmpty())
+        List<Long> categoriesIds = resp.stream().map((item) -> item.getId()).toList();
+
+        ResponseEntity<?> res = productToCategoryService.add(productCode, categoriesIds);
+
+        if (resp.isEmpty() || !res.hasBody())
             return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(resp, HttpStatus.OK);

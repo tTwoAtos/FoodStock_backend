@@ -23,5 +23,4 @@ public class CategoryController {
     public ResponseEntity<?> add(@RequestBody List<String> categories, @PathVariable String productCode) {
         return service.add(categories, productCode);
     }
-
 }

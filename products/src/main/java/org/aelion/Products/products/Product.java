@@ -16,12 +16,16 @@ import lombok.Setter;
 public class Product {
     @Id
     private String EANCode;
-    @Column(nullable = false)
+
+    @Column
     private String name;
+
     @Column(nullable = false)
     private Long nbScanned;
+
     @Column(nullable = false)
     private Long nbAdded;
-    @Column(nullable = false)
+
+    @Column
     private String thumbnail;
 }

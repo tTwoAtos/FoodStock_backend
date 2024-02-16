@@ -13,10 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @IdClass(ProductToCategoryCompositeKey.class)
 public class ProductToCategory {
-
     @Id
     @Column(nullable = false)
-    private String categoryId;
+    private Long categoryId;
 
     @Id
     @Column(length = 20, nullable = false)
