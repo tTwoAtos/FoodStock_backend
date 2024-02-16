@@ -21,4 +21,7 @@ public class ProductToCommunity {
 
     @Column(nullable = false)
     private String communityId;
+
+    @Column
+    private Long qte;
 }

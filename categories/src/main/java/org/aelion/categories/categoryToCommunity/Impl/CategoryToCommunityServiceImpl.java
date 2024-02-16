@@ -4,13 +4,11 @@ import org.aelion.categories.categories.Category;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunity;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityRepository;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityService;
-import org.hibernate.query.spi.Limit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,6 +75,7 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
 
     @Override
     public ResponseEntity<?> add(CategoryToCommunity catToCom) {
+        //Use UpdatePreferencisFactors
         return null;
     }
 }
