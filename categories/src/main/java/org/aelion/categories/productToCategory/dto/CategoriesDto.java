@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @Setter
 public class CategoriesDto {
-    private List<String> categoriesIds = new ArrayList<>();
+    private List<Long> categoriesIds = new ArrayList<>();
 }

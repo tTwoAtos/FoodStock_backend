@@ -15,7 +15,14 @@ public class ProductToCategoryController {
     public ResponseEntity<?> getCategoriesIdsByProductId(@PathVariable String productEan) {
         return service.getCategoriesIdsByProductEan(productEan);
     }
-
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<?> getRandomProductByCategory(@PathVariable Long categoryId) {
+        return service.getProductsByCategoryId(categoryId);
+    }
+    @GetMapping("/related/{categoryId}")
+    public  ResponseEntity<?> getRelatedCategories(@PathVariable Long categoryId){
+        return  service.getRelatedCategories(categoryId);
+    }
     @PostMapping("/{productEan}")
     public ResponseEntity<?> add(@PathVariable String productEan, @RequestBody CategoriesDto dto) {
         return service.add(productEan, dto.getCategoriesIds());
