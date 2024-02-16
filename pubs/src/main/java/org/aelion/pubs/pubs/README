@@ -1,0 +1,5 @@
+########## PUB MICRO-SERVICE ##########
+
+- Will contain algorithm that will determine the most pertinent product suggestion to send to a user.
+
+The algorithm rely on

@@ -27,6 +27,10 @@ spring:
           uri: lb://CATEGORY-SERVICE
           predicates:
             - Path=/api/v1/categories/**
+        - id: PUBS-SERVICE
+          uri: lb://PUBS-SERVICE
+          predicates:
+            - Path=/api/v1/pubs/**
     discovery:
       locator:
         enabled: true
