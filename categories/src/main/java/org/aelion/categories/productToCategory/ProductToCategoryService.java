@@ -3,6 +3,7 @@ package org.aelion.categories.productToCategory;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductToCategoryService {
     List<ProductToCategory> getAll();
@@ -10,8 +11,8 @@ public interface ProductToCategoryService {
     ResponseEntity<?> getById(String code);
 
     ResponseEntity<?> add(String productId, List<Long> categoryIds);
-    ResponseEntity<?> getCategoriesIdsByProductEan(String productId);
-    ResponseEntity<?> getProductsByCategoryId(Long categoryId);
-    ResponseEntity<?> getRelatedCategories(Long categoryId);
+    List<ProductToCategory> getCategoriesIdsByProductEan(String productId);
+    ProductToCategory getProductsByCategoryId(Long categoryId);
+    List<ProductToCategory> getRelatedCategories(Long categoryId);
 
 }

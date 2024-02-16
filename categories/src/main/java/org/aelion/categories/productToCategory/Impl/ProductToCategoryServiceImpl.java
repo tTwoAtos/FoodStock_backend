@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.random.RandomGenerator;
 
 @Service
@@ -60,45 +58,37 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     }
 
     @Override
-    public ResponseEntity<?> getCategoriesIdsByProductEan(String productId){
+    public List<ProductToCategory> getCategoriesIdsByProductEan(String productId){
 
         List<ProductToCategory> ptcArrayByProductId = repository.findByProductId(productId);
 
-        List<Long> categoriesIds = ptcArrayByProductId.stream().map((ProductToCategory cat) -> cat.getCategoryId()).toList();
+        if(ptcArrayByProductId.isEmpty())
+            return null;
 
-        if(categoriesIds.isEmpty())
-            return new ResponseEntity<>("Not categories was found with this product id " , HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(categoriesIds, HttpStatus.FOUND);
+        return ptcArrayByProductId;
     }
 
     @Override
-    public ResponseEntity<?> getProductsByCategoryId(Long categoryId) {
+    public ProductToCategory getProductsByCategoryId(Long categoryId) {
         List<ProductToCategory> res = repository.findByCategoryId(categoryId);
 
-        System.out.println(res);
+        if(res.isEmpty())
+            return null;
 
         int rand = new Random().ints(0, res.size()).findFirst().getAsInt();
 
-        if(res.isEmpty())
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(res.get(rand), HttpStatus.OK);
+        return res.get(rand);
     }
 
     @Override
-    public ResponseEntity<?> getRelatedCategories(Long categoryId) {
-        Object relatedProducts = getProductsByCategoryId(categoryId);
+    public List<ProductToCategory> getRelatedCategories(Long categoryId) {
+        ProductToCategory relatedProduct = getProductsByCategoryId(categoryId);
 
-        System.out.println(relatedProducts);
-//        int rand = new Random().ints(0, relatedProducts.size()).findFirst().getAsInt();
+        if (relatedProduct == null)
+            return null;
 
-//        ProductToCategory randomProduct = relatedProducts.get(rand);
+        List<ProductToCategory> relatedCategories = getCategoriesIdsByProductEan(relatedProduct.getProductId());
 
-//        List<ProductToCategory> relatedCategories = (List<ProductToCategory>) getCategoriesIdsByProductEan(randomProduct.getProductId()).getBody();
-//
-//        if (relatedCategories.isEmpty())
-//            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-//            return new ResponseEntity<>(relatedCategories, HttpStatus.OK);
-        return null;
+        return relatedCategories;
     }
 }
