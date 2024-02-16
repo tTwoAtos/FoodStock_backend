@@ -22,8 +22,9 @@ public class PubController {
      * @param communityId
      * @return
      */
-    public ResponseEntity<?> getPub(String communityId) {
-        return service.getPubProduct(communityId);
+    @GetMapping("/{communityId}")
+    public void getPub(@PathVariable String communityId) {
+        service.getPubProduct(communityId);
     }
 
 }

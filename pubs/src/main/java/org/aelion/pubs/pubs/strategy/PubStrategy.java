@@ -2,15 +2,15 @@ package org.aelion.pubs.pubs.strategy;
 
 public class PubStrategy implements Strategy {
 
-    Strategy pubStrategy;
+    PubStrategy pubStrategy;
 
     @Override
-    public void SetStrategy(Strategy strategy) {
+    public void setStrategy(PubStrategy strategy) {
         pubStrategy = strategy;
     }
 
     @Override
-    public void getPub() {
-
+    public void getPubProduct() {
+        pubStrategy.getPubProduct();
     }
 }
