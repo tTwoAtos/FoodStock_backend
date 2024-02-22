@@ -1,5 +1,6 @@
 package org.aelion.productToCommunity.productToCommunity;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class ProductToCommunityController {
         return service.add(PtoC);
     }
 
+    @Transactional
     @PutMapping("/{code}")
     public ResponseEntity<?> updateQuantity(@PathVariable String code, @RequestBody ProductToCommunity PtoC) {
         PtoC.setProductId(code);

@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface ProductToCommunityRepository extends JpaRepository<ProductToCommunity, String> {
     Optional<ProductToCommunity> findByProductId(String productId);
+
+    void deleteByProductId(String productId);
 }

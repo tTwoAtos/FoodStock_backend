@@ -58,6 +58,10 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
         pToC.setQte(quantity);
 
-        return repository.save(pToC);
+        if (quantity == 0)
+            repository.deleteByProductId(code);
+        else
+            return repository.save(pToC);
+        return null;
     }
 }
