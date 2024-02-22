@@ -1,12 +1,9 @@
 package org.aelion.pubs.pubs.Impl;
 
 import org.aelion.pubs.pubs.PubService;
-import org.aelion.pubs.pubs.dto.CategoryDto;
 import org.aelion.pubs.pubs.dto.CategoryToCommunityDto;
 import org.aelion.pubs.pubs.dto.ProductDto;
 import org.aelion.pubs.pubs.dto.ProductToCategoryDto;
-import org.aelion.pubs.pubs.strategy.PubDependingCategoriesStrategy;
-import org.aelion.pubs.pubs.strategy.PubStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -40,8 +37,7 @@ public class PubServiceImpl implements PubService {
         // 1) récup une catégory aléatoire d'une community de categoryToCommunity
         CategoryToCommunityDto[] cTocList = restTemplate.getForEntity(catgoriesAPI + "/community/" + communityId, CategoryToCommunityDto[].class).getBody();
 
-        if(cTocList.length == 0)
-        {
+        if (cTocList.length == 0) {
             return null;
         }
 
@@ -52,7 +48,7 @@ public class PubServiceImpl implements PubService {
         // 2) Récup des catégories en lien avec la catégory du 1)
         ProductToCategoryDto[] pTocArray = restTemplate.getForEntity(catgoriesAPI + "/products/related/" + randomCategory.getCategoryId(), ProductToCategoryDto[].class).getBody();
 
-        if(pTocArray.length == 0) {
+        if (pTocArray.length == 0) {
             return null;
         }
 
@@ -81,7 +77,7 @@ public class PubServiceImpl implements PubService {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Map<String, Object>>() {
-        });
+                });
 
         if (!response.hasBody()) {
             return null;
