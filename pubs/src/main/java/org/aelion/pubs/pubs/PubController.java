@@ -4,6 +4,7 @@ import org.aelion.pubs.pubs.dto.CategoryDto;
 import org.aelion.pubs.pubs.dto.CommunityDto;
 import org.aelion.pubs.pubs.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,11 @@ public class PubController {
      * @param communityId
      * @return
      */
-    public ResponseEntity<?> getPub(String communityId) {
-        return service.getPubProduct(communityId);
+    @GetMapping("/{communityId}")
+    public ResponseEntity<?> getPub(@PathVariable String communityId) {
+        ProductDto pub = service.getPubProduct(communityId);
+
+        return  new ResponseEntity<>(pub, HttpStatus.OK);
     }
 
 }
