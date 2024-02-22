@@ -51,4 +51,13 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
         else
             return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    @Override
+    public ProductToCommunity updateQuantity(String code, Long quantity) {
+        ProductToCommunity pToC = repository.findByProductId(code).orElseThrow();
+
+        pToC.setQte(quantity);
+
+        return repository.save(pToC);
+    }
 }

@@ -8,4 +8,8 @@ public interface ProductToCommunityService {
     List<ProductToCommunity> getAll();
 
     ResponseEntity<?> add(ProductToCommunity PtoC);
+
+    ProductToCommunity updateQuantity(String code, Long quantity);
+
+
 }
