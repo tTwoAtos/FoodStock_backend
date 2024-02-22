@@ -34,7 +34,6 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     public ResponseEntity<?> add(ProductToCommunity PtoC) {
         Community community = restTemplate.getForObject(COMMUNITY_API + '/' + PtoC.getCommunityId(), Community.class);
         Product product = restTemplate.getForObject(PRODUCT_API + '/' + PtoC.getProductId(), Product.class);
-
         if (community == null || product == null)
             return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
 
