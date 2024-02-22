@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CategoryToCommunityRepository extends JpaRepository<CategoryToCommunity, String> {
 
-    List<CategoryToCommunity> findTop5ByCommunityIdOrderByPreferenciesFactorDesc(String communityId);
+    List<CategoryToCommunity> findTop20ByCommunityIdOrderByPreferenciesFactorDesc(String communityId);
 
     Optional<CategoryToCommunity> findByCommunityIdAndCategoryId(String communityId, Long categoryId);
 }

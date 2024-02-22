@@ -13,5 +13,5 @@ import java.util.List;
  * To be able to use this service, the method "SetStrategy()" musts to be used at first
  */
 public interface PubService {
-    List<ProductDto> getPubProduct(String communityId);
+    ProductDto getPubProduct(String communityId);
 }

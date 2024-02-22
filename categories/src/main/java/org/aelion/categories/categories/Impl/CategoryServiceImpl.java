@@ -35,7 +35,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ResponseEntity<?> getById(String code) {
-        return null;
+        Optional<Category> cat = repository.findById(code);
+
+        if(cat.isPresent())
+            return new ResponseEntity<>(cat, HttpStatus.OK);
+        return new ResponseEntity<>("Not Foud", HttpStatus.NOT_FOUND);
     }
 
     @Override

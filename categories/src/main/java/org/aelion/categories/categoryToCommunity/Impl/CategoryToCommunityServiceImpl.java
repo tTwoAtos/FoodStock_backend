@@ -27,7 +27,7 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     @Override
     public List<CategoryToCommunity> getCategoriesByCommunityId(String communityId) {
 
-        return repository.findTop5ByCommunityIdOrderByPreferenciesFactorDesc(communityId);
+        return repository.findTop20ByCommunityIdOrderByPreferenciesFactorDesc(communityId);
     }
 
     @Override

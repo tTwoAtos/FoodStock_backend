@@ -1,9 +1,7 @@
 package org.aelion.pubs.pubs.Impl;
 
 import org.aelion.pubs.pubs.PubService;
-import org.aelion.pubs.pubs.dto.CategoryToCommunityDto;
-import org.aelion.pubs.pubs.dto.ProductDto;
-import org.aelion.pubs.pubs.dto.ProductToCategoryDto;
+import org.aelion.pubs.pubs.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -13,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class PubServiceImpl implements PubService {
@@ -23,8 +23,6 @@ public class PubServiceImpl implements PubService {
     @Value("${OPEN_FOOD_FACT_API}")
     private String foodFactApi;
 
-    //private String foodFactURL = "https://world.openfoodfacts.net/api/v2/search?categories_tags_en="le nom de ta categorie" &fields=code,categories_tags_en,product_name"
-
     String catgoriesAPI = "http://CATEGORY-SERVICE/api/v1/categories";
 
     @Autowired
@@ -33,7 +31,7 @@ public class PubServiceImpl implements PubService {
     //PubStrategy strategy = new PubStrategy();
 
     @Override
-    public List<ProductDto> getPubProduct(String communityId) {
+    public ProductDto getPubProduct(String communityId) {
         // 1) récup une catégory aléatoire d'une community de categoryToCommunity
         CategoryToCommunityDto[] cTocList = restTemplate.getForEntity(catgoriesAPI + "/community/" + communityId, CategoryToCommunityDto[].class).getBody();
 
@@ -53,46 +51,60 @@ public class PubServiceImpl implements PubService {
         }
 
         // 3) Choisir 3 catégories random dans cette liste, et faire un appel a OpenFoodFact pour récup la liste des produit avec ces 3 catégories
-        List<ProductToCategoryDto> randCategories = new ArrayList<>();
+        List<ProductToCategoryDto> randCategoriesId = new ArrayList<>();
 
         List<ProductToCategoryDto> pTocList = new ArrayList<ProductToCategoryDto>(Arrays.asList(pTocArray));
 
-        System.out.println("Product to categories list size : " + pTocList.size());
         for (int i = 0; i < pTocList.size(); i++) {
             int randomIndex = new Random().ints(0, pTocList.size()).findFirst().getAsInt();
             ProductToCategoryDto randomElement = pTocList.get(randomIndex);
-            randCategories.add(randomElement);
+            randCategoriesId.add(randomElement);
             pTocList.remove(randomIndex);
         }
 
         // 4) Retourner un produit pub random de cette liste
+        String categories = "";
 
-        return null;
-
-    }
-
-    private ProductDto getFromOpenFoodFact(String categoriesName) {
-        RestTemplate tmpRestTemplate = new RestTemplate();
-        ResponseEntity<Map<String, Object>> response = tmpRestTemplate.exchange(foodFactApi + '/' + "search?categories_tags_en=" + categoriesName + "&fields=code,categories_tags_en,product_name",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<Map<String, Object>>() {
-                });
-
-        if (!response.hasBody()) {
-            return null;
+        for (ProductToCategoryDto cat : randCategoriesId ) {
+            CategoryDto category = restTemplate.getForEntity(catgoriesAPI + "/"+ cat.getCategoryId(), CategoryDto.class).getBody();
+            categories += category.getName() + ',';
         }
 
-        Map<String, Object> body = response.getBody();
+        List<ProductDto> pubs = getFromOpenFoodFact(categories);
+        List<ProductDto> finalPubs = pubs;
+        pubs = pubs.stream().filter((pub1) -> finalPubs.stream().map((pub2) -> pub2.getEANCode()).toList().contains(pub1.getEANCode())).toList();
 
-        String name = (String) ((Map<String, Object>) body.get("product")).get("generic_name");
-        if (name == null)
-            name = (String) ((Map<String, Object>) body.get("product")).get("product_name");
+        int randPub = new Random().ints(0, pubs.size()).findFirst().getAsInt();
 
-        String thumbnail = (String) ((Map<String, Object>) body.get("product")).get("image_thumb_url");
-        List<String> categories = (List<String>) ((Map<List<String>, Object>) body.get("product")).get("categories_tags");
+        pubs.stream().forEach((pub)-> System.out.println(pub.getEANCode()));
+        return pubs.get(randPub);
+    }
 
-        // TODO : Change with the real Product
-        return new ProductDto();
+    private List<ProductDto> getFromOpenFoodFact(String categoriesName) {
+        RestTemplate tmpRestTemplate = new RestTemplate();
+
+        FoodFactReturnDto response = tmpRestTemplate.getForObject(foodFactApi + '/' + "search?categories_tags_en=" + categoriesName + "&fields=code,product_name,generic_name,image_thumb_url", FoodFactReturnDto.class);
+
+        List<OpenFoodProductDto> products = response.getProducts();
+
+        List<ProductDto> resProducts = new ArrayList<>();
+        for (OpenFoodProductDto product : products) {
+            ProductDto prod = new ProductDto();
+
+            prod.setName(product.getGeneric_name());
+            if (prod.getName() == null || prod.getName() == "")
+                prod.setName(product.getProduct_name());
+
+            prod.setEANCode(product.getCode());
+            prod.setThumbnail(product.getImage_thumb_url());
+
+            resProducts.add(prod);
+        }
+
+        resProducts.stream().filter((product)->!resProducts.contains(product));
+
+        System.out.println(resProducts);
+
+        return resProducts;
     }
 }

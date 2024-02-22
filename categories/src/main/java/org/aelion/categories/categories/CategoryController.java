@@ -18,6 +18,10 @@ public class CategoryController {
     public List<Category> getAll() {
         return service.getAll();
     }
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<?> get(@PathVariable String categoryId) {
+        return service.getById(categoryId);
+    }
 
     @PostMapping("{productCode}")
     public ResponseEntity<?> add(@RequestBody List<String> categories, @PathVariable String productCode) {
