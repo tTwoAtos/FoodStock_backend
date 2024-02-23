@@ -64,4 +64,15 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
             return repository.save(pToC);
         return null;
     }
+
+    @Override
+    public void delete(String code) {
+        repository.deleteByProductId(code);
+    }
+
+    @Override
+    public void massDelete(List<String> codes) {
+//        repository.
+        repository.deleteAllByProductIds(codes);
+    }
 }

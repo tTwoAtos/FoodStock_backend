@@ -15,7 +15,7 @@ public class ProductToCommunityController {
     private ProductToCommunityService service;
 
     @GetMapping
-    public List<ProductToCommunity> getAll() {
+    public Iterable<ProductToCommunity> getAll() {
         return service.getAll();
     }
 
@@ -27,7 +27,20 @@ public class ProductToCommunityController {
     @Transactional
     @PutMapping("/{code}")
     public ResponseEntity<?> updateQuantity(@PathVariable String code, @RequestBody ProductToCommunity PtoC) {
-        PtoC.setProductId(code);
         return new ResponseEntity<>(service.updateQuantity(code, PtoC.getQte()), HttpStatus.OK);
+    }
+
+    @Transactional
+    @DeleteMapping("/{code}")
+    public ResponseEntity<?> delete(@PathVariable String code) {
+        service.delete(code);
+        return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
+    }
+
+    @Transactional
+    @DeleteMapping
+    public ResponseEntity<?> massDelete(@RequestBody List<String> codes) {
+        service.massDelete(codes);
+        return new ResponseEntity<>("Products Deleted", HttpStatus.OK);
     }
 }
