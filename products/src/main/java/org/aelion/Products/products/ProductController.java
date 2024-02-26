@@ -21,7 +21,7 @@ public class ProductController {
     public ResponseEntity<?> getById(@PathVariable String code) {
         return service.getById(code);
     }
-    
+
     @PostMapping("/addedToCommunity/{code}")
     public ResponseEntity<?> addedToCommunity(@PathVariable String code) {
         return service.addedToCommunity(code);
