@@ -1,4 +1,4 @@
-package org.aelion.productToCommunity.config;
+package org.aelion.pubs.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

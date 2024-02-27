@@ -11,10 +11,10 @@ public class CorsConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry){
+            public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                        .allowedOriginPatterns("*")
+                        .allowedOrigins("http://localhost:8100")
                         .allowCredentials(true);
             }
         };
