@@ -1,6 +1,7 @@
 package org.aelion.productToCommunity.productToCommunity;
 
 import jakarta.transaction.Transactional;
+import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +20,23 @@ public class ProductToCommunityController {
         return service.getAll();
     }
 
-    @PostMapping
-    public ResponseEntity<?> add(@RequestBody ProductToCommunity PtoC) {
+    @GetMapping("/{communityId}")
+    public Iterable<ProductResponseDto> getAllByCommunity(@PathVariable String communityId) {
+        return service.getAllByCommunityId(communityId);
+    }
+
+    @PostMapping("/{communityId}")
+    public ResponseEntity<?> add(@PathVariable String communityId, @RequestBody ProductToCommunity PtoC) {
+        PtoC.setCommunityId(communityId);
+
+        System.out.println(PtoC.getProductId() + "/" + PtoC.getCommunityId() + "//" + PtoC.getQte());
         return service.add(PtoC);
     }
 
     @Transactional
-    @PutMapping("/{code}")
-    public ResponseEntity<?> updateQuantity(@PathVariable String code, @RequestBody ProductToCommunity PtoC) {
-        return new ResponseEntity<>(service.updateQuantity(code, PtoC.getQte()), HttpStatus.OK);
+    @PutMapping("/{pToCId}")
+    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody ProductToCommunity PtoC) {
+        return new ResponseEntity<>(service.updateQuantity(pToCId, PtoC.getQte()), HttpStatus.OK);
     }
 
     @Transactional

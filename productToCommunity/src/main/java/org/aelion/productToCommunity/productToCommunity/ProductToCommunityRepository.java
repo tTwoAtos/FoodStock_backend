@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductToCommunityRepository extends JpaRepository<ProductToCommunity, String> {
+public interface ProductToCommunityRepository extends JpaRepository<ProductToCommunity, Long> {
     Optional<ProductToCommunity> findByProductId(String productId);
+
+    List<ProductToCommunity> findAllByCommunityId(String communityId);
 
     void deleteByProductId(String productId);
 
