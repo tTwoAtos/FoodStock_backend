@@ -17,6 +17,11 @@ public class ProductController {
         return service.getAll();
     }
 
+    @PostMapping("/list")
+    public List<Product> getAllByIdList(@RequestBody List<String> productIds) {
+        return service.getAllByIdList(productIds);
+    }
+
     @GetMapping("/{code}")
     public ResponseEntity<?> getById(@PathVariable String code) {
         return service.getById(code);

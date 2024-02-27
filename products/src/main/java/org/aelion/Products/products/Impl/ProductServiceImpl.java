@@ -33,6 +33,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getAllByIdList(List<String> productIds) {
+        return repository.findByIdList(productIds);
+    }
+
+    @Override
     public ResponseEntity<?> getById(String code) {
         Optional<Product> optionalProduct = repository.findById(code);
 
@@ -82,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
         String name = (String) ((Map<String, Object>) body.get("product")).get("generic_name");
         if (name == null)
             name = (String) ((Map<String, Object>) body.get("product")).get("product_name");
-        
+
         String thumbnail = (String) ((Map<String, Object>) body.get("product")).get("image_thumb_url");
         List<String> categories = (List<String>) ((Map<List<String>, Object>) body.get("product")).get("categories_tags");
 
