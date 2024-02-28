@@ -6,6 +6,24 @@ spring:
     name: API-GATEWAY
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        corsConfigurations:
+              '[/**]':
+                allowedOrigins: "http://localhost:8100"
+                allowedHeaders:
+                  - "Origin"
+                  - "Content-Type"
+                  - "Accept"
+                  - "Authorization"
+                  - "Referer"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - PATCH
       routes:
         - id: COMMUNITY-SERVICE
           uri: lb://COMMUNITY-SERVICE

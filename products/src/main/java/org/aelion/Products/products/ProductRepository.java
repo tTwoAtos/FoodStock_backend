@@ -1,9 +1,15 @@
 package org.aelion.Products.products;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ProductRepository extends JpaRepository<Product, String> {
+import java.util.List;
 
+@Repository
+@Transactional
+public interface ProductRepository extends JpaRepository<Product, String> {
+    @Query(value = "SELECT * FROM product WHERE eancode IN (:productIds)", nativeQuery = true)
+    List<Product> findByIdList(List<String> productIds);
 }

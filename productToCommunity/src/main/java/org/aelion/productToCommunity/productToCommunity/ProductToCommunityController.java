@@ -1,6 +1,9 @@
 package org.aelion.productToCommunity.productToCommunity;
 
+import jakarta.transaction.Transactional;
+import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +16,40 @@ public class ProductToCommunityController {
     private ProductToCommunityService service;
 
     @GetMapping
-    public List<ProductToCommunity> getAll() {
+    public Iterable<ProductToCommunity> getAll() {
         return service.getAll();
     }
 
-    @PostMapping
-    public ResponseEntity<?> getById(@RequestBody ProductToCommunity PtoC) {
+    @GetMapping("/{communityId}")
+    public Iterable<ProductResponseDto> getAllByCommunity(@PathVariable String communityId) {
+        return service.getAllByCommunityId(communityId);
+    }
+
+    @PostMapping("/{communityId}")
+    public ResponseEntity<?> add(@PathVariable String communityId, @RequestBody ProductToCommunity PtoC) {
+        PtoC.setCommunityId(communityId);
+
+        System.out.println(PtoC.getProductId() + "/" + PtoC.getCommunityId() + "//" + PtoC.getQte());
         return service.add(PtoC);
     }
 
+    @Transactional
+    @PutMapping("/{pToCId}")
+    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody ProductToCommunity PtoC) {
+        return new ResponseEntity<>(service.updateQuantity(pToCId, PtoC.getQte()), HttpStatus.OK);
+    }
 
+    @Transactional
+    @DeleteMapping("/{code}")
+    public ResponseEntity<?> delete(@PathVariable String code) {
+        service.delete(code);
+        return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
+    }
 
-
+    @Transactional
+    @DeleteMapping
+    public ResponseEntity<?> massDelete(@RequestBody List<String> codes) {
+        service.massDelete(codes);
+        return new ResponseEntity<>("Products Deleted", HttpStatus.OK);
+    }
 }

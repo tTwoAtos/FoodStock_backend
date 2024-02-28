@@ -1,4 +1,4 @@
-package org.aelion.cities.config;
+package org.aelion.Products.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

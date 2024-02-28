@@ -7,6 +7,8 @@ import java.util.List;
 public interface ProductService {
     List<Product> getAll();
 
+    List<Product> getAllByIdList(List<String> productIds);
+
     ResponseEntity<?> getById(String code);
 
     ResponseEntity<?> addedToCommunity(String code);
