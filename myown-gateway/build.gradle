@@ -25,6 +25,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: '2023.0.0', ext: 'pom'
+//	implementation group: 'org.springdoc', name: 'springdoc-openapi-webflux-core', version: '1.7.0'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-webflux-ui', version: '1.7.0'
 }
 
 dependencyManagement {

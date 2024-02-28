@@ -40,9 +40,9 @@ public class ProductToCommunityController {
     }
 
     @Transactional
-    @DeleteMapping("/{code}")
-    public ResponseEntity<?> delete(@PathVariable String code) {
-        service.delete(code);
+    @DeleteMapping("/{productEanCode}")
+    public ResponseEntity<?> delete(@PathVariable String productEanCode) {
+        service.delete(productEanCode);
         return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
     }
 
