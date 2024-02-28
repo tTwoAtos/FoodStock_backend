@@ -1,4 +1,4 @@
-package org.aelion.productToCommunity.productToCommunity;
+package org.aelion.emplacements.emplacements.dto;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
