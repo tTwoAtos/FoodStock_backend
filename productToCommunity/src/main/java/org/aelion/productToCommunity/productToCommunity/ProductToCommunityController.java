@@ -25,6 +25,11 @@ public class ProductToCommunityController {
         return service.getAllByCommunityId(communityId);
     }
 
+    @GetMapping("/{communityId}/{emplacementId}")
+    public Iterable<ProductResponseDto> getAllByCommunityByEmplacement(@PathVariable String communityId,@PathVariable String emplacementId){
+        return  service.getAllByCommunityIdAndEmplacementId(communityId,emplacementId);
+    }
+
     @PostMapping("/{communityId}")
     public ResponseEntity<?> add(@PathVariable String communityId, @RequestBody ProductToCommunity PtoC) {
         PtoC.setCommunityId(communityId);

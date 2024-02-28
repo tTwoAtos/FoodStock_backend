@@ -53,6 +53,25 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
+    public  List<ProductResponseDto>  getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId){
+        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdAndEmplacementId(communityId,emplacementId);
+
+        List<String> productIds = productToCommunity.stream().map((pToC) -> pToC.getProductId()).toList();
+
+        ProductDto[] products = restTemplate.postForObject(PRODUCT_API + "/list", productIds, ProductDto[].class);
+
+        List<ProductResponseDto> response = new ArrayList<>();
+        for (int i = 0; i < products.length; i++) {
+            ProductDto product = products[i];
+            Long quantity = productToCommunity.get(i).getQte();
+
+            response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity));
+        }
+
+        return response;
+    }
+
+    @Override
     public ResponseEntity<?> add(ProductToCommunity PtoC) {
         Community community = restTemplate.getForObject(COMMUNITY_API + '/' + PtoC.getCommunityId(), Community.class);
         ProductDto productDto = restTemplate.getForObject(PRODUCT_API + '/' + PtoC.getProductId(), ProductDto.class);
@@ -71,6 +90,8 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
         else
             return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+
 
     @Override
     public ProductToCommunity updateQuantity(Long id, Long quantity) {

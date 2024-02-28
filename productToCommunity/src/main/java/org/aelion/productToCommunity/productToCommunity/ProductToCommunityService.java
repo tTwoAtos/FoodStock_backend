@@ -10,6 +10,8 @@ public interface ProductToCommunityService {
 
     List<ProductResponseDto> getAllByCommunityId(String communityId);
 
+    List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(String communityId,String emplacementId);
+
     ResponseEntity<?> add(ProductToCommunity PtoC);
 
     ProductToCommunity updateQuantity(Long id, Long quantity);

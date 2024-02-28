@@ -1,6 +1,7 @@
 package org.aelion.productToCommunity.productToCommunity;
 
 import jakarta.transaction.Transactional;
+import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,8 @@ public interface ProductToCommunityRepository extends JpaRepository<ProductToCom
     Optional<ProductToCommunity> findByProductId(String productId);
 
     List<ProductToCommunity> findAllByCommunityId(String communityId);
+
+    List<ProductToCommunity> findAllByCommunityIdAndEmplacementId(String communityId, String emplacementId);
 
     void deleteByProductId(String productId);
 
