@@ -26,7 +26,7 @@ public class ProductToCommunity {
     @Column(nullable = false)
     private String communityId;
 
-    @Column(nullable = false)
+    @Column
     private String emplacementId;
 
     @Column
