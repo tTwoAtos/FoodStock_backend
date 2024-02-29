@@ -2,6 +2,7 @@ package org.aelion.productToCommunity.productToCommunity;
 
 import jakarta.transaction.Transactional;
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
+import org.aelion.productToCommunity.productToCommunity.dto.QuantityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +41,9 @@ public class ProductToCommunityController {
 
     @Transactional
     @PutMapping("/{pToCId}")
-    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody ProductToCommunity PtoC) {
-        return new ResponseEntity<>(service.updateQuantity(pToCId, PtoC.getQte()), HttpStatus.OK);
+    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody QuantityDto QDto) {
+        System.out.println(pToCId);
+        return new ResponseEntity<>(service.updateQuantity(pToCId, QDto.getQte()), HttpStatus.OK);
     }
 
     @Transactional

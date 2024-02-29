@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class ProductToCommunityServiceImpl implements ProductToCommunityService {
     private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
-    private final static String PRODUCT_API = "http://PRODUCT-SERVICE/api/v1/products";
+    private final static String PRODUCT_API = "http://PRODUCTS-SERVICE/api/v1/products";
     private final static String CATEGORY_API = "http://CATEGORY-SERVICE/api/v1/categories";
 
     @Autowired
@@ -48,7 +48,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
             response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity));
         }
-        
+
         return response;
     }
 

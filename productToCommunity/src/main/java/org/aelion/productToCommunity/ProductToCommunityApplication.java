@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @OpenAPIDefinition(info =
-@Info(title = "Product to community API", version = "1.0", description = "Documentation Product to community API v1.0")
+@Info(title = "Product to Community API", version = "${springdoc.version}", description = "Documentation Product to Community API v1.0")
 )
 public class ProductToCommunityApplication {
 
