@@ -10,4 +10,6 @@ public interface EmplacementService {
     ResponseEntity<?> getEmplacementById(Long id);
 
     ResponseEntity<?> add(String communityId ,String name);
+
+    void delete(Long id);
 }

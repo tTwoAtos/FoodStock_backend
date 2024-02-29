@@ -53,4 +53,9 @@ public class EmplacementServiceImpl implements EmplacementService {
 
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
 }

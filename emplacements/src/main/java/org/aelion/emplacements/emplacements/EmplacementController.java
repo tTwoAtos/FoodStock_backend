@@ -1,6 +1,8 @@
 package org.aelion.emplacements.emplacements;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +25,12 @@ public class EmplacementController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody String communityId ,String name){
         return  service.add(communityId ,name);
+    }
+
+    @Transactional
+    @DeleteMapping("/delete/{emplacementId}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        service.delete(id);
+        return new ResponseEntity<>("Emplacement Deleted", HttpStatus.OK);
     }
 }

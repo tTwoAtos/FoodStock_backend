@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface EmplacementRepository extends JpaRepository<Emplacement, Long> {
     List<Emplacement> findAllByCommunityId(String communityId);
 
+    void deleteById(Long id);
+
 }
