@@ -1,6 +1,5 @@
 package org.aelion.emplacements.emplacements;
 
-import org.aelion.emplacements.emplacements.dto.Community;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,17 +7,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/emplacement")
 public class EmplacementController {
-
     @Autowired
     private EmplacementService service;
 
-    @GetMapping("/{communityId}")
+    @GetMapping("/community/{communityId}")
     public Iterable<Emplacement> getAllByCommunity(@PathVariable String communityId){
         return  service.getAllByCommunityId(communityId);
     }
 
-    @GetMapping("/{communityId}")
-    public ResponseEntity<?> getEmplacementById(@PathVariable String id){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEmplacementById(@PathVariable Long id){
         return  service.getEmplacementById(id);
     }
 

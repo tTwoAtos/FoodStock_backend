@@ -6,13 +6,14 @@ import org.aelion.emplacements.emplacements.EmplacementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmplacementServiceImpl implements EmplacementService {
-
     private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
 
     @Autowired
@@ -25,7 +26,7 @@ public class EmplacementServiceImpl implements EmplacementService {
     }
 
     @Override
-    public ResponseEntity<?> getEmplacementById(String id) {
+    public ResponseEntity<?> getEmplacementById(Long id) {
         Optional<Emplacement> optionalEmplacement = repository.findById(id);
 
         if(optionalEmplacement.isPresent()){

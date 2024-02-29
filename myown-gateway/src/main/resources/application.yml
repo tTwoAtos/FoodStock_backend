@@ -74,6 +74,13 @@ spring:
           filters:
             - RewritePath=/user/v3/api-docs, /v3/api-docs
 
+        - id: EMPLACEMENT-SERVICE
+          uri: lb://EMPLACEMENT-SERVICE
+          predicates:
+            - Path=/api/v1/emplacement/**,/emplacement/v3/api-docs
+          filters:
+            - RewritePath=/emplacement/v3/api-docs, /v3/api-docs
+
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:
