@@ -27,6 +27,12 @@ public class UserToCommunityController {
     public List<UserToCommunity> getAll(){
         return userToCommunityService.getAll();
     }
+
+    @GetMapping("/{communityId}")
+    public List<UserToCommunity> getAllByCommunity(@PathVariable String communityId) {
+        return userToCommunityService.getAllByCommunity(communityId);
+    }
+
     @GetMapping("/{uToCId}")
     public ResponseEntity<?> get(@PathVariable Long uToCId){
         Optional<UserToCommunity> uToC = userToCommunityService.get(uToCId);

@@ -17,6 +17,9 @@ public interface UserToCommunityService extends Service<UserToCommunity> {
      * @return UserToCommunity[]
      */
     public List<UserToCommunity> getAll();
+
+    public List<UserToCommunity> getAllByCommunity(String communityId);
+
     public Optional<UserToCommunity> get(Long uToCId);
 
     /**
