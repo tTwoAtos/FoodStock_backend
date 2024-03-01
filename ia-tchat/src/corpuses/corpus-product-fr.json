@@ -1,0 +1,156 @@
+{
+    "name": "products",
+    "locale": "fr-FR",
+    "entities": {
+        "product": {
+            "trim": [
+                {
+                    "position": "betweenLast",
+                    "leftWords": [
+                        "produit"
+                    ],
+                    "rightWords": [
+                        "au"
+                    ]
+                },
+                {
+                    "position": "betweenLast",
+                    "leftWords": [
+                        "produit"
+                    ],
+                    "rightWords": [
+                        "existe"
+                    ]
+                },
+                {
+                    "position": "betweenLast",
+                    "leftWords": [
+                        "produit"
+                    ],
+                    "rightWords": [
+                        "?"
+                    ]
+                },
+                {
+                    "position": "betweenLast",
+                    "leftWords": [
+                        "de"
+                    ],
+                    "rightWords": [
+                        "J'ai"
+                    ]
+                },
+                {
+                    "position": "betweenLast",
+                    "leftWords": [
+                        "produit"
+                    ],
+                    "rightWords": [
+                        "du"
+                    ]
+                },
+                {
+                    "position": "betweenLast",
+                    "leftWords": [
+                        "un"
+                    ],
+                    "rightWords": [
+                        "?"
+                    ]
+                },
+                {
+                    "position": "afterLast",
+                    "words": [
+                        "produit",
+                        "une",
+                        "un",
+                        "retire",
+                        "ajoute"
+                    ]
+                }
+            ]
+        }
+    },
+    "data": [
+        {
+            "intent": "test",
+            "utterances": [
+                "test"
+            ],
+            "answers": [
+                "Everything connected !"
+            ]
+        },
+        {
+            "intent": "fuck",
+            "utterances": [
+                "fuck you"
+            ],
+            "answers": [
+                "You'r such annoying !"
+            ]
+        },
+        {
+            "intent": "addProduct",
+            "utterances": [
+                "Ajoute le produit @product au stock",
+                "Ajoute le produit @product",
+                "Ajoute une @product",
+                "Ajoute un @product",
+                "Ajoute @product"
+            ],
+            "answers": [
+                "Produit ajouté !"
+            ],
+            "actions": [
+                {
+                    "name": "handleAddProduct"
+                }
+            ],
+            "slotFilling": {
+                "product": {
+                    "mandatory": true,
+                    "question": "Quel produit ?"
+                }
+            }
+        },
+        {
+            "intent": "removeProduct",
+            "utterances": [
+                "Retire le produit @product du stock",
+                "Retire @product du stock"
+            ],
+            "answers": [
+                "J'ai bien retiré le produit {{ product }} de votre stock !"
+            ],
+            "actions": [
+                {
+                    "name": "handleRemoveProduct"
+                }
+            ]
+        },
+        {
+            "intent": "productExist",
+            "utterances": [
+                "Est-ce que le produit @product existe dans le stock ?",
+                "J'ai un @product ?",
+                "J'ai une @product ?",
+                "Combien de @product j'ai ?"
+            ],
+            "answers": [
+                "Oui"
+            ],
+            "actions": [
+                {
+                    "name": "handleProductExist"
+                }
+            ],
+            "slotFilling": {
+                "product": {
+                    "mandatory": true,
+                    "question": "Quel produit ?"
+                }
+            }
+        }
+    ]
+}
