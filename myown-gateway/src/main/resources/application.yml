@@ -9,7 +9,7 @@ spring:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       globalcors:
-        corsConfigurations:
+        cors-configurations:
           '[/**]':
             allowedOrigins: "http://localhost:8100"
             allowedHeaders:
@@ -28,27 +28,64 @@ spring:
         - id: COMMUNITY-SERVICE
           uri: lb://COMMUNITY-SERVICE
           predicates:
-            - Path=/api/v1/communities/**
+            - Path=/api/v1/communities/**,/community/v3/api-docs
+          filters:
+            - RewritePath=/community/v3/api-docs, /v3/api-docs
+
         - id: CITY-SERVICE
           uri: lb://CITY-SERVICE
           predicates:
-            - Path=/api/v1/cities/**
-        - id: PRODUCT-SERVICE
-          uri: lb://PRODUCT-SERVICE
+            - Path=/api/v1/cities/**,/city/v3/api-docs
+          filters:
+            - RewritePath=/city/v3/api-docs, /v3/api-docs
+
+        - id: PRODUCTS-SERVICE
+          uri: lb://PRODUCTS-SERVICE
           predicates:
-            - Path=/api/v1/products/**
+            - Path=/api/v1/products/**,/products/v3/api-docs
+          filters:
+            - RewritePath=/products/v3/api-docs, /v3/api-docs
+
         - id: PRODUCT-TO-COMMUNITY-SERVICE
           uri: lb://PRODUCT-TO-COMMUNITY-SERVICE
           predicates:
-            - Path=/api/v1/product-to-community/**
+            - Path=/api/v1/product-to-community/**,/product-to-community/v3/api-docs
+          filters:
+            - RewritePath=/product-to-community/v3/api-docs, /v3/api-docs
+
         - id: CATEGORY-SERVICE
           uri: lb://CATEGORY-SERVICE
           predicates:
-            - Path=/api/v1/categories/**
+            - Path=/api/v1/categories/**,/category/v3/api-docs
+          filters:
+            - RewritePath=/category/v3/api-docs, /v3/api-docs
+
         - id: PUBS-SERVICE
           uri: lb://PUBS-SERVICE
           predicates:
-            - Path=/api/v1/pubs/**
+            - Path=/api/v1/pubs/**,/pubs/v3/api-docs
+          filters:
+            - RewritePath=/pubs/v3/api-docs, /v3/api-docs
+
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/users/**,/user/v3/api-docs
+          filters:
+            - RewritePath=/user/v3/api-docs, /v3/api-docs
+
+        - id: EMPLACEMENT-SERVICE
+          uri: lb://EMPLACEMENT-SERVICE
+          predicates:
+            - Path=/api/v1/emplacement/**,/emplacement/v3/api-docs
+          filters:
+            - RewritePath=/emplacement/v3/api-docs, /v3/api-docs
+
+        - id: BOT-SERVICE
+          uri: lb://BOT-SERVICE
+          predicates:
+            - Path=/bot/**
+
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:
@@ -67,3 +104,12 @@ eureka:
       defaultZone: http://localhost:8787/eureka
   instance:
     hostname: localhost
+
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    use-root-path: true
+  cache:
+    disabled: true
+  api-docs:
+    version: openapi_3_1

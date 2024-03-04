@@ -1,0 +1,739 @@
+{
+  "settings": {
+    "tag": "nlp",
+    "corpora": [
+      "src/corpuses/corpus-product-fr.json"
+    ],
+    "calculateSentiment": true,
+    "executeActionsBeforeAnswers": false
+  },
+  "nluManager": {
+    "settings": {
+      "tag": "nlu-manager"
+    },
+    "locales": [
+      "fr"
+    ],
+    "languageNames": {},
+    "domainManagers": {
+      "fr": {
+        "settings": {
+          "locale": "fr",
+          "trainByDomain": false,
+          "tag": "domain-manager-fr",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
+        },
+        "stemDict": {
+          "test": {
+            "intent": "test",
+            "domain": "default"
+          },
+          "fuck,you": {
+            "intent": "fuck",
+            "domain": "default"
+          },
+          "@product,ajoute,au,le,produit,stock": {
+            "intent": "addProduct",
+            "domain": "default"
+          },
+          "@product,ajoute,le,produit": {
+            "intent": "addProduct",
+            "domain": "default"
+          },
+          "@product,ajoute,une": {
+            "intent": "addProduct",
+            "domain": "default"
+          },
+          "@product,ajoute,un": {
+            "intent": "addProduct",
+            "domain": "default"
+          },
+          "@product,ajoute": {
+            "intent": "addProduct",
+            "domain": "default"
+          },
+          "@product,du,le,produit,retire,stock": {
+            "intent": "removeProduct",
+            "domain": "default"
+          },
+          "@product,du,retire,stock": {
+            "intent": "removeProduct",
+            "domain": "default"
+          },
+          "@product,dans,est-ce,existe,le,produit,que,stock": {
+            "intent": "productExist",
+            "domain": "default"
+          },
+          "@product,ai,j,un": {
+            "intent": "productExist",
+            "domain": "default"
+          },
+          "@product,ai,j,une": {
+            "intent": "productExist",
+            "domain": "default"
+          },
+          "@product,ai,combien,de,j": {
+            "intent": "productExist",
+            "domain": "default"
+          }
+        },
+        "intentDict": {
+          "test": "default",
+          "fuck": "default",
+          "addProduct": "default",
+          "removeProduct": "default",
+          "productExist": "default"
+        },
+        "sentences": [
+          {
+            "domain": "default",
+            "utterance": "test",
+            "intent": "test"
+          },
+          {
+            "domain": "default",
+            "utterance": "fuck you",
+            "intent": "fuck"
+          },
+          {
+            "domain": "default",
+            "utterance": "Ajoute le produit @product au stock",
+            "intent": "addProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Ajoute le produit @product",
+            "intent": "addProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Ajoute une @product",
+            "intent": "addProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Ajoute un @product",
+            "intent": "addProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Ajoute @product",
+            "intent": "addProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Retire le produit @product du stock",
+            "intent": "removeProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Retire @product du stock",
+            "intent": "removeProduct"
+          },
+          {
+            "domain": "default",
+            "utterance": "Est-ce que le produit @product existe dans le stock ?",
+            "intent": "productExist"
+          },
+          {
+            "domain": "default",
+            "utterance": "J'ai un @product ?",
+            "intent": "productExist"
+          },
+          {
+            "domain": "default",
+            "utterance": "J'ai une @product ?",
+            "intent": "productExist"
+          },
+          {
+            "domain": "default",
+            "utterance": "Combien de @product j'ai ?",
+            "intent": "productExist"
+          }
+        ],
+        "domains": {
+          "master_domain": {
+            "settings": {
+              "locale": "fr",
+              "tag": "nlu-fr",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
+            },
+            "features": {
+              "test": 1,
+              "fuck": 1,
+              "you": 1,
+              "ajoute": 1,
+              "le": 1,
+              "produit": 1,
+              "@product": 1,
+              "au": 1,
+              "stock": 1,
+              "une": 1,
+              "un": 1,
+              "retire": 1,
+              "du": 1,
+              "est-ce": 1,
+              "que": 1,
+              "existe": 1,
+              "dans": 1,
+              "j": 1,
+              "ai": 1,
+              "combien": 1,
+              "de": 1
+            },
+            "intents": {
+              "test": 1,
+              "fuck": 1,
+              "addProduct": 1,
+              "removeProduct": 1,
+              "productExist": 1
+            },
+            "intentFeatures": {
+              "test": {
+                "test": 1
+              },
+              "fuck": {
+                "fuck": 1,
+                "you": 1
+              },
+              "addProduct": {
+                "ajoute": 1,
+                "le": 1,
+                "produit": 1,
+                "@product": 1,
+                "au": 1,
+                "stock": 1,
+                "une": 1,
+                "un": 1
+              },
+              "removeProduct": {
+                "retire": 1,
+                "le": 1,
+                "produit": 1,
+                "@product": 1,
+                "du": 1,
+                "stock": 1
+              },
+              "productExist": {
+                "est-ce": 1,
+                "que": 1,
+                "le": 1,
+                "produit": 1,
+                "@product": 1,
+                "existe": 1,
+                "dans": 1,
+                "stock": 1,
+                "j": 1,
+                "ai": 1,
+                "un": 1,
+                "une": 1,
+                "combien": 1,
+                "de": 1
+              }
+            },
+            "featuresToIntent": {
+              "test": [
+                "test"
+              ],
+              "fuck": [
+                "fuck"
+              ],
+              "you": [
+                "fuck"
+              ],
+              "ajoute": [
+                "addProduct"
+              ],
+              "le": [
+                "addProduct",
+                "removeProduct",
+                "productExist"
+              ],
+              "produit": [
+                "addProduct",
+                "removeProduct",
+                "productExist"
+              ],
+              "@product": [
+                "addProduct",
+                "removeProduct",
+                "productExist"
+              ],
+              "au": [
+                "addProduct"
+              ],
+              "stock": [
+                "addProduct",
+                "removeProduct",
+                "productExist"
+              ],
+              "une": [
+                "addProduct",
+                "productExist"
+              ],
+              "un": [
+                "addProduct",
+                "productExist"
+              ],
+              "retire": [
+                "removeProduct"
+              ],
+              "du": [
+                "removeProduct"
+              ],
+              "est-ce": [
+                "productExist"
+              ],
+              "que": [
+                "productExist"
+              ],
+              "existe": [
+                "productExist"
+              ],
+              "dans": [
+                "productExist"
+              ],
+              "j": [
+                "productExist"
+              ],
+              "ai": [
+                "productExist"
+              ],
+              "combien": [
+                "productExist"
+              ],
+              "de": [
+                "productExist"
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "fr",
+                "tag": "nlu-fr",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true,
+                "log": true
+              },
+              "features": [
+                "test",
+                "fuck",
+                "you",
+                "ajoute",
+                "le",
+                "produit",
+                "@product",
+                "au",
+                "stock",
+                "une",
+                "un",
+                "retire",
+                "du",
+                "est-ce",
+                "que",
+                "existe",
+                "dans",
+                "j",
+                "ai",
+                "combien",
+                "de"
+              ],
+              "intents": [
+                "test",
+                "fuck",
+                "addProduct",
+                "removeProduct",
+                "productExist"
+              ],
+              "perceptrons": [
+                [
+                  10.453315734863281,
+                  -1.641036033630371,
+                  -1.641036033630371,
+                  -1.1883466243743896,
+                  -0.2608299255371094,
+                  -0.2608299255371094,
+                  -2.101924419403076,
+                  -0.06035017594695091,
+                  -0.5132771730422974,
+                  -0.3445605933666229,
+                  -0.34811002016067505,
+                  -0.3805379271507263,
+                  -0.3805379271507263,
+                  -0.059902578592300415,
+                  -0.059902578592300415,
+                  -0.059902578592300415,
+                  -0.059902578592300415,
+                  -0.4628826081752777,
+                  -0.4628826081752777,
+                  -0.17240628600120544,
+                  -0.17240628600120544,
+                  3.373507775582825
+                ],
+                [
+                  -1.607637882232666,
+                  6.259655952453613,
+                  6.259655952453613,
+                  -0.6604034304618835,
+                  -0.20034921169281006,
+                  -0.20034921169281006,
+                  -1.177790880203247,
+                  -0.049049537628889084,
+                  -0.3060109615325928,
+                  -0.2215123474597931,
+                  -0.22419032454490662,
+                  -0.2127114236354828,
+                  -0.2127114236354828,
+                  -0.018299058079719543,
+                  -0.018299058079719543,
+                  -0.018299058079719543,
+                  -0.018299058079719543,
+                  -0.2740808427333832,
+                  -0.2740808427333832,
+                  -0.09547258913516998,
+                  -0.09547258913516998,
+                  1.7312694745190145
+                ],
+                [
+                  -0.9507285952568054,
+                  -0.510528028011322,
+                  -0.510528028011322,
+                  9.393715858459473,
+                  0.27945250272750854,
+                  0.27945250272750854,
+                  3.4621896743774414,
+                  1.5708873271942139,
+                  -1.7555502653121948,
+                  0.5850864052772522,
+                  0.5810022950172424,
+                  -2.0347838401794434,
+                  -2.0347838401794434,
+                  -1.1471258401870728,
+                  -1.1471258401870728,
+                  -1.1471258401870728,
+                  -1.1471258401870728,
+                  -2.6027467250823975,
+                  -2.6027467250823975,
+                  -0.23157711327075958,
+                  -0.23157711327075958,
+                  1.003863454361894
+                ],
+                [
+                  -0.32681289315223694,
+                  -0.19452138245105743,
+                  -0.19452138245105743,
+                  -2.1087465286254883,
+                  -0.08917342871427536,
+                  -0.08917342871427536,
+                  1.16712486743927,
+                  -1.6199555397033691,
+                  2.460160732269287,
+                  -0.31988129019737244,
+                  -0.36483731865882874,
+                  5.211515426635742,
+                  5.211515426635742,
+                  -0.9789475798606873,
+                  -0.9789475798606873,
+                  -0.9789475798606873,
+                  -0.9789475798606873,
+                  -0.7841396331787109,
+                  -0.7841396331787109,
+                  -0.16096092760562897,
+                  -0.16096092760562897,
+                  0.3185697342782814
+                ],
+                [
+                  -0.5934302806854248,
+                  -0.3657304644584656,
+                  -0.3657304644584656,
+                  -3.999140739440918,
+                  0.061556145548820496,
+                  0.061556145548820496,
+                  2.17897629737854,
+                  -0.7574475407600403,
+                  0.22564584016799927,
+                  1.2251572608947754,
+                  1.2329492568969727,
+                  -1.7205586433410645,
+                  -1.7205586433410645,
+                  2.7902989387512207,
+                  2.7902989387512207,
+                  2.7902989387512207,
+                  2.7902989387512207,
+                  5.134544849395752,
+                  5.134544849395752,
+                  0.6258780360221863,
+                  0.6258780360221863,
+                  0.5977465503895736
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intentDomains": {},
+    "extraSentences": [
+      [
+        "fr",
+        "test"
+      ],
+      [
+        "fr",
+        "fuck you"
+      ],
+      [
+        "fr",
+        "Ajoute le produit @product au stock"
+      ],
+      [
+        "fr",
+        "Ajoute le produit @product"
+      ],
+      [
+        "fr",
+        "Ajoute une @product"
+      ],
+      [
+        "fr",
+        "Ajoute un @product"
+      ],
+      [
+        "fr",
+        "Ajoute @product"
+      ],
+      [
+        "fr",
+        "Retire le produit @product du stock"
+      ],
+      [
+        "fr",
+        "Retire @product du stock"
+      ],
+      [
+        "fr",
+        "Est-ce que le produit @product existe dans le stock ?"
+      ],
+      [
+        "fr",
+        "J'ai un @product ?"
+      ],
+      [
+        "fr",
+        "J'ai une @product ?"
+      ],
+      [
+        "fr",
+        "Combien de @product j'ai ?"
+      ]
+    ]
+  },
+  "ner": {
+    "settings": {
+      "tag": "ner"
+    },
+    "rules": {
+      "fr": {
+        "product": {
+          "name": "product",
+          "type": "trim",
+          "rules": [
+            {
+              "type": "between",
+              "leftWords": [
+                "produit"
+              ],
+              "rightWords": [
+                "au"
+              ],
+              "regex": "/ produit (?!.* produit .*)(.*) au /gi",
+              "options": {
+                "closest": true
+              }
+            },
+            {
+              "type": "between",
+              "leftWords": [
+                "produit"
+              ],
+              "rightWords": [
+                "existe"
+              ],
+              "regex": "/ produit (?!.* produit .*)(.*) existe /gi",
+              "options": {
+                "closest": true
+              }
+            },
+            {
+              "type": "between",
+              "leftWords": [
+                "produit"
+              ],
+              "rightWords": [
+                "?"
+              ],
+              "regex": "/ produit (?!.* produit .*)(.*) ? /gi",
+              "options": {
+                "closest": true
+              }
+            },
+            {
+              "type": "between",
+              "leftWords": [
+                "de"
+              ],
+              "rightWords": [
+                "J'ai"
+              ],
+              "regex": "/ de (?!.* de .*)(.*) J'ai /gi",
+              "options": {
+                "closest": true
+              }
+            },
+            {
+              "type": "between",
+              "leftWords": [
+                "produit"
+              ],
+              "rightWords": [
+                "du"
+              ],
+              "regex": "/ produit (?!.* produit .*)(.*) du /gi",
+              "options": {
+                "closest": true
+              }
+            },
+            {
+              "type": "between",
+              "leftWords": [
+                "un"
+              ],
+              "rightWords": [
+                "?"
+              ],
+              "regex": "/ un (?!.* un .*)(.*) ? /gi",
+              "options": {
+                "closest": true
+              }
+            },
+            {
+              "type": "afterLast",
+              "words": [
+                "produit",
+                "une",
+                "un",
+                "retire",
+                "ajoute"
+              ],
+              "options": {}
+            }
+          ]
+        }
+      }
+    }
+  },
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {
+      "fr": {
+        "test": [
+          {
+            "answer": "Everything connected !"
+          }
+        ],
+        "fuck": [
+          {
+            "answer": "You'r such annoying !"
+          }
+        ],
+        "addProduct": [
+          {
+            "answer": "Produit ajouté !"
+          }
+        ],
+        "removeProduct": [
+          {
+            "answer": "J'ai bien retiré le produit {{ product }} de votre stock !"
+          }
+        ],
+        "productExist": [
+          {
+            "answer": "Oui"
+          }
+        ]
+      }
+    }
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {
+      "addProduct": [
+        {
+          "action": "handleAddProduct",
+          "parameters": []
+        }
+      ],
+      "removeProduct": [
+        {
+          "action": "handleRemoveProduct",
+          "parameters": []
+        }
+      ],
+      "productExist": [
+        {
+          "action": "handleProductExist",
+          "parameters": []
+        }
+      ]
+    }
+  },
+  "slotManager": {
+    "addProduct": {
+      "product": {
+        "intent": "addProduct",
+        "entity": "product",
+        "mandatory": true,
+        "locales": {
+          "fr": "Quel produit ?"
+        }
+      }
+    },
+    "removeProduct": {
+      "product": {
+        "intent": "removeProduct",
+        "entity": "product",
+        "mandatory": false,
+        "locales": {}
+      }
+    },
+    "productExist": {
+      "product": {
+        "intent": "productExist",
+        "entity": "product",
+        "mandatory": true,
+        "locales": {
+          "fr": "Quel produit ?"
+        }
+      }
+    }
+  }
+}

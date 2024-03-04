@@ -15,6 +15,8 @@ public interface ProductToCommunityRepository extends JpaRepository<ProductToCom
 
     List<ProductToCommunity> findAllByCommunityId(String communityId);
 
+    List<ProductToCommunity> findAllByCommunityIdAndEmplacementId(String communityId, String emplacementId);
+
     void deleteByProductId(String productId);
 
     @Modifying

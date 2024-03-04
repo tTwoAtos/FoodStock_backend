@@ -2,6 +2,7 @@ package org.aelion.productToCommunity.productToCommunity;
 
 import jakarta.transaction.Transactional;
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
+import org.aelion.productToCommunity.productToCommunity.dto.QuantityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,11 @@ public class ProductToCommunityController {
         return service.getAllByCommunityId(communityId);
     }
 
+    @GetMapping("/{communityId}/{emplacementId}")
+    public Iterable<ProductResponseDto> getAllByCommunityByEmplacement(@PathVariable String communityId,@PathVariable String emplacementId){
+        return  service.getAllByCommunityIdAndEmplacementId(communityId,emplacementId);
+    }
+
     @PostMapping("/{communityId}")
     public ResponseEntity<?> add(@PathVariable String communityId, @RequestBody ProductToCommunity PtoC) {
         PtoC.setCommunityId(communityId);
@@ -35,14 +41,15 @@ public class ProductToCommunityController {
 
     @Transactional
     @PutMapping("/{pToCId}")
-    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody ProductToCommunity PtoC) {
-        return new ResponseEntity<>(service.updateQuantity(pToCId, PtoC.getQte()), HttpStatus.OK);
+    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody QuantityDto QDto) {
+        System.out.println(pToCId);
+        return new ResponseEntity<>(service.updateQuantity(pToCId, QDto.getQte()), HttpStatus.OK);
     }
 
     @Transactional
-    @DeleteMapping("/{code}")
-    public ResponseEntity<?> delete(@PathVariable String code) {
-        service.delete(code);
+    @DeleteMapping("/{productEanCode}")
+    public ResponseEntity<?> delete(@PathVariable String productEanCode) {
+        service.delete(productEanCode);
         return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
     }
 

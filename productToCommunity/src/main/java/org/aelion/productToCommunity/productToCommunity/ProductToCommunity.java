@@ -27,6 +27,9 @@ public class ProductToCommunity {
     private String communityId;
 
     @Column
+    private String emplacementId;
+
+    @Column
     private Long qte;
 
     @Column
