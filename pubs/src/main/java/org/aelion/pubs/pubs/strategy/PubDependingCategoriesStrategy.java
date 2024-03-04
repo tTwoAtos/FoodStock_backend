@@ -31,7 +31,7 @@ public class PubDependingCategoriesStrategy extends PubStrategy {
 
         // 3) récup tt les catégories de ce produit dans productToCategory
         // 4) Choisir 3 catégories random dans cette liste, et faire un appel a OpenFoodFact pour récup la liste des produit avec ces 3 catégories
-        // 5) Retourner un produit pub randon de cette liste
+        // 5) Retourner un produit pub random de cette liste
 
         return null;
     }

@@ -12,6 +12,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/pubs")
 public class PubController {
     @Autowired
