@@ -22,13 +22,13 @@ public class EmplacementController {
         return  service.getEmplacementById(id);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody String communityId ,String name){
-        return  service.add(communityId ,name);
+    @PostMapping
+    public ResponseEntity<?> add(@RequestBody Emplacement emplacement){
+        return  service.add(emplacement.getCommunityId() ,emplacement.getName());
     }
 
     @Transactional
-    @DeleteMapping("/delete/{emplacementId}")
+    @DeleteMapping("/{emplacementId}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         service.delete(id);
         return new ResponseEntity<>("Emplacement Deleted", HttpStatus.OK);

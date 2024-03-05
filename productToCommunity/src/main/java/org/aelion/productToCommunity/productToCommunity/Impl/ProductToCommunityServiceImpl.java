@@ -53,8 +53,8 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
-    public  List<ProductResponseDto>  getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId){
-        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdAndEmplacementId(communityId,emplacementId);
+    public List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId) {
+        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdAndEmplacementId(communityId, emplacementId);
 
         List<String> productIds = productToCommunity.stream().map((pToC) -> pToC.getProductId()).toList();
 
@@ -70,6 +70,12 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
         return response;
     }
+
+    @Override
+    public Integer countAllByCommunityIdAndEmplacementId(String communityId, String emplacementId) {
+        return repository.countByCommunityIdAndEmplacementId(communityId, emplacementId);
+    }
+
 
     @Override
     public ResponseEntity<?> add(ProductToCommunity PtoC) {
@@ -90,7 +96,6 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
         else
             return new ResponseEntity<>("OK", HttpStatus.OK);
     }
-
 
 
     @Override
