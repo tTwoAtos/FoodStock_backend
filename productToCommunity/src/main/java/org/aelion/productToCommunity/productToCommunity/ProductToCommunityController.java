@@ -40,10 +40,10 @@ public class ProductToCommunityController {
     }
 
     @Transactional
-    @PutMapping("/{pToCId}")
-    public ResponseEntity<?> updateQuantity(@PathVariable Long pToCId, @RequestBody QuantityDto QDto) {
-        System.out.println(pToCId);
-        return new ResponseEntity<>(service.updateQuantity(pToCId, QDto.getQte()), HttpStatus.OK);
+    @PutMapping("/{communityId}/{productId}")
+    public ResponseEntity<?> updateQuantity(@PathVariable String communityId, @PathVariable String productId, @RequestBody QuantityDto QDto) {
+        System.out.println(communityId +" "+ productId);
+        return new ResponseEntity<>(service.updateQuantity(communityId, productId, QDto.getQte()), HttpStatus.OK);
     }
 
     @Transactional

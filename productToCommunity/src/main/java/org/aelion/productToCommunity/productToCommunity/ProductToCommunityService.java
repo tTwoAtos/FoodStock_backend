@@ -14,7 +14,7 @@ public interface ProductToCommunityService {
 
     ResponseEntity<?> add(ProductToCommunity PtoC);
 
-    ProductToCommunity updateQuantity(Long id, Long quantity);
+    ProductToCommunity updateQuantity(String communityId,String productId, Long quantity);
 
     void delete(String code);
 

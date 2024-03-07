@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface ProductToCommunityRepository extends JpaRepository<ProductToCommunity, Long> {
     Optional<ProductToCommunity> findByProductId(String productId);
 
+    Optional<ProductToCommunity> findByCommunityIdByProductId(String communityId,String productId);
+
     List<ProductToCommunity> findAllByCommunityId(String communityId);
 
     List<ProductToCommunity> findAllByCommunityIdAndEmplacementId(String communityId, String emplacementId);
