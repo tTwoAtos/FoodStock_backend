@@ -1,0 +1,20 @@
+{
+    "settings": {
+        "nlp": {
+            "corpora": [
+                "src/corpuses/corpus-product-fr.json"
+            ]
+        },
+        "api-server": {
+            "port": 3001,
+            "serveBot": true
+        },
+        "console": {
+            "debug": true
+        }
+    },
+    "use": [
+        "Basic",
+        "ConsoleConnector"
+    ]
+}

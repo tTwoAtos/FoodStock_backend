@@ -1,17 +1,14 @@
 package org.aelion.pubs.pubs;
 
-import org.aelion.pubs.pubs.dto.CategoryDto;
-import org.aelion.pubs.pubs.dto.CommunityDto;
 import org.aelion.pubs.pubs.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/pubs")
 public class PubController {
     @Autowired
@@ -20,14 +17,14 @@ public class PubController {
 
     /**
      * Get a suggestion of a product depending on community alimentary habits
+     *
      * @param communityId
      * @return
      */
     @GetMapping("/{communityId}")
-    public ResponseEntity<?> getPub(@PathVariable String communityId) {
+    public ResponseEntity<?> getPub(@PathVariable String communityId) throws Exception {
         ProductDto pub = service.getPubProduct(communityId);
 
-        return  new ResponseEntity<>(pub, HttpStatus.OK);
+        return new ResponseEntity<>(pub, HttpStatus.OK);
     }
-
 }

@@ -27,8 +27,13 @@ public class ProductToCommunityController {
     }
 
     @GetMapping("/{communityId}/{emplacementId}")
-    public Iterable<ProductResponseDto> getAllByCommunityByEmplacement(@PathVariable String communityId,@PathVariable String emplacementId){
-        return  service.getAllByCommunityIdAndEmplacementId(communityId,emplacementId);
+    public Iterable<ProductResponseDto> getAllByCommunityByEmplacement(@PathVariable String communityId, @PathVariable String emplacementId) {
+        return service.getAllByCommunityIdAndEmplacementId(communityId, emplacementId);
+    }
+
+    @GetMapping("/{communityId}/{emplacementId}/count")
+    public Integer countAllByCommunityByEmplacement(@PathVariable String communityId, @PathVariable String emplacementId) {
+        return service.countAllByCommunityIdAndEmplacementId(communityId, emplacementId);
     }
 
     @PostMapping("/{communityId}")

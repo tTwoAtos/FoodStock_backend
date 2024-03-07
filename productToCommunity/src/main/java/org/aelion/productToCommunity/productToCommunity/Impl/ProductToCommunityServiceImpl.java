@@ -46,15 +46,15 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
             ProductDto product = products[i];
             Long quantity = productToCommunity.get(i).getQte();
 
-            response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity));
+            response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity, productToCommunity.get(i).getEmplacementId()));
         }
 
         return response;
     }
 
     @Override
-    public  List<ProductResponseDto>  getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId){
-        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdAndEmplacementId(communityId,emplacementId);
+    public List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId) {
+        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdAndEmplacementId(communityId, emplacementId);
 
         List<String> productIds = productToCommunity.stream().map((pToC) -> pToC.getProductId()).toList();
 
@@ -65,11 +65,17 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
             ProductDto product = products[i];
             Long quantity = productToCommunity.get(i).getQte();
 
-            response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity));
+            response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity, productToCommunity.get(i).getEmplacementId()));
         }
 
         return response;
     }
+
+    @Override
+    public Integer countAllByCommunityIdAndEmplacementId(String communityId, String emplacementId) {
+        return repository.countByCommunityIdAndEmplacementId(communityId, emplacementId);
+    }
+
 
     @Override
     public ResponseEntity<?> add(ProductToCommunity PtoC) {
@@ -91,18 +97,19 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
             return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
+
     @Override
-    public ProductToCommunity updateQuantity(String communityId, String productId, Long quantity) {
-        ProductToCommunity pToC = repository.findByCommunityIdByProductId(communityId,productId).orElseThrow();
+    public ProductToCommunity updateQuantity(Long id, Long quantity) {
+        ProductToCommunity pToC = repository.findById(id).orElseThrow();
+
         pToC.setQte(quantity);
 
         if (quantity == 0)
-            repository.deleteById(pToC.getId());
+            repository.deleteById(id);
         else
             return repository.save(pToC);
         return null;
     }
-
 
     @Override
     public void delete(String code) {

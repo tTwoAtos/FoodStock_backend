@@ -8,22 +8,22 @@ spring:
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:8100"
-            allowedHeaders:
-              - "Origin"
-              - "Content-Type"
-              - "Accept"
-              - "Authorization"
-              - "Referer"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - PATCH
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowedOrigins: "http://localhost:8100"
+#            allowedHeaders:
+#              - "Origin"
+#              - "Content-Type"
+#              - "Accept"
+#              - "Authorization"
+#              - "Referer"
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#              - PATCH
       routes:
         - id: COMMUNITY-SERVICE
           uri: lb://COMMUNITY-SERVICE
@@ -80,6 +80,11 @@ spring:
             - Path=/api/v1/emplacement/**,/emplacement/v3/api-docs
           filters:
             - RewritePath=/emplacement/v3/api-docs, /v3/api-docs
+
+        - id: BOT-SERVICE
+          uri: lb://BOT-SERVICE
+          predicates:
+            - Path=/bot/**
 
         - id: openapi
           uri: http://localhost:${server.port}
