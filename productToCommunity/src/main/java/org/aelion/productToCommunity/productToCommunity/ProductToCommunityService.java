@@ -18,7 +18,7 @@ public interface ProductToCommunityService {
 
     ProductToCommunity updateQuantity(String communityId,String productId, Long quantity);
 
-    void delete(String code);
+    void delete(String code, String communityId);
 
-    void massDelete(List<String> codes);
+    void massDelete(List<String> codes, String communityId);
 }

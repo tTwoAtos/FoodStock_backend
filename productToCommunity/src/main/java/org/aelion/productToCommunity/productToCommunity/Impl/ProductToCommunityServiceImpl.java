@@ -111,13 +111,12 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
-    public void delete(String code) {
-        repository.deleteByProductId(code);
+    public void delete(String code, String communityId) {
+        repository.deleteByProductIdAndCommunityId(code, communityId);
     }
 
     @Override
-    public void massDelete(List<String> codes) {
-//        repository.
-        repository.deleteAllByProductIds(codes);
+    public void massDelete(List<String> codes, String communityId) {
+        repository.deleteAllByProductIdsForCommunity(codes, communityId);
     }
 }

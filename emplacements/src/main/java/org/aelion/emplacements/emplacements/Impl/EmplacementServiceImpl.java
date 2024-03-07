@@ -51,7 +51,7 @@ public class EmplacementServiceImpl implements EmplacementService {
 
         repository.save(emplacement);
 
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return new ResponseEntity<>("{\"message\":\"OK\"}", HttpStatus.OK);
     }
 
     @Override

@@ -29,8 +29,8 @@ public class EmplacementController {
 
     @Transactional
     @DeleteMapping("/{emplacementId}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        service.delete(id);
-        return new ResponseEntity<>("Emplacement Deleted", HttpStatus.OK);
+    public ResponseEntity<?> delete(@PathVariable Long emplacementId){
+        service.delete(emplacementId);
+        return new ResponseEntity<>("{\"message\":\"Emplacement Deleted\"}", HttpStatus.OK);
     }
 }

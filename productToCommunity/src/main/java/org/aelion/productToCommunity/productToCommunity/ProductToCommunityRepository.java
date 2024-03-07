@@ -20,10 +20,10 @@ public interface ProductToCommunityRepository extends JpaRepository<ProductToCom
 
     Integer countByCommunityIdAndEmplacementId(String communityId, String emplacementId);
 
-    void deleteByProductId(String productId);
+    void deleteByProductIdAndCommunityId(String productId, String communityId);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from product_to_community where product_id in ?1", nativeQuery = true)
-    void deleteAllByProductIds(List<String> ids);
+    @Query(value = "delete from product_to_community where product_id in ?1 and community_id = ?2", nativeQuery = true)
+    void deleteAllByProductIdsForCommunity(List<String> ids, String communityId);
 }

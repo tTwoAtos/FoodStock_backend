@@ -52,16 +52,16 @@ public class ProductToCommunityController {
     }
 
     @Transactional
-    @DeleteMapping("/{productEanCode}")
-    public ResponseEntity<?> delete(@PathVariable String productEanCode) {
-        service.delete(productEanCode);
+    @DeleteMapping("/{communityId}/{productEanCode}")
+    public ResponseEntity<?> delete(@PathVariable String productEanCode, @PathVariable String communityId) {
+        service.delete(productEanCode, communityId);
         return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
     }
 
     @Transactional
-    @DeleteMapping
-    public ResponseEntity<?> massDelete(@RequestBody List<String> codes) {
-        service.massDelete(codes);
+    @DeleteMapping("/{communityId}")
+    public ResponseEntity<?> massDelete(@RequestBody List<String> codes, @PathVariable String communityId) {
+        service.massDelete(codes, communityId);
         return new ResponseEntity<>("Products Deleted", HttpStatus.OK);
     }
 }
