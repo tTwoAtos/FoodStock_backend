@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProductToCommunityRepository extends JpaRepository<ProductToCommunity, Long> {
-    Optional<ProductToCommunity> findByProductId(String productId);
 
     Optional<ProductToCommunity> findByCommunityIdByProductId(String communityId,String productId);
 
