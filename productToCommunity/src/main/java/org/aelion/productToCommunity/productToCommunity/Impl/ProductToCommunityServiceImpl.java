@@ -97,15 +97,14 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
             return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
-
     @Override
-    public ProductToCommunity updateQuantity(Long id, Long quantity) {
-        ProductToCommunity pToC = repository.findById(id).orElseThrow();
+    public ProductToCommunity updateQuantity(String communityId, String productId, Long quantity) {
+        ProductToCommunity pToC = repository.findByCommunityIdByProductId(communityId,productId).orElseThrow();
 
         pToC.setQte(quantity);
 
         if (quantity == 0)
-            repository.deleteById(id);
+            repository.deleteById(pToC.getId());
         else
             return repository.save(pToC);
         return null;
