@@ -99,7 +99,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
     @Override
     public ProductToCommunity updateQuantity(String communityId, String productId, Long quantity) {
-        ProductToCommunity pToC = repository.findByCommunityIdByProductId(communityId,productId).orElseThrow();
+        ProductToCommunity pToC = repository.findByCommunityIdAndProductId(communityId, productId).orElseThrow();
 
         pToC.setQte(quantity);
 

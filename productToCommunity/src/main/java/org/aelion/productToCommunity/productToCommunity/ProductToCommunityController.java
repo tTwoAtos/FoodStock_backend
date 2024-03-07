@@ -17,7 +17,7 @@ public class ProductToCommunityController {
     private ProductToCommunityService service;
 
     @GetMapping
-    public Iterable<ProductToCommunity> getAll() {
+    public List<ProductToCommunity> getAll() {
         return service.getAll();
     }
 
@@ -47,7 +47,7 @@ public class ProductToCommunityController {
     @Transactional
     @PutMapping("/{communityId}/{productId}")
     public ResponseEntity<?> updateQuantity(@PathVariable String communityId, @PathVariable String productId, @RequestBody QuantityDto QDto) {
-        System.out.println(communityId +" "+ productId);
+        System.out.println(communityId + " " + productId);
         return new ResponseEntity<>(service.updateQuantity(communityId, productId, QDto.getQte()), HttpStatus.OK);
     }
 
@@ -55,13 +55,13 @@ public class ProductToCommunityController {
     @DeleteMapping("/{communityId}/{productEanCode}")
     public ResponseEntity<?> delete(@PathVariable String productEanCode, @PathVariable String communityId) {
         service.delete(productEanCode, communityId);
-        return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
+        return new ResponseEntity<>("{\"message\":\"Product Deleted\"}", HttpStatus.OK);
     }
 
     @Transactional
     @DeleteMapping("/{communityId}")
     public ResponseEntity<?> massDelete(@RequestBody List<String> codes, @PathVariable String communityId) {
         service.massDelete(codes, communityId);
-        return new ResponseEntity<>("Products Deleted", HttpStatus.OK);
+        return new ResponseEntity<>("{\"message\":\"Products Deleted\"}", HttpStatus.OK);
     }
 }

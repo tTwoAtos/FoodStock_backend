@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ProductToCommunityRepository extends JpaRepository<ProductToCommunity, Long> {
 
-    Optional<ProductToCommunity> findByCommunityIdByProductId(String communityId,String productId);
+    Optional<ProductToCommunity> findByCommunityIdAndProductId(String communityId, String productId);
 
     List<ProductToCommunity> findAllByCommunityId(String communityId);
 

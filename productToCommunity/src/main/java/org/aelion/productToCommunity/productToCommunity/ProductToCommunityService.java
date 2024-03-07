@@ -1,6 +1,7 @@
 package org.aelion.productToCommunity.productToCommunity;
 
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
+import org.aelion.productToCommunity.productToCommunity.ProductToCommunity;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface ProductToCommunityService {
 
     ResponseEntity<?> add(ProductToCommunity PtoC);
 
-    ProductToCommunity updateQuantity(String communityId,String productId, Long quantity);
+    ProductToCommunity updateQuantity(String communityId, String productId, Long quantity);
 
     void delete(String code, String communityId);
 
