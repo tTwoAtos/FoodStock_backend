@@ -14,6 +14,8 @@ public class UserUpdateRequestDto {
     private LocalDate birthdate;
 
     private Integer gender;
+    private String email;
+    private String loggedInCommunityId;
 
     private Long role;
 }

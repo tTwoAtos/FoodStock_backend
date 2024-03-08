@@ -1,7 +1,11 @@
 package org.myownstock.user.user;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUser extends JpaRepository<User, Long> {
+import java.util.Optional;
 
+@Transactional
+public interface IUser extends JpaRepository<User, Long> {
+    public Optional<User> findByEmail(String email);
 }

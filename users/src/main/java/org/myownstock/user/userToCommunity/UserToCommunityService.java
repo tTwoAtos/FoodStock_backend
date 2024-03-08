@@ -19,6 +19,7 @@ public interface UserToCommunityService extends Service<UserToCommunity> {
     public List<UserToCommunity> getAll();
 
     public List<UserToCommunity> getAllByCommunity(String communityId);
+    public List<UserToCommunity> getAllByUser(Long userId);
 
     public Optional<UserToCommunity> get(Long uToCId);
 

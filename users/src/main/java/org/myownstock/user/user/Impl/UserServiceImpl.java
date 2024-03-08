@@ -1,14 +1,17 @@
 package org.myownstock.user.user.Impl;
 
 import jakarta.transaction.Transactional;
+import org.myownstock.user.dto.CommunityDto;
 import org.myownstock.user.roles.IRole;
 import org.myownstock.user.user.IUser;
 import org.myownstock.user.user.User;
 import org.myownstock.user.user.UserService;
 import org.myownstock.user.user.dto.UserAddRequestDto;
+import org.myownstock.user.user.dto.UserGetRequestDto;
 import org.myownstock.user.user.dto.UserUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +19,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
     private IUser repository;
+    private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
     @Autowired
     private IRole roleRepo;
 
@@ -57,6 +64,8 @@ public class UserServiceImpl implements UserService {
             newUser.setFirstname(user.getFirstname());
             newUser.setLastname(user.getLastname());
             newUser.setGender(user.getGender());
+            newUser.setEmail(user.getEmail());
+            newUser.setLoggedInCommunityId(user.getLoggedInCommunityId());
             newUser.setBirthdate(user.getBirthdate());
             newUser.setRole(role.get());
 
@@ -78,16 +87,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> get(Long id) {
-        return repository.findById(id);
+    public UserGetRequestDto get(Long id) {
+        User user = repository.findById(id).orElseThrow();
+        UserGetRequestDto response = new UserGetRequestDto(user);
+
+        if(user.getLoggedInCommunityId() == null)
+            return response;
+
+        CommunityDto community = restTemplate.getForObject(COMMUNITY_API + '/' + user.getLoggedInCommunityId(), CommunityDto.class);
+
+        response.setLoggedInCommunity(community);
+
+        return response;
+    }
+
+    @Override
+    public Optional<User> getLogin(String email) {
+        return repository.findByEmail(email);
     }
 
     @Override
     public User update(Long id, User user) throws Exception {
-        System.out.println(user);
-
-        repository.findById(id)
-                .orElseThrow(() -> new Exception("Employee not exist with id: " + id));
+        repository.findById(id).orElseThrow();
 
         user.setId(id);
 

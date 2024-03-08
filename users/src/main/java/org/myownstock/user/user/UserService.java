@@ -2,6 +2,7 @@ package org.myownstock.user.user;
 
 import org.myownstock.user.helpers.services.Service;
 import org.myownstock.user.user.dto.UserAddRequestDto;
+import org.myownstock.user.user.dto.UserGetRequestDto;
 import org.myownstock.user.user.dto.UserUpdateRequestDto;
 
 import java.util.List;
@@ -25,7 +26,8 @@ public interface UserService extends Service<User> {
      *
      * @return User
      */
-    public Optional<User> get(Long id);
+    public UserGetRequestDto get(Long id);
+    public Optional<User> getLogin(String email);
 
     /**
      * @param id Long

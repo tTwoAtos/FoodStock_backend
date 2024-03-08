@@ -32,6 +32,10 @@ public class UserToCommunityController {
     public List<UserToCommunity> getAllByCommunity(@PathVariable String communityId) {
         return userToCommunityService.getAllByCommunity(communityId);
     }
+    @GetMapping("/user/{userId}")
+    public List<UserToCommunity> getAllByUser(@PathVariable Long userId) {
+        return userToCommunityService.getAllByUser(userId);
+    }
 
     @GetMapping("/{uToCId}")
     public ResponseEntity<?> get(@PathVariable Long uToCId){

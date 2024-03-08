@@ -7,7 +7,6 @@ import org.myownstock.user.user.User;
 
 @Getter @Setter
 @Entity
-@Table(name = "user_to_community")
 public class UserToCommunity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +16,6 @@ public class UserToCommunity {
     private String communityId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

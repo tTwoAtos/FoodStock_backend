@@ -28,7 +28,10 @@ public class UserToCommunityServiceImpl implements UserToCommunityService {
     public List<UserToCommunity> getAllByCommunity(String communityId) {
        return  repository.findAllByCommunityId(communityId);
     }
-
+    @Override
+    public List<UserToCommunity> getAllByUser(Long userId) {
+        return repository.getAllByUserId(userId);
+    }
     @Override
     public Optional<UserToCommunity> get(Long uToCId) {
         return repository.findById(uToCId);

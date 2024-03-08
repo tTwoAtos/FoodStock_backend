@@ -28,6 +28,15 @@ public class User {
     @Column(nullable = false)
     private Integer gender;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column
+    private String password;
+
+    @Column
+    private String loggedInCommunityId;
+
     @ManyToOne(optional = false)
     private Role role;
 }
