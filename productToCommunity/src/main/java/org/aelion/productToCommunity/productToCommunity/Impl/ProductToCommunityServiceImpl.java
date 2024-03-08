@@ -83,7 +83,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
         ProductDto productDto = restTemplate.getForObject(PRODUCT_API + '/' + PtoC.getProductId(), ProductDto.class);
 
         if (community == null || productDto == null)
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("{\"message\":\"Not Found\"}", HttpStatus.NOT_FOUND);
 
         restTemplate.postForObject(PRODUCT_API + "/addedToCommunity/" + PtoC.getProductId(), "", String.class);
         List<ProductToCategory> productCategoriesIds = restTemplate.getForObject(CATEGORY_API + "/products/" + PtoC.getProductId(), List.class);
@@ -92,9 +92,9 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
         ProductToCommunity res = repository.save(PtoC);
 
         if (res == null)
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("{\"message\":\"Not Found\"}", HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>("OK", HttpStatus.OK);
+            return new ResponseEntity<>("{\"message\":\"Ok\"}", HttpStatus.OK);
     }
 
     @Override
