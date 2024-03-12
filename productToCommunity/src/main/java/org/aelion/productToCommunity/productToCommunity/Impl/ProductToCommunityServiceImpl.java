@@ -35,11 +35,13 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
     @Override
     public List<ProductResponseDto> getAllByCommunityId(String communityId) {
-        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityId(communityId);
+        List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdOrderByProductId(communityId);
 
         List<String> productIds = productToCommunity.stream().map((pToC) -> pToC.getProductId()).toList();
 
         ProductDto[] products = restTemplate.postForObject(PRODUCT_API + "/list", productIds, ProductDto[].class);
+
+        // Ensure lists are in the same order
 
         List<ProductResponseDto> response = new ArrayList<>();
         for (int i = 0; i < products.length; i++) {

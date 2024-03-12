@@ -84,9 +84,9 @@ public class ProductServiceImpl implements ProductService {
 
         Map<String, Object> body = response.getBody();
 
-        String name = (String) ((Map<String, Object>) body.get("product")).get("generic_name");
-        if (name == null)
-            name = (String) ((Map<String, Object>) body.get("product")).get("product_name");
+        String name = (String) ((Map<String, Object>) body.get("product")).get("generic_name_fr");
+        if (name == "")
+            name = (String) ((Map<String, Object>) body.get("product")).get("product_name_fr");
 
         String thumbnail = (String) ((Map<String, Object>) body.get("product")).get("image_thumb_url");
         List<String> categories = (List<String>) ((Map<List<String>, Object>) body.get("product")).get("categories_tags");
