@@ -1,4 +1,4 @@
-package org.aelion.myowngateway.config;
+package org.aelion.gateway.config;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;

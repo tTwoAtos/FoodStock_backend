@@ -1,4 +1,4 @@
-package org.aelion.myowngateway.config;
+package org.aelion.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,10 +1,10 @@
-package org.aelion.myowngateway;
+package org.aelion.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyownGatewayApplicationTests {
+class GatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
