@@ -31,3 +31,11 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+sonar {
+    properties {
+        property "sonar.projectKey", "tTwoAtos_FoodStock_backend"
+        property "sonar.organization", "ttwoatos"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
