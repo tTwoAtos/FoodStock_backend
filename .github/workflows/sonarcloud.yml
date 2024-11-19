@@ -49,6 +49,7 @@ jobs:
           for SERVICE in $SERVICES; do
             echo "Running build and SonarCloud analysis for $SERVICE"
             cd $SERVICE
+            chmod +x ./gradlew
             ./gradlew build sonar --info
             cd ..
           done
