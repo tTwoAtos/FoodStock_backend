@@ -36,3 +36,20 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+
+      - name: Build and analyze all microservices
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          # List all microservice directories
+          SERVICES="communities cities categories emplacements gateway products pubs service-registry users"
+
+          # Loop through each service and run Gradle commands
+          for SERVICE in $SERVICES; do
+            echo "Running build and SonarCloud analysis for $SERVICE"
+            cd $SERVICE
+            chmod +x ./gradlew
+            ./gradlew build sonar --info
+            cd ..
+          done
