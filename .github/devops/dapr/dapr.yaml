@@ -1,0 +1,7 @@
+version: 1
+port: 3500
+app-id: "openfoodfact"
+components- path: "./components"
+placement:
+  host: localhost
+  port: 3500
