@@ -29,6 +29,9 @@ jobs:
 
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Make gradlew executable
+        run: chmod +x ./categories/gradlew
       
       - name: Run Snyk test
         run: snyk test --all-projects
