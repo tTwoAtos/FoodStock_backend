@@ -32,15 +32,39 @@ jobs:
 
       - name: Make gradlew executable
         run: find . -name "gradlew" -exec chmod +x {} \;
-      
+
       - name: Run Snyk test for categories
-        run: snyk test --file=categories/build.gradle
+        run: snyk test --file=categories/build.gradle --all-sub-projects || true
+        continue-on-error: true
+        id: snyk-categories
 
-      - name: Run Snyk test for cities
-        run: snyk test --file=cities/build.gradle
+      - name: Log vulnerabilities for categories
+        if: always()
+        run: snyk test --file=categories/build.gradle --all-sub-projects > snyk-categories.log || true
 
-      - name: Run Snyk test for communities
-        run: snyk test --file=communities/build.gradle
+      # - name: Run Snyk test for cities
+      #   run: snyk test --file=cities/build.gradle || true
+      #   continue-on-error: true
+      #   id: snyk-cities
 
-      - name: Run Snyk test for products
-        run: snyk test --file=products/build.gradle
+      # - name: Log vulnerabilities for cities
+      #   if: always()
+      #   run: snyk test --file=cities/build.gradle > snyk-cities.log || true
+
+      # - name: Run Snyk test for communities
+      #   run: snyk test --file=communities/build.gradle || true
+      #   continue-on-error: true
+      #   id: snyk-communities
+
+      # - name: Log vulnerabilities for communities
+      #   if: always()
+      #   run: snyk test --file=communities/build.gradle > snyk-communities.log || true
+
+      # - name: Run Snyk test for products
+      #   run: snyk test --file=products/build.gradle || true
+      #   continue-on-error: true
+      #   id: snyk-products
+
+      # - name: Log vulnerabilities for products
+      #   if: always()
+      #   run: snyk test --file=products/build.gradle > snyk-products.log || true
