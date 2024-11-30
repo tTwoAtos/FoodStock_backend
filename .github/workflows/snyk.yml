@@ -42,6 +42,16 @@ jobs:
         if: always()
         run: snyk test --file=categories/build.gradle --all-sub-projects > snyk-categories.log || true
 
+      - name: Upload Snyk logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: snyk-logs
+          path: |
+            logs/snyk-categories.log
+            logs/snyk-cities.log
+            logs/snyk-communities.log
+            logs/snyk-products.log
+
       # - name: Run Snyk test for cities
       #   run: snyk test --file=cities/build.gradle || true
       #   continue-on-error: true
