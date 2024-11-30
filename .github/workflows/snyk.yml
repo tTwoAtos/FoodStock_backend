@@ -33,5 +33,14 @@ jobs:
       - name: Make gradlew executable
         run: find . -name "gradlew" -exec chmod +x {} \;
       
-      - name: Run Snyk test
-        run: snyk test --all-projects
+      - name: Run Snyk test for categories
+        run: snyk test --file=categories/build.gradle
+
+      - name: Run Snyk test for cities
+        run: snyk test --file=cities/build.gradle
+
+      - name: Run Snyk test for communities
+        run: snyk test --file=communities/build.gradle
+
+      - name: Run Snyk test for products
+        run: snyk test --file=products/build.gradle

@@ -39,7 +39,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-sonar {
+sonarqube {
 	properties {
 		property "sonar.projectKey", "tTwoAtos_FoodStock_backend"
 		property "sonar.organization", "ttwoatos"
