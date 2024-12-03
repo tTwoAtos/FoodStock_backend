@@ -34,26 +34,26 @@ jobs:
         run: find . -name "gradlew" -exec chmod +x {} \;
 
       - name: Run Snyk tests
-        uses: ./.github/actions/snyk-test
+        uses: ./snyk-test
         with:
           project: 'categories'
           file: 'categories/build.gradle'
           all-sub-projects: true
 
       - name: Run Snyk tests
-        uses: ./.github/actions/snyk-test
+        uses: ./snyk-test
         with:
           project: 'cities'
           file: 'cities/build.gradle'
 
       - name: Run Snyk tests
-        uses: ./.github/actions/snyk-test
+        uses: ./snyk-test
         with:
           project: 'communities'
           file: 'communities/build.gradle'
 
       - name: Run Snyk tests
-        uses: ./.github/actions/snyk-test
+        uses: ./snyk-test
         with:
           project: 'products'
           file: 'products/build.gradle'
