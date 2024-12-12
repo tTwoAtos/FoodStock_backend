@@ -20,12 +20,13 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody UserAddRequestDto user) throws Exception {
+    public ResponseEntity<User> add(@RequestBody UserAddRequestDto userDto) throws Exception {
         try {
-            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.addFromDto(user));
-        }
-        catch (Exception e){
+            userDto.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+            User user = userService.addFromDto(userDto);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -35,12 +36,18 @@ public class UserController {
         return userService.updateFromDto(id, user);
     }
 
+    @GetMapping("/{email}/email")
+    public User getByEmail(@PathVariable String email) throws Exception {
+        return userService.getByEmail(email);
+    }
+
     @DeleteMapping
-    public ResponseEntity<?> delete( @RequestBody List<Long> userIds) throws Exception {
+    public ResponseEntity<?> delete(@RequestBody List<Long> userIds) throws Exception {
         userService.delete(userIds);
 
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/{id}")
     public UserGetRequestDto get(@PathVariable Long id) throws Exception {
         return userService.get(id);
@@ -50,18 +57,32 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserLoginRequestDto user) throws Exception {
         Optional<User> usr = userService.getLogin(user.getEmail());
 
-        if (usr.isPresent()){
+        if (usr.isPresent()) {
             Boolean isPasswordValid = new BCryptPasswordEncoder().matches(user.getPassword(), usr.get().getPassword());
 
-            if(isPasswordValid)
+            if (isPasswordValid)
                 return new ResponseEntity<>(get(usr.get().getId()), HttpStatus.OK);
         }
 
         return new ResponseEntity<>("\"message\":\"Wrong logins !\"", HttpStatus.NOT_FOUND);
     }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<?> create(@RequestBody UserLoginRequestDto user) throws Exception {
+//        Optional<User> usr = userService.getLogin(user.getEmail());
+//
+//        if (usr.isPresent()){
+//            Boolean isPasswordValid = new BCryptPasswordEncoder().matches(user.getPassword(), usr.get().getPassword());
+//
+//            if(isPasswordValid)
+//                return new ResponseEntity<>(get(usr.get().getId()), HttpStatus.OK);
+//        }
+//
+//        return new ResponseEntity<>("\"message\":\"Wrong logins !\"", HttpStatus.NOT_FOUND);
+//    }
 
     @GetMapping
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userService.getAll();
     }
 }

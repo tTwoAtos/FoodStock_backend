@@ -8,7 +8,8 @@ import org.myownstock.user.roles.Role;
 
 import java.time.LocalDate;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @DynamicUpdate
 public class User {
@@ -38,5 +39,6 @@ public class User {
     private String loggedInCommunityId;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 }

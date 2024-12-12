@@ -1,13 +1,13 @@
-package org.myownstock.user.user.dto;
+package org.aelion.authentication.requests;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
 @Setter
-public class UserAddRequestDto {
+@Getter
+public class RegisterRequest {
     private String lastname;
     private String firstname;
     private LocalDate birthdate;

@@ -18,12 +18,11 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
     @Autowired
     RestTemplate restTemplate;
-
     @Autowired
     private IUser repository;
-    private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
     @Autowired
     private IRole roleRepo;
 
@@ -36,20 +35,23 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User addFromDto(UserAddRequestDto user) throws Exception {
-        var role = roleRepo.findById(user.getRole());
+        var role = roleRepo.findById(user.getRole_id());
 
-        if(role.isPresent()) {
+        if (role.isPresent()) {
             var newUser = new User();
             newUser.setFirstname(user.getFirstname());
             newUser.setLastname(user.getLastname());
             newUser.setGender(user.getGender());
             newUser.setBirthdate(user.getBirthdate());
             newUser.setRole(role.get());
+            newUser.setEmail(user.getEmail());
+            newUser.setLoggedInCommunityId(user.getLoggedInCommunityId());
+            newUser.setPassword((user.getPassword()));
 
             return repository.save(newUser);
         }
 
-        throw new Exception("Role with : " + user.getRole() + "was not found");
+        throw new Exception("Role with : " + user.getRole_id() + "was not found");
     }
 
     @Override
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
         var role = roleRepo.findById(user.getRole());
         var usr = repository.findById(id);
 
-        if(role.isPresent() && usr.isPresent()) {
+        if (role.isPresent() && usr.isPresent()) {
             var newUser = new User();
             newUser.setId(id);
             newUser.setFirstname(user.getFirstname());
@@ -82,8 +84,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll(){
+    public List<User> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow();
     }
 
     @Override
@@ -91,7 +98,7 @@ public class UserServiceImpl implements UserService {
         User user = repository.findById(id).orElseThrow();
         UserGetRequestDto response = new UserGetRequestDto(user);
 
-        if(user.getLoggedInCommunityId() == null)
+        if (user.getLoggedInCommunityId() == null)
             return response;
 
         CommunityDto community = restTemplate.getForObject(COMMUNITY_API + '/' + user.getLoggedInCommunityId(), CommunityDto.class);
