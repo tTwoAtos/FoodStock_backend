@@ -12,17 +12,17 @@ on:
 env:
   DOCKER_REGISTRY: myrepo
   SERVICES: >-
-    categories
-    communities
-    cities
-    emplacements
-    gateway
-    ia-tchat
-    products
-    productToCommunity
-    pubs
-    service-registry
-    users
+    categories/Dockerfile
+    communities/Dockerfile
+    cities/Dockerfile
+    emplacements/Dockerfile
+    gateway/Dockerfile
+    ia-tchat/Dockerfile
+    products/Dockerfile
+    productToCommunity/Dockerfile
+    pubs/Dockerfile
+    service-registry/Dockerfile
+    users/Dockerfile
 
 jobs:
   trivy:
