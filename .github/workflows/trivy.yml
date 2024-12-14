@@ -1,0 +1,49 @@
+name: trivy-scan
+
+on:
+  push:
+    branches:
+      - master
+      - main 
+      - devel
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  DOCKER_REGISTRY: myrepo
+  SERVICES: >-
+    categories
+    communities
+    cities
+    emplacements
+    gateway
+    ia-tchat
+    products
+    productToCommunity
+    pubs
+    service-registry
+    users
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and scan Docker images
+        run: |
+          for service in $SERVICES; do
+            echo "Building and scanning $service..."
+            docker build -t $DOCKER_REGISTRY/$service:latest ./$service
+            trivy image $DOCKER_REGISTRY/$service:latest
+          done
