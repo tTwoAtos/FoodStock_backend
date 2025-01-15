@@ -1,4 +1,6 @@
-package org.aelion.cities.city;
+package org.aelion.cities.city.CityService;
+
+import org.aelion.cities.city.City;
 
 import java.util.List;
 

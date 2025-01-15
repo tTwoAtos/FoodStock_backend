@@ -16,4 +16,18 @@ public class RegisterRequest {
     private String loggedInCommunityId;
     private String password;
     private Long role_id;
+
+    @Override
+    public String toString() {
+        return "RegisterRequest{" +
+                "lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", birthdate=" + birthdate +
+                ", gender=" + gender +
+                ", email='" + email + '\'' +
+                ", loggedInCommunityId='" + loggedInCommunityId + '\'' +
+                ", password='" + password + '\'' +
+                ", role_id=" + role_id +
+                '}';
+    }
 }
