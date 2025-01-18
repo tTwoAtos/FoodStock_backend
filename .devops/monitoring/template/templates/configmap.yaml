@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: {{ .Values.prometheus.config.scrape_interval }}
+
+    scrape_configs:
+      {{- range .Values.prometheus.config.scrape_configs }}
+      - job_name: '{{ .job_name }}'
+        static_configs:
+          {{- range .static_configs }}
+          - targets: {{ .targets | toJson }}
+          {{- end }}
+      {{- end }}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+data:
+  datasources.yaml: |
+    apiVersion: 1
+
+    datasources:
+      {{- range .Values.grafana.datasources }}
+      - name: {{ .name }}
+        type: {{ .type }}
+        url: {{ .url }}
+        isDefault: {{ .isDefault }}
+        access: {{ .access }}
+        editable: {{ .editable }}
+      {{- end }}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf-config
+data:
+  telegraf.conf: |
+    {{ .Values.telegraf.config | indent 4 }}
