@@ -95,6 +95,8 @@ spring:
         cors-configuration:
           '[**]':
             allowedOrigins: "http://localhost:4200"
+            allowedMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowedHeaders: [Content-Type, Authorization, responseType]
             allowCredentials: true
     discovery:
       locator:
@@ -116,3 +118,9 @@ springdoc:
     disabled: true
   api-docs:
     version: openapi_3_1
+
+# security
+keyStore:
+  path: keystore.jks
+  password: password
+  alias: auth-server
