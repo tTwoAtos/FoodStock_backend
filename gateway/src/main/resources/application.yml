@@ -91,7 +91,11 @@ spring:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
-
+      globalcors:
+        cors-configuration:
+          '[**]':
+            allowedOrigins: "http://localhost:4200"
+            allowCredentials: true
     discovery:
       locator:
         enabled: true
