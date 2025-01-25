@@ -17,9 +17,6 @@ import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    @Value("${API_GATEWAY}")
-    String API_GATEWAY;
-
     private final String CATEGORY_API = "http://localhost:4009/api/v1/categories";
     @Autowired
     private CategoryRepository repository;
