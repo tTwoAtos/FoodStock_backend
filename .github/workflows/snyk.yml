@@ -57,3 +57,13 @@ jobs:
         with:
           service: 'products'
           file: 'products/build.gradle'
+      
+      - name: Upload Snyk logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: snyk-logs
+          path: |
+            snyk-categories.log
+            snyk-cities.log
+            snyk-communities.log
+            snyk-products.log
