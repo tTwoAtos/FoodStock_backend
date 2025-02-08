@@ -11,6 +11,7 @@ import org.aelion.authentication.responses.TokenResponse;
 import org.aelion.authentication.services.AuthService;
 import org.aelion.authentication.services.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,29 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping(value = "api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
     @Autowired
     AuthService authService;
 
     @PostMapping("/login")
     public TokenResponse login(@RequestBody LoginRequest loginRequest) throws AuthException {
-        System.out.println("Login route called");
-
         Map<String, Object> token = authService.login(loginRequest);
         
         return new TokenResponse(token);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest authUserEntity) throws AuthException {
-        AuthUserEntity user = authService.register(authUserEntity);
-
-        if (user == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(user);
+    public AuthUserEntity register(@RequestBody RegisterRequest authUserEntity) throws AuthException {
+        return authService.register(authUserEntity);
     }
 
     @PostMapping("/password-forgot")

@@ -52,7 +52,7 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
     private String alias;
 
     // exclude path /auth
-    private List<String> publicUrls = Arrays.asList("/api/v1/auth/**", "**/v3/api-docs");
+    private List<String> publicUrls = Arrays.asList("api/v1/auth/**", "**/v3/api-docs");
 
     public static class Config {
         public List<String> getExcludedPattern() {

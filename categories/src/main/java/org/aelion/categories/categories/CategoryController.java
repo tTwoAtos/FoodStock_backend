@@ -3,13 +3,14 @@ package org.aelion.categories.categories;
 import org.aelion.categories.categories.dto.CategoriesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/categories")
+@RequestMapping(value = "api/v1/categories", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryController {
     @Autowired
     private CategoryService service;

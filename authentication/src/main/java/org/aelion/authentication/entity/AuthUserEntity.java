@@ -23,7 +23,6 @@ public class AuthUserEntity {
         this.firstname = registerRequest.getFirstname();
         this.email = registerRequest.getEmail();
         this.gender = registerRequest.getGender();
-        this.birthdate = registerRequest.getBirthdate();
         this.password = registerRequest.getPassword();
     }
 
@@ -43,7 +42,7 @@ public class AuthUserEntity {
     @Column
     private String password;
 
-    @Column(nullable = false)
+    @Column()
     private LocalDate birthdate;
 
     @Column(nullable = false)

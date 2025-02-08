@@ -3,12 +3,13 @@ package org.myownstock.user.userToCommunity;
 import org.myownstock.user.dto.CommunityDto;
 import org.myownstock.user.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users/communities")
+@RequestMapping(value = "/api/v1/users/communities", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserToCommunityController {
     @Autowired
     UserToCommunityService userToCommunityService;

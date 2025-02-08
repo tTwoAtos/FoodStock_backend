@@ -1,13 +1,14 @@
 package org.aelion.communities.community;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/communities")
+@RequestMapping(value = "api/v1/communities", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommunityController {
     @Autowired
     private CommunityService service;
