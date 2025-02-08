@@ -1,0 +1,69 @@
+name: Snyk Scan
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - devel
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Make gradlew executable
+        run: find . -name "gradlew" -exec chmod +x {} \;
+
+      - name: Run Snyk tests for categories
+        uses: ./.github/actions/snyk-test
+        with:
+          service: 'categories'
+          file: 'categories/build.gradle'
+          all-sub-projects: true
+
+      - name: Run Snyk tests for cities
+        uses: ./.github/actions/snyk-test
+        with:
+          service: 'cities'
+          file: 'cities/build.gradle'
+
+      - name: Run Snyk tests for communities
+        uses: ./.github/actions/snyk-test
+        with:
+          service: 'communities'
+          file: 'communities/build.gradle'
+
+      - name: Run Snyk tests for products
+        uses: ./.github/actions/snyk-test
+        with:
+          service: 'products'
+          file: 'products/build.gradle'
+      
+      - name: Upload Snyk logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: snyk-logs
+          path: |
+            snyk-categories.log
+            snyk-cities.log
+            snyk-communities.log
+            snyk-products.log

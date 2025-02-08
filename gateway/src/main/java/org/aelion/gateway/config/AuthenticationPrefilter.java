@@ -1,4 +1,4 @@
-package org.aelion.myowngateway.config;
+package org.aelion.gateway.config;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -12,6 +12,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import org.springframework.core.io.buffer.DataBuffer;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,7 +37,10 @@ import java.security.cert.CertificateException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 @Component
@@ -53,19 +56,6 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
 
     // exclude path /auth
     private List<String> publicUrls = Arrays.asList("api/v1/auth/**", "**/v3/api-docs");
-
-    public static class Config {
-        public List<String> getExcludedPattern() {
-            return excludedPattern;
-        }
-
-        public void setExcludedPattern(List<String> excludedPattern) {
-            this.excludedPattern = excludedPattern;
-        }
-
-        private List<String> excludedPattern;
-    }
-
 
     @Bean
     @Primary
@@ -103,11 +93,11 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
             HttpHeaders httpHeaders = request.getHeaders();
             String token = httpHeaders.getFirst(HttpHeaders.AUTHORIZATION);
 
-            if(isExcluded(path)){
+            if (isExcluded(path)) {
                 return chain.filter(exchange);
             }
 
-            if(token == null || !token.startsWith("Bearer ")) {
+            if (token == null || !token.startsWith("Bearer ")) {
                 return handleAuthError(exchange, "Missing or invalid token", HttpStatus.UNAUTHORIZED);
             }
 
@@ -144,7 +134,7 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
     private Mono<Void> handleAuthError(ServerWebExchange exchange, String message, HttpStatus status) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(status);
-        response.getHeaders().setContentType( MediaType.APPLICATION_JSON );
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("timestamp", ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -164,7 +154,7 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
     @Bean
     public ObjectMapper objectMapper() {
         JsonFactory factory = new JsonFactory();
-        factory.configure(JsonGenerator.Feature.IGNORE_UNKNOWN,true);
+        factory.configure(JsonGenerator.Feature.IGNORE_UNKNOWN, true);
 
         ObjectMapper objectMapper = new ObjectMapper(factory);
         objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
@@ -173,5 +163,17 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss"));
 
         return objectMapper;
+    }
+
+    public static class Config {
+        private List<String> excludedPattern;
+
+        public List<String> getExcludedPattern() {
+            return excludedPattern;
+        }
+
+        public void setExcludedPattern(List<String> excludedPattern) {
+            this.excludedPattern = excludedPattern;
+        }
     }
 }
