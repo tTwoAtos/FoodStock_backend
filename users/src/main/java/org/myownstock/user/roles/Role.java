@@ -12,5 +12,8 @@ public class Role {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 20)
-    private String label;
+    private String slug;
+
+    @Column(nullable = false, unique = true, length = 30)
+    private String name;
 }

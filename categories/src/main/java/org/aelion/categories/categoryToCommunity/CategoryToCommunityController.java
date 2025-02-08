@@ -3,13 +3,14 @@ package org.aelion.categories.categoryToCommunity;
 import org.aelion.categories.categories.Category;
 import org.aelion.categories.productToCategory.ProductToCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/categories/community")
+@RequestMapping(value = "api/v1/categories/community", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryToCommunityController {
     @Autowired
     private CategoryToCommunityService service;

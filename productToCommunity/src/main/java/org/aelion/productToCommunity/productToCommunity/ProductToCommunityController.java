@@ -5,13 +5,14 @@ import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
 import org.aelion.productToCommunity.productToCommunity.dto.QuantityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/product-to-community")
+@RequestMapping(value = "api/v1/product-to-community", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductToCommunityController {
     @Autowired
     private ProductToCommunityService service;

@@ -22,6 +22,7 @@ public interface UserService extends Service<User> {
      */
     public List<User> getAll();
 
+    public User getByEmail(String email);
     /**
      *
      * @return User

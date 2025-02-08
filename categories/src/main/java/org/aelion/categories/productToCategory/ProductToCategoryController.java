@@ -4,6 +4,7 @@ import jakarta.websocket.OnOpen;
 import org.aelion.categories.productToCategory.dto.CategoriesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/categories/products")
+@RequestMapping(value = "api/v1/categories/products", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductToCategoryController {
     @Autowired
     private ProductToCategoryService service;

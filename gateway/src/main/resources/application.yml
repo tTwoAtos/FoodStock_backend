@@ -2,6 +2,8 @@ server:
   port: 5000
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: API-GATEWAY
   cloud:
@@ -54,9 +56,16 @@ spring:
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/v1/users/**,/user/v3/api-docs
+            - Path=/api/v1/users/**,/users/v3/api-docs
           filters:
-            - RewritePath=/user/v3/api-docs, /v3/api-docs
+            - RewritePath=/users/v3/api-docs, /v3/api-docs
+
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/v1/auth/**,/auth/v3/api-docs
+          filters:
+            - RewritePath=/auth/v3/api-docs, /v3/api-docs
 
         - id: EMPLACEMENT-SERVICE
           uri: lb://EMPLACEMENT-SERVICE
@@ -76,7 +85,13 @@ spring:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
-
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "http://localhost:4200"
+            allowed-methods: "*"
+            allowed-headers: "*"
+            allow-credentials: true
     discovery:
       locator:
         enabled: true
@@ -97,3 +112,9 @@ springdoc:
     disabled: true
   api-docs:
     version: openapi_3_1
+
+# security
+keyStore:
+  path: keystore.jks
+  password: password
+  alias: auth-server
