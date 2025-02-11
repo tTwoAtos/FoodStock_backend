@@ -1,0 +1,132 @@
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: foodstock
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  openfoodfacts:
+    image: mongo
+    container_name: openfoodfacts
+    restart: always
+    ports:
+      - "27017:27017"
+
+  service-registry:
+    build:
+      context: ./service-registry
+      dockerfile: service-registry.Dockerfile
+    container_name: service-registry
+    ports:
+      - "8787:8787"
+    depends_on:
+      postgres:
+        condition: service_started
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: gateway.Dockerfile
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service-registry
+
+  categories:
+    build:
+      context: ./categories
+      dockerfile: categories.Dockerfile
+    container_name: categories
+    ports:
+      - "4009:4009"
+    depends_on:
+      - service-registry
+      - postgres
+
+  cities:
+    build:
+      context: ./cities
+      dockerfile: cities.Dockerfile
+    container_name: cities
+    ports:
+      - "4001:4001"
+    depends_on:
+      - service-registry
+      - postgres
+
+  communities:
+    build:
+      context: ./communities
+      dockerfile: communities.Dockerfile
+    container_name: communities
+    ports:
+      - "4002:4002"
+    depends_on:
+      - service-registry
+      - postgres
+
+  emplacements:
+    build:
+      context: ./emplacements
+      dockerfile: emplacements.Dockerfile
+    container_name: emplacements
+    ports:
+      - "4012:4012"
+    depends_on:
+      - service-registry
+      - postgres
+
+  products:
+    build:
+      context: ./products
+      dockerfile: products.Dockerfile
+    container_name: products
+    ports:
+      - "4003:4003"
+    depends_on:
+      - service-registry
+      - postgres
+
+  producttocommunity:
+    build:
+      context: ./productToCommunity
+      dockerfile: productToCommunity.Dockefile
+    container_name: productToCommunity
+    ports:
+      - "4004:4004"
+    depends_on:
+      - service-registry
+      - postgres
+
+  users:
+    build:
+      context: ./users
+      dockerfile : users.Dockerfile
+    container_name: users
+    ports:
+      - "4011:4011"
+    depends_on:
+      - service-registry
+      - postgres
+
+  migration:
+    build:
+      context: ./migration
+      dockerfile: migration.Dockerfile
+    container_name: migration
+    ports:
+      - "4013:4013"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
