@@ -1,4 +1,4 @@
-package org.myownstock.user.user.exception;
+package org.aelion.exception;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

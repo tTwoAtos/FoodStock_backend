@@ -1,4 +1,4 @@
-package org.aelion.globalerrors.exception;
+package org.aelion.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
