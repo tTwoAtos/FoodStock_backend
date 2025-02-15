@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 
 @Getter @Setter
-@Entity(name = "user")
+@Entity
+@Table(name = "user")
 @DynamicUpdate
 public class AuthUserEntity {
     public AuthUserEntity(){}
