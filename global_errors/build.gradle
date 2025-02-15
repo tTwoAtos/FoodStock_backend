@@ -13,6 +13,23 @@ java {
     withSourcesJar()
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
