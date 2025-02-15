@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserToCommunityService extends Service<UserToCommunity> {
     /**w
-     * @param UserToCommunity userToComunity
+     * @param userToCom userToComunity
      * @return UserToCommunity
      */
     public UserToCommunity add(UserToCommunity userToCom);

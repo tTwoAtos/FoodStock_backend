@@ -1,10 +1,11 @@
 package org.aelion.productToCommunity.productToCommunity;
 
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
-import org.aelion.productToCommunity.productToCommunity.ProductToCommunity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductToCommunityService {
     List<ProductToCommunity> getAll();
@@ -22,4 +23,6 @@ public interface ProductToCommunityService {
     void delete(String code, String communityId);
 
     void massDelete(List<String> codes, String communityId);
+
+    Object getAll(Pageable pageable, Map<String, String> filters);
 }

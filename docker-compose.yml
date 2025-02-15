@@ -37,7 +37,7 @@ services:
       dockerfile: gateway.Dockerfile
     container_name: gateway
     ports:
-      - "8080:8080"
+      - "5000:5000"
     depends_on:
       - service-registry
 
@@ -127,6 +127,3 @@ services:
       - "4013:4013"
     depends_on:
       - postgres
-
-volumes:
-  postgres_data:

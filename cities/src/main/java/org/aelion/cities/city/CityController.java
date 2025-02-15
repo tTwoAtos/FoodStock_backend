@@ -2,29 +2,38 @@ package org.aelion.cities.city;
 
 import org.aelion.cities.city.CityService.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-
 @RequestMapping(value = "api/v1/cities", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CityController {
     @Autowired
     private CityService service;
 
     @GetMapping
-    public List<City> getAll(){
-        return service.getAll();
+    public ResponseEntity<?> getAll() {
+        try {
+            List<City> cities = service.getAll();
+            return ResponseEntity.ok(cities);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la récupération des villes : " + e.getMessage());
+        }
     }
 
     @GetMapping("/{code}")
-    public City getAll(@PathVariable String code){
-        return service.getByCode(code);
+    public ResponseEntity<?> getByCode(@PathVariable String code) {
+        try {
+            City city = service.getByCode(code);
+            return ResponseEntity.ok(city);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Ville non trouvée avec le code : " + code);
+        }
     }
 }

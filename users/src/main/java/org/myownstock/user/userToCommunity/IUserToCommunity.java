@@ -11,5 +11,5 @@ public interface IUserToCommunity extends JpaRepository<UserToCommunity, Long> {
 
     List<UserToCommunity> findAllByCommunityId(String communityId);
     @Query(name = "SELECT * FROM user JOIN user_to_community as utoc ON utoc.user_id = user.id WHERE user.id = ?1", nativeQuery = true)
-    List<UserToCommunity> getAllByUserId(Long userId);
+    List<UserToCommunity> getAllByUserId(Long usersId);
 }

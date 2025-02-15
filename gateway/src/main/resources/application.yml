@@ -63,7 +63,7 @@ spring:
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/v1/auth/**,/auth/v3/api-docs
+              - Path=/api/v1/auth/**,/auth/v3/api-docs
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs
 

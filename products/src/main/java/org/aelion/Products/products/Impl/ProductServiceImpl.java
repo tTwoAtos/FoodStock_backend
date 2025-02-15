@@ -7,6 +7,7 @@ import org.aelion.Products.products.dto.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,10 @@ public class ProductServiceImpl implements ProductService {
     private String foodFactApi;
 
     @Override
-    public List<Product> getAll() {
-        return repository.findAll();
+    public List<Product> getAll(Pageable pageable, Map<String, String> filters) {
+        return List.of();
     }
+
 
     @Override
     public List<Product> getAllByIdList(List<String> productIds) {

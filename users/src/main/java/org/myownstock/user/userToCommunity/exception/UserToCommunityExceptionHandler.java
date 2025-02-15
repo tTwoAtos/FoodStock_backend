@@ -1,4 +1,4 @@
-package org.myownstock.user.user.exception;
+package org.myownstock.user.userToCommunity.exception;
 
 import jakarta.ws.rs.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class UserToCommunityExceptionHandler {
 
     // Exception générale (toutes les erreurs non gérées)
     @ExceptionHandler(Exception.class)
