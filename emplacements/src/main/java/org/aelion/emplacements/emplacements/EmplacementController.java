@@ -16,45 +16,28 @@ public class EmplacementController {
     private EmplacementService service;
 
     @GetMapping("/community/{communityId}")
-    public ResponseEntity<?> getAllByCommunity(@PathVariable String communityId) {
-        try {
-            List<Emplacement> emplacements = service.getAllByCommunityId(communityId);
-            return ResponseEntity.ok(emplacements);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors de la récupération des emplacements pour la communauté: " + e.getMessage());
-        }
+    public List<Emplacement> getAllByCommunity(@PathVariable String communityId) {
+        return service.getAllByCommunityId(communityId);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmplacementById(@PathVariable Long id) {
-        try {
-            return service.getEmplacementById(id);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Emplacement non trouvé avec l'ID: " + id);
-        }
+        return service.getEmplacementById(id);
     }
 
+
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody Emplacement emplacement) {
-        try {
-            return service.add(emplacement.getCommunityId(), emplacement.getName());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erreur lors de l'ajout de l'emplacement: " + e.getMessage());
-        }
+    public void add(@RequestBody Emplacement emplacement) {
+        service.add(emplacement.getCommunityId(), emplacement.getName());
     }
+
 
     @Transactional
     @DeleteMapping("/{emplacementId}")
-    public ResponseEntity<?> delete(@PathVariable Long emplacementId) {
-        try {
-            service.delete(emplacementId);
-            return ResponseEntity.ok("{\"message\":\"Emplacement supprimé avec succès\"}");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors de la suppression de l'emplacement: " + e.getMessage());
-        }
+    public String delete(@PathVariable Long emplacementId) {
+        service.delete(emplacementId);
+        return "{\"message\":\"Emplacement supprimé avec succès\"}";
     }
+
 }

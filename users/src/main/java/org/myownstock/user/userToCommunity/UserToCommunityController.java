@@ -4,7 +4,6 @@ import org.myownstock.user.dto.CommunityDto;
 import org.myownstock.user.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,33 +15,31 @@ public class UserToCommunityController {
     private UserToCommunityService userToCommunityService;
 
     @PostMapping
-    public ResponseEntity<UserToCommunity> add(@RequestBody UserToCommunity userToCommunity) {
-        UserToCommunity created = userToCommunityService.add(userToCommunity);
-        return ResponseEntity.status(201).body(created);  // Retourne un code HTTP 201 pour création
+    public UserToCommunity add(@RequestBody UserToCommunity userToCommunity) {
+        return userToCommunityService.add(userToCommunity);
     }
 
+
     @PutMapping
-    public ResponseEntity<UserToCommunity> update(@RequestBody UserToCommunity userToCommunity) {
-        UserToCommunity updated = userToCommunityService.update(userToCommunity);
-        return ResponseEntity.ok(updated);  // Retourne le résultat avec un code HTTP 200
+    public UserToCommunity update(@RequestBody UserToCommunity userToCommunity) {
+        return userToCommunityService.update(userToCommunity);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserToCommunity>> getAll() {
-        List<UserToCommunity> list = userToCommunityService.getAll();
-        return ResponseEntity.ok(list);  // Retourne la liste des éléments avec un code HTTP 200
+    public List<UserToCommunity> getAll() {
+        return userToCommunityService.getAll();
     }
 
     @GetMapping("/{communityId}")
-    public ResponseEntity<List<User>> getAllByCommunity(@PathVariable String communityId) {
-        List<User> users = userToCommunityService.getAllByCommunity(communityId);
-        return ResponseEntity.ok(users);  // Retourne la liste des utilisateurs pour la communauté spécifiée
+    public List<User> getAllByCommunity(@PathVariable String communityId) {
+        return userToCommunityService.getAllByCommunity(communityId);
     }
 
+
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CommunityDto>> getAllByUser(@PathVariable Long userId) {
-        List<CommunityDto> communities = userToCommunityService.getAllByUser(userId);
-        return ResponseEntity.ok(communities);  // Retourne la liste des communautés pour l'utilisateur spécifié
+    public List<CommunityDto> getAllByUser(@PathVariable Long userId) {
+        return userToCommunityService.getAllByUser(userId);
     }
 }
+
 

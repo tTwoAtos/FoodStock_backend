@@ -17,62 +17,38 @@ public class ProductToCategoryController {
 
     @GetMapping("/{productEan}")
     public ResponseEntity<?> getCategoriesIdsByProductId(@PathVariable String productEan) {
-        try {
-            List<ProductToCategory> productToCategories = service.getCategoriesIdsByProductEan(productEan);
+        List<ProductToCategory> productToCategories = service.getCategoriesIdsByProductEan(productEan);
 
-            if (productToCategories == null || productToCategories.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Aucune catégorie trouvée pour le produit avec l'EAN : " + productEan);
-            }
+        if(productToCategories == null)
+            return new ResponseEntity<>("Not categories was found with this product id " , HttpStatus.NOT_FOUND);
 
-            return ResponseEntity.ok(productToCategories);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors de la récupération des catégories du produit : " + e.getMessage());
-        }
+        List<Long> categoriesIds = productToCategories.stream().map((ProductToCategory cat) -> cat.getCategoryId()).toList();
+        return new ResponseEntity<>(productToCategories, HttpStatus.FOUND);
     }
+
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<?> getRandomProductByCategory(@PathVariable Long categoryId) {
-        try {
-            ProductToCategory product = service.getProductsByCategoryId(categoryId);
+        ProductToCategory product = service.getProductsByCategoryId(categoryId);
 
-            if (product == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Aucun produit trouvé pour la catégorie ID : " + categoryId);
-            }
-
-            return ResponseEntity.ok(product);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors de la récupération du produit par catégorie : " + e.getMessage());
-        }
+        if(product == null)
+            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
 
     @GetMapping("/related/{categoryId}")
-    public ResponseEntity<?> getRelatedCategories(@PathVariable Long categoryId) {
-        try {
-            List<ProductToCategory> productToCategories = service.getRelatedCategories(categoryId);
+    public  ResponseEntity<?> getRelatedCategories(@PathVariable Long categoryId){
+        List<ProductToCategory> productToCategories =  service.getRelatedCategories(categoryId);
 
-            if (productToCategories.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Aucune catégorie liée trouvée pour la catégorie ID : " + categoryId);
-            }
-
-            return ResponseEntity.ok(productToCategories);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors de la récupération des catégories liées : " + e.getMessage());
-        }
+        if (productToCategories.isEmpty())
+            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(productToCategories, HttpStatus.OK);
     }
+
 
     @PostMapping("/{productEan}")
     public ResponseEntity<?> add(@PathVariable String productEan, @RequestBody CategoriesDto dto) {
-        try {
-            return service.add(productEan, dto.getCategoriesIds());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erreur lors de l'ajout des catégories au produit : " + e.getMessage());
-        }
+        return service.add(productEan, dto.getCategoriesIds());
     }
 }
