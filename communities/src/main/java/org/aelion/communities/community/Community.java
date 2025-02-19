@@ -1,16 +1,17 @@
 package org.aelion.communities.community;
 
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import org.springframework.data.annotation.Id;
-
-@Entity
-@Table(name = "communities")
-
+@Entity(name = "communities")
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Community {
     @Id
     private String id;

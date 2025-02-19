@@ -8,11 +8,14 @@ import java.util.Optional;
 public interface ProductToCategoryService {
     List<ProductToCategory> getAll();
 
-    ResponseEntity<?> getById(String code);
+    ProductToCategory getById(String code);
 
-    ResponseEntity<?> add(String productId, List<Long> categoryIds);
+    ProductToCategory add(String productId, List<Long> categoryIds);
+
     List<ProductToCategory> getCategoriesIdsByProductEan(String productId);
-    ProductToCategory getProductsByCategoryId(Long categoryId);
-    List<ProductToCategory> getRelatedCategories(Long categoryId);
 
+    ProductToCategory getProductsByCategoryId(Long categoryId);
+
+    List<ProductToCategory> getRelatedCategories(Long categoryId);
 }
+

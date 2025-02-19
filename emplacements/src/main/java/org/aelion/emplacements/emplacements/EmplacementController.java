@@ -1,10 +1,9 @@
 package org.aelion.emplacements.emplacements;
 
 import jakarta.transaction.Transactional;
+import org.aelion.emplacements.emplacements.dto.DeleteEmplacementDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class EmplacementController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEmplacementById(@PathVariable Long id) {
+    public Emplacement getEmplacementById(@PathVariable Long id) {
         return service.getEmplacementById(id);
     }
 
@@ -35,9 +34,9 @@ public class EmplacementController {
 
     @Transactional
     @DeleteMapping("/{emplacementId}")
-    public String delete(@PathVariable Long emplacementId) {
+    public DeleteEmplacementDto delete(@PathVariable Long emplacementId) {
         service.delete(emplacementId);
-        return "{\"message\":\"Emplacement supprimé avec succès\"}";
+        return new DeleteEmplacementDto("Emplacement supprimé avec succès");
     }
 
 }

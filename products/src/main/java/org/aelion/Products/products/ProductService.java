@@ -1,6 +1,6 @@
 package org.aelion.Products.products;
 
-import org.springframework.http.ResponseEntity;
+import org.aelion.exception.NotFoundException;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -13,8 +13,8 @@ public interface ProductService {
 
     List<Product> getAllByIdList(List<String> productIds);
 
-    ResponseEntity<?> getById(String code);
+   Product getById(String code) throws NotFoundException;
 
-    ResponseEntity<?> addedToCommunity(String code);
+    void addedToCommunity(String code);
 
 }

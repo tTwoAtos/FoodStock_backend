@@ -1,19 +1,16 @@
 package org.aelion.categories.productToCategory.Impl;
 
-import org.aelion.categories.categories.Category;
 import org.aelion.categories.categories.CategoryRepository;
 import org.aelion.categories.productToCategory.ProductToCategory;
 import org.aelion.categories.productToCategory.ProductToCategoryRepository;
 import org.aelion.categories.productToCategory.ProductToCategoryService;
+import org.aelion.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.aelion.exception.NotFoundException;
 
 import java.util.*;
-import java.util.random.RandomGenerator;
 
 @Service
 public class ProductToCategoryServiceImpl implements ProductToCategoryService {
@@ -34,28 +31,34 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
     }
 
     @Override
-    public ResponseEntity<?> getById(String code) {
+    public ProductToCategory getById(String code) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> add(String productEan, List<Long> categoriesIds) {
+    public ProductToCategory add(String productEan, List<Long> categoriesIds) {
+        if (categoriesIds == null || categoriesIds.isEmpty()) {
+            throw new BadRequestException("La liste des catégories ne peut pas être vide.");
+        }
 
-        List<ProductToCategory> list = new ArrayList<ProductToCategory>();
+        List<ProductToCategory> list = new ArrayList<>();
 
-        for(Long categoriesId : categoriesIds){
+        for (Long categoryId : categoriesIds) {
             ProductToCategory pdc = new ProductToCategory();
             pdc.setProductId(productEan);
-            pdc.setCategoryId(categoriesId);
+            pdc.setCategoryId(categoryId);
             list.add(pdc);
         }
 
-        List<ProductToCategory> repositoryPdc = repository.saveAll(list);
+        List<ProductToCategory> savedProductsToCategories = repository.saveAll(list);
 
-        if(repositoryPdc.isEmpty())
-            return new ResponseEntity<>("Not found.", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(repositoryPdc, HttpStatus.CREATED);
+        if (savedProductsToCategories.isEmpty()) {
+            throw new NotFoundException("Aucune association produit-catégorie n'a été enregistrée.");
+        }
+
+        return (ProductToCategory) savedProductsToCategories;
     }
+
 
     @Override
     public List<ProductToCategory> getCategoriesIdsByProductEan(String productId){
@@ -87,8 +90,6 @@ public class ProductToCategoryServiceImpl implements ProductToCategoryService {
         if (relatedProduct == null)
             return null;
 
-        List<ProductToCategory> relatedCategories = getCategoriesIdsByProductEan(relatedProduct.getProductId());
-
-        return relatedCategories;
+        return getCategoriesIdsByProductEan(relatedProduct.getProductId());
     }
 }

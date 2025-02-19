@@ -1,8 +1,8 @@
 package org.aelion.communities.community;
 
+import org.aelion.communities.community.dto.CommunityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +20,12 @@ public class CommunityController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id) {
+    public CommunityResponse getById(@PathVariable String id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> createCommunity(@RequestBody Community community) {
+    public Community createCommunity(@RequestBody Community community) {
         return service.createCommunity(community);
     }
 }

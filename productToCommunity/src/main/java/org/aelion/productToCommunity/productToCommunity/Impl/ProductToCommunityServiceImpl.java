@@ -1,5 +1,6 @@
 package org.aelion.productToCommunity.productToCommunity.Impl;
 
+import org.aelion.exception.NotFoundException;
 import org.aelion.productToCommunity.productToCommunity.ProductToCommunity;
 import org.aelion.productToCommunity.productToCommunity.ProductToCommunityRepository;
 import org.aelion.productToCommunity.productToCommunity.ProductToCommunityService;
@@ -8,6 +9,7 @@ import org.aelion.productToCommunity.productToCommunity.dto.ProductDto;
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
 import org.aelion.productToCommunity.productToCommunity.dto.ProductToCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductToCommunityServiceImpl implements ProductToCommunityService {
@@ -80,24 +83,22 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
 
 
     @Override
-    public ResponseEntity<?> add(ProductToCommunity PtoC) {
+    public ProductToCommunity add(ProductToCommunity PtoC) {
         Community community = restTemplate.getForObject(COMMUNITY_API + '/' + PtoC.getCommunityId(), Community.class);
         ProductDto productDto = restTemplate.getForObject(PRODUCT_API + '/' + PtoC.getProductId(), ProductDto.class);
 
-        if (community == null || productDto == null)
-            return new ResponseEntity<>("{\"message\":\"Not Found\"}", HttpStatus.NOT_FOUND);
+        if (community == null || productDto == null) {
+            throw new NotFoundException("Communauté ou produit non trouvé");
+        }
 
         restTemplate.postForObject(PRODUCT_API + "/addedToCommunity/" + PtoC.getProductId(), "", String.class);
-        List<ProductToCategory> productCategoriesIds = restTemplate.getForObject(CATEGORY_API + "/products/" + PtoC.getProductId(), List.class);
+        List productCategoriesIds = restTemplate.getForObject(CATEGORY_API + "/products/" + PtoC.getProductId(), List.class);
         restTemplate.postForObject(CATEGORY_API + "/community/" + community.getId() + "/" + PtoC.getQte(), productCategoriesIds, String.class);
 
-        ProductToCommunity res = repository.save(PtoC);
-
-        if (res == null)
-            return new ResponseEntity<>("{\"message\":\"Not Found\"}", HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<>("{\"message\":\"Ok\"}", HttpStatus.OK);
+        return repository.save(PtoC);
     }
+
+
 
     @Override
     public ProductToCommunity updateQuantity(String communityId, String productId, Long quantity) {
@@ -120,5 +121,10 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     @Override
     public void massDelete(List<String> codes, String communityId) {
         repository.deleteAllByProductIdsForCommunity(codes, communityId);
+    }
+
+    @Override
+    public Object getAll(Pageable pageable, Map<String, String> filters) {
+        return null;
     }
 }

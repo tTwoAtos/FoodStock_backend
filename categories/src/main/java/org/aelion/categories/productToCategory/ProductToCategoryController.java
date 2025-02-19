@@ -1,6 +1,7 @@
 package org.aelion.categories.productToCategory;
 
 import org.aelion.categories.productToCategory.dto.CategoriesDto;
+import org.aelion.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,39 +17,47 @@ public class ProductToCategoryController {
     private ProductToCategoryService service;
 
     @GetMapping("/{productEan}")
-    public ResponseEntity<?> getCategoriesIdsByProductId(@PathVariable String productEan) {
+    public List<Long> getCategoriesIdsByProductId(@PathVariable String productEan) {
         List<ProductToCategory> productToCategories = service.getCategoriesIdsByProductEan(productEan);
 
-        if(productToCategories == null)
-            return new ResponseEntity<>("Not categories was found with this product id " , HttpStatus.NOT_FOUND);
+        if (productToCategories == null || productToCategories.isEmpty()) {
+            throw new NotFoundException("Aucune catégorie trouvée pour ce produit.");
+        }
 
-        List<Long> categoriesIds = productToCategories.stream().map((ProductToCategory cat) -> cat.getCategoryId()).toList();
-        return new ResponseEntity<>(productToCategories, HttpStatus.FOUND);
+        return productToCategories.stream()
+                .map(ProductToCategory::getCategoryId)
+                .toList();
     }
+
 
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<?> getRandomProductByCategory(@PathVariable Long categoryId) {
+    public ProductToCategory getRandomProductByCategory(@PathVariable Long categoryId) {
         ProductToCategory product = service.getProductsByCategoryId(categoryId);
 
-        if(product == null)
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        if (product == null) {
+            throw new NotFoundException("Aucun produit trouvé pour cette catégorie.");
+        }
+        return product;
     }
+
 
 
     @GetMapping("/related/{categoryId}")
-    public  ResponseEntity<?> getRelatedCategories(@PathVariable Long categoryId){
-        List<ProductToCategory> productToCategories =  service.getRelatedCategories(categoryId);
+    public List<ProductToCategory> getRelatedCategories(@PathVariable Long categoryId) {
+        List<ProductToCategory> productToCategories = service.getRelatedCategories(categoryId);
 
-        if (productToCategories.isEmpty())
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(productToCategories, HttpStatus.OK);
+        if (productToCategories.isEmpty()) {
+            throw new NotFoundException("Aucune catégorie associée trouvée pour cet identifiant.");
+        }
+        return productToCategories;
     }
+
 
 
     @PostMapping("/{productEan}")
-    public ResponseEntity<?> add(@PathVariable String productEan, @RequestBody CategoriesDto dto) {
+    public ProductToCategory add(@PathVariable String productEan, @RequestBody CategoriesDto dto) {
         return service.add(productEan, dto.getCategoriesIds());
     }
+
 }

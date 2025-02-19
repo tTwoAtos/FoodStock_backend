@@ -16,7 +16,7 @@ public interface ProductToCommunityService {
 
     Integer countAllByCommunityIdAndEmplacementId(String communityId, String emplacementId);
 
-    ResponseEntity<?> add(ProductToCommunity PtoC);
+    public ProductToCommunity add(ProductToCommunity PtoC);
 
     ProductToCommunity updateQuantity(String communityId, String productId, Long quantity);
 

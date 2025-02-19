@@ -1,6 +1,8 @@
 package org.myownstock.user.user;
 
+import org.aelion.exception.BadRequestException;
 import org.aelion.exception.ErrorResponse;
+import org.myownstock.user.user.dto.UserAddRequestDto;
 import org.myownstock.user.user.dto.UserGetRequestDto;
 import org.myownstock.user.user.dto.UserLoginRequestDto;
 import org.myownstock.user.user.dto.UserUpdateRequestDto;
@@ -26,7 +28,7 @@ public class UserController {
 
     // Ajouter un utilisateur
     @PostMapping
-    public User add(@RequestBody User user) throws Exception {
+    public User add(@RequestBody UserAddRequestDto user) throws Exception {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userService.addFromDto(user);
     }
@@ -55,13 +57,13 @@ public class UserController {
     @GetMapping("/{id}")
     public UserGetRequestDto get(@PathVariable Long id) {
             return userService.get(id);
-        }
     }
 
     //  Récupérer tous les utilisateurs
     @GetMapping
     public List<User> getAll() {
-        return userService.getAll();
+        throw  new BadRequestException("test");
+//        return userService.getAll();
     }
 
 
@@ -78,4 +80,5 @@ public class UserController {
 
         return new ResponseEntity<>("\"message\":\"Wrong logins !\"", HttpStatus.NOT_FOUND);
     }
+}
 

@@ -1,10 +1,10 @@
 package org.aelion.categories.categoryToCommunity.Impl;
 
-import org.aelion.categories.categories.Category;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunity;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityRepository;
 import org.aelion.categories.categoryToCommunity.CategoryToCommunityService;
 import org.aelion.categories.productToCategory.ProductToCategory;
+import org.aelion.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,25 +31,25 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
     }
 
     @Override
-    public ResponseEntity<?> getByCommunityIdAndCategoryId(String communityId, Long categoryId) {
-        Optional<CategoryToCommunity> optionalCategoryToCommunity= repository.findByCommunityIdAndCategoryId(communityId,categoryId);
-        if(optionalCategoryToCommunity.isPresent()) {
-            CategoryToCommunity categoryToCommunity = new CategoryToCommunity(
-                    optionalCategoryToCommunity.get().getId(),
-                    optionalCategoryToCommunity.get().getCommunityId(),
-                    optionalCategoryToCommunity.get().getCategoryId(),
-                    optionalCategoryToCommunity.get().getPreferenciesFactor()
-            );
+    public CategoryToCommunity getByCommunityIdAndCategoryId(String communityId, Long categoryId) {
+        Optional<CategoryToCommunity> optionalCategoryToCommunity = repository.findByCommunityIdAndCategoryId(communityId, categoryId);
 
-            return new ResponseEntity<>(categoryToCommunity, HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        if (optionalCategoryToCommunity.isPresent()) {
+            CategoryToCommunity categoryToCommunity = optionalCategoryToCommunity.get();
+            return new CategoryToCommunity(
+                    categoryToCommunity.getId(),
+                    categoryToCommunity.getCommunityId(),
+                    categoryToCommunity.getCategoryId(),
+                    categoryToCommunity.getPreferenciesFactor()
+            );
+        } else {
+            throw new NotFoundException("CategoryToCommunity not found with communityId: " + communityId + " and categoryId: " + categoryId);
         }
     }
 
+
     @Override
-    public ResponseEntity<?> UpdatePreferenciesFactors(String communityId , Long qte , List<ProductToCategory> categories) {
+    public void UpdatePreferenciesFactors(String communityId , Long qte , List<ProductToCategory> categories) {
 
         for(ProductToCategory category : categories){
             Long categoryId = category.getCategoryId();
@@ -64,7 +64,7 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
                         optionalCategoryToCommunity.get().getPreferenciesFactor()+qte
                         )
                 );
-            }else{
+            } else{
                 CategoryToCommunity ctoc = new CategoryToCommunity();
                 ctoc.setCategoryId(categoryId);
                 ctoc.setCommunityId(communityId);
@@ -72,12 +72,20 @@ public class CategoryToCommunityServiceImpl implements CategoryToCommunityServic
                 repository.save(ctoc);
             }
         }
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> add(CategoryToCommunity catToCom) {
-        //Use UpdatePreferencisFactors
-        return null;
+    public void add(CategoryToCommunity catToCom) {
+        updatePreferenciesFactors(catToCom);
+
+        repository.save(catToCom);
     }
+
+    private void updatePreferenciesFactors(CategoryToCommunity catToCom) {
+        if (catToCom.getPreferenciesFactor() == null) {
+            catToCom.setPreferenciesFactor(1L); //
+        }
+    }
+
 }

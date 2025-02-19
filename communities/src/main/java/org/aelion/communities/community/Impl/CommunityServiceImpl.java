@@ -5,14 +5,13 @@ import org.aelion.communities.community.CommunityRepository;
 import org.aelion.communities.community.CommunityService;
 import org.aelion.communities.community.dto.City;
 import org.aelion.communities.community.dto.CommunityResponse;
+import org.aelion.exception.BadRequestException;
+import org.aelion.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -28,25 +27,29 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public ResponseEntity<?> getById(String id) {
-        Optional<Community> optionalCommunity = repository.findById(id);
+    public CommunityResponse getById(String id) {
+        Community community = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Communauté non trouvée avec l'ID : " + id));
 
-        if (optionalCommunity.isPresent()) {
-            City city = restTemplate.getForObject(CITY_API + '/' + optionalCommunity.get().getCityCode(), City.class);
+        City city = restTemplate.getForObject(CITY_API + '/' + community.getCityCode(), City.class);
 
-            CommunityResponse cr = new CommunityResponse();
-            cr.setId(optionalCommunity.get().getId());
-            cr.setName(optionalCommunity.get().getName());
-            cr.setCity(city);
+        CommunityResponse cr = new CommunityResponse();
+        cr.setId(community.getId());
+        cr.setName(community.getName());
+        cr.setCity(city);
 
-            return new ResponseEntity<>(cr, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        return cr;
     }
+
 
     @Override
-    public ResponseEntity<?> createCommunity(Community community) {
-        return new ResponseEntity<Community>(repository.save(community), HttpStatus.CREATED);
+    public Community createCommunity(Community community) {
+        if (community == null || community.getName() == null || community.getName().trim().isEmpty()) {
+            throw new BadRequestException("Les informations de la communauté sont invalides.");
+        }
+
+        return repository.save(community);
     }
+
+
 }

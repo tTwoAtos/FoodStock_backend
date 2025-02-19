@@ -1,6 +1,7 @@
 package org.myownstock.user.user.Impl;
 
 import jakarta.transaction.Transactional;
+import org.aelion.exception.NotFoundException;
 import org.myownstock.user.dto.CommunityDto;
 import org.myownstock.user.roles.IRole;
 import org.myownstock.user.user.IUser;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User addFromDto(UserAddRequestDto user) throws Exception {
+    public User addFromDto(UserAddRequestDto user) {
         var role = roleRepo.findById(user.getRole_id());
 
         if (role.isPresent()) {
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
             return repository.save(newUser);
         }
 
-        throw new Exception("Role with : " + user.getRole_id() + "was not found");
+        throw new NotFoundException("Role with : " + user.getRole_id() + "was not found");
     }
 
     @Override
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
             return repository.save(newUser);
         }
 
-        throw new Exception("User was not found");
+        throw new NotFoundException("User was not found");
     }
 
     @Override

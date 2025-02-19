@@ -1,13 +1,13 @@
 package org.aelion.communities.community;
 
-import org.springframework.http.ResponseEntity;
+import org.aelion.communities.community.dto.CommunityResponse;
 
 import java.util.List;
 
 public interface CommunityService {
     List<Community> getAll();
 
-    ResponseEntity<?> getById(String id);
+    CommunityResponse getById(String id);
 
-    ResponseEntity<?> createCommunity(Community community);
+    Community createCommunity(Community community);
 }

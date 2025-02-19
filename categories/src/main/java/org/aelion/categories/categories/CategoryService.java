@@ -1,13 +1,11 @@
 package org.aelion.categories.categories;
 
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 
 public interface CategoryService {
     List<Category> getAll();
 
-    ResponseEntity<?> getById(String code);
+    Category getById(String code);
 
-    ResponseEntity<?> add(List<String> categories, String productCode);
+    void add(List<String> categories, String productCode);
 }

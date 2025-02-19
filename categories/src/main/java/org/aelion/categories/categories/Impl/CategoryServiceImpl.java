@@ -4,8 +4,8 @@ import org.aelion.categories.categories.Category;
 import org.aelion.categories.categories.CategoryRepository;
 import org.aelion.categories.categories.CategoryService;
 import org.aelion.categories.productToCategory.Impl.ProductToCategoryServiceImpl;
+import org.aelion.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,38 +31,34 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<?> getById(String code) {
-        Optional<Category> cat = repository.findById(code);
-
-        if(cat.isPresent())
-            return new ResponseEntity<>(cat, HttpStatus.OK);
-        return new ResponseEntity<>("Not Foud", HttpStatus.NOT_FOUND);
+    public Category getById(String code) {
+        return repository.findById(code).orElseThrow(() -> new NotFoundException("Category not found"));
     }
 
+
     @Override
-    public ResponseEntity<?> add(List<String> categories, String productCode) {
+    public void add(List<String> categories, String productCode) {
         List<Category> tmpCategories = new ArrayList<>();
 
-        for (String cat : categories){
-            Category tmpCat = new Category();
-            tmpCat.setName(cat);
-
+        for (String cat : categories) {
             Optional<Category> existingCat = repository.findByName(cat);
-            if (existingCat.isPresent())
-                tmpCat.setId(existingCat.get().getId());
+            Category tmpCat = existingCat.orElseGet(() -> {
+                Category newCat = new Category();
+                newCat.setName(cat);
+                return newCat;
+            });
 
             tmpCategories.add(tmpCat);
         }
 
-        List<Category> resp = repository.saveAll(tmpCategories);
+        List<Category> savedCategories = repository.saveAll(tmpCategories);
+        List<Long> categoriesIds = savedCategories.stream().map(Category::getId).toList();
 
-        List<Long> categoriesIds = resp.stream().map((item) -> item.getId()).toList();
+        productToCategoryService.add(productCode, categoriesIds);
 
-        ResponseEntity<?> res = productToCategoryService.add(productCode, categoriesIds);
-
-        if (resp.isEmpty() || !res.hasBody())
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(resp, HttpStatus.OK);
+        if (savedCategories.isEmpty()) {
+            throw new NotFoundException("Categories not found or could not be saved.");
+        }
     }
+
 }
