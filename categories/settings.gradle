@@ -1,1 +1,2 @@
 rootProject.name = 'categories'
+includeBuild('../global_errors')

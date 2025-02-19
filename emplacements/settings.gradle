@@ -1,1 +1,2 @@
 rootProject.name = 'emplacements'
+includeBuild('../global_errors')

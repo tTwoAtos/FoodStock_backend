@@ -1,1 +1,2 @@
 rootProject.name = 'cities'
+includeBuild('../global_errors')
