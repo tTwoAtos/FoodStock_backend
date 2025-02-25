@@ -13,13 +13,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  openfoodfacts:
-    image: mongo
-    container_name: openfoodfacts
-    restart: always
-    ports:
-      - "27017:27017"
-
   service-registry:
     build:
       context: ./service-registry
