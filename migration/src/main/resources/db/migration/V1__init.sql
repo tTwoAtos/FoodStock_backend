@@ -13,6 +13,13 @@ CREATE TABLE category_to_community (
   preferencies_factor BIGINT NOT NULL
 );
 
+DROP TABLE IF EXISTS communities;
+CREATE TABLE communities (
+  community_id BIGINT NOT NULL,
+  name VARCHAR(75),
+  insee_code VARCHAR(255) PRIMARY KEY
+);
+
 DROP TABLE IF EXISTS city;
 CREATE TABLE city (
   insee_code VARCHAR(255) PRIMARY KEY,
