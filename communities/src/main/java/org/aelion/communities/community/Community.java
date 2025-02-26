@@ -8,8 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "communities")
-@Getter @Setter
+@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Community {
