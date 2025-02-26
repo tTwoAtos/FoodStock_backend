@@ -13,6 +13,10 @@ java {
 
 repositories {
     mavenCentral()
+
+    flatDir {
+        dirs "../global_errors"
+    }
 }
 
 dependencies {
