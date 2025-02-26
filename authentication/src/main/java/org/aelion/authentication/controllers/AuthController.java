@@ -1,6 +1,5 @@
 package org.aelion.authentication.controllers;
 
-import org.aelion.authentication.dto.UserDto;
 import org.aelion.authentication.entity.AuthUserEntity;
 import org.aelion.authentication.exception.AuthException;
 import org.aelion.authentication.requests.LoginRequest;
@@ -9,7 +8,6 @@ import org.aelion.authentication.requests.PasswordResetRequest;
 import org.aelion.authentication.requests.RegisterRequest;
 import org.aelion.authentication.responses.TokenResponse;
 import org.aelion.authentication.services.AuthService;
-import org.aelion.authentication.services.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    // Exception pour les erreurs de validation (ex: @Valid)
+    // Exception pour les erreurs de validation
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(BadRequestException ex) {
         ErrorResponse response = new ErrorResponse(
@@ -41,6 +41,15 @@ public class GlobalExceptionHandler {
                 ex.getMessage()
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ErrorResponse> handleAuthException(AuthException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED,
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }
 
