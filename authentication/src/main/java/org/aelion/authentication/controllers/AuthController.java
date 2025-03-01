@@ -1,7 +1,7 @@
 package org.aelion.authentication.controllers;
 
 import org.aelion.authentication.entity.AuthUserEntity;
-import org.aelion.authentication.exception.AuthException;
+import org.aelion.exception.AuthException;
 import org.aelion.authentication.requests.LoginRequest;
 import org.aelion.authentication.requests.PasswordForgotRequest;
 import org.aelion.authentication.requests.PasswordResetRequest;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+
 
 @RestController
 @RequestMapping(value = "api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
