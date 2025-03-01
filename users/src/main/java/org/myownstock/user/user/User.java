@@ -3,7 +3,9 @@ package org.myownstock.user.user;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.myownstock.user.roles.Role;
 
 import java.time.LocalDate;
@@ -37,8 +39,14 @@ public class User {
 
     @Column
     private String loggedInCommunityId;
-
+    
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @CreationTimestamp
+    private LocalDate createdAt;
+
+    @UpdateTimestamp
+    private LocalDate updatedAt;
 }

@@ -1,32 +1,23 @@
 package org.aelion.authentication.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aelion.authentication.dto.RoleDto;
-import org.aelion.authentication.repository.RoleRepository;
 import org.aelion.authentication.requests.RegisterRequest;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "user")
 @DynamicUpdate
+@NoArgsConstructor
 public class AuthUserEntity {
-    public AuthUserEntity(){}
-
-    public AuthUserEntity(RegisterRequest registerRequest) {
-        this.lastname = registerRequest.getLastname();
-        this.firstname = registerRequest.getFirstname();
-        this.email = registerRequest.getEmail();
-        this.gender = registerRequest.getGender();
-        this.password = registerRequest.getPassword();
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,4 +46,18 @@ public class AuthUserEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
+
+    @CreationTimestamp
+    private LocalDate createdAt;
+
+    @UpdateTimestamp
+    private LocalDate updatedAt;
+
+    public AuthUserEntity(RegisterRequest registerRequest) {
+        this.lastname = registerRequest.getLastname();
+        this.firstname = registerRequest.getFirstname();
+        this.email = registerRequest.getEmail();
+        this.gender = registerRequest.getGender();
+        this.password = registerRequest.getPassword();
+    }
 }
