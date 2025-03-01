@@ -17,12 +17,7 @@ import org.springframework.web.client.RestTemplate;
 )
 public class CategoriesApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CategoriesApplication.class, args);
-	}
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CategoriesApplication.class, args);
+    }
 }

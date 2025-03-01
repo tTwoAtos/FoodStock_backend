@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Community {
-    private String id;
+    private Integer id;
 
     private String name;
 

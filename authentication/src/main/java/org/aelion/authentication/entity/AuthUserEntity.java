@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @DynamicUpdate
 @NoArgsConstructor
 public class AuthUserEntity {
@@ -41,7 +41,7 @@ public class AuthUserEntity {
     private Integer gender;
 
     @Column
-    private String loggedInCommunityId;
+    private Integer loggedInCommunityId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)

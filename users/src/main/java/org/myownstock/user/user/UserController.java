@@ -1,23 +1,16 @@
 package org.myownstock.user.user;
 
 import org.aelion.exception.BadRequestException;
-import org.aelion.exception.ErrorResponse;
-import org.myownstock.user.user.dto.UserAddRequestDto;
-import org.myownstock.user.user.dto.UserGetRequestDto;
-import org.myownstock.user.user.dto.UserLoginRequestDto;
-import org.myownstock.user.user.dto.UserUpdateRequestDto;
+import org.myownstock.user.user.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-import static javax.swing.UIManager.get;
 
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,6 +33,11 @@ public class UserController {
         return userService.updateFromDto(id, user);
     }
 
+    @PutMapping("/community/login")
+    public boolean communityLogin(@PathVariable Long id, @RequestBody UserUpdateLoggedInCommunityRequestDto request) throws Exception {
+        return userService.communityLogin(request);
+    }
+
     // Récupérer un utilisateur par email
     @GetMapping("/{email}/email")
     public User getByEmail(@PathVariable String email) {
@@ -56,13 +54,13 @@ public class UserController {
     // Récupérer un utilisateur par ID
     @GetMapping("/{id}")
     public UserGetRequestDto get(@PathVariable Long id) {
-            return userService.get(id);
+        return userService.get(id);
     }
 
     //  Récupérer tous les utilisateurs
     @GetMapping
     public List<User> getAll() {
-        throw  new BadRequestException("test");
+        throw new BadRequestException("test");
 //        return userService.getAll();
     }
 

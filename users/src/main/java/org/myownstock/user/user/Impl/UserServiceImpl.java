@@ -9,8 +9,10 @@ import org.myownstock.user.user.User;
 import org.myownstock.user.user.UserService;
 import org.myownstock.user.user.dto.UserAddRequestDto;
 import org.myownstock.user.user.dto.UserGetRequestDto;
+import org.myownstock.user.user.dto.UserUpdateLoggedInCommunityRequestDto;
 import org.myownstock.user.user.dto.UserUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -123,5 +125,13 @@ public class UserServiceImpl implements UserService {
         return repository.save(user);
     }
 
+    @Override
+    public boolean communityLogin(UserUpdateLoggedInCommunityRequestDto request) {
+        User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        User user = repository.findById(authUser.getId()).orElseThrow();
+        user.setLoggedInCommunityId(request.getLoggedInCommunityId());
+
+        return repository.save(user).getId() != null;
+    }
 }

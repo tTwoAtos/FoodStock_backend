@@ -20,12 +20,12 @@ public class CommunityController {
 
 
     @GetMapping("/{id}")
-    public CommunityResponse getById(@PathVariable String id) {
+    public CommunityResponse getById(@PathVariable Integer id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public Community createCommunity(@RequestBody Community community) {
+    public Community add(@RequestBody Community community) {
         return service.createCommunity(community);
     }
 }

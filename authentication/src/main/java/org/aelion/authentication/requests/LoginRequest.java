@@ -1,5 +1,8 @@
 package org.aelion.authentication.requests;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class LoginRequest {
     protected String email;
     protected String password;
