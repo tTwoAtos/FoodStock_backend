@@ -4,7 +4,6 @@ import org.aelion.Products.products.Product;
 import org.aelion.Products.products.ProductRepository;
 import org.aelion.Products.products.ProductService;
 import org.aelion.exception.NotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,9 +52,7 @@ public class ProductServiceImpl implements ProductService {
                     optionalProduct.get().getThumbnail()
             );
             return repository.save(product);
-        }
-
-        else {
+        } else {
             Product product = getFromOpenFoodFact(code);
 
             if (product != null) {
@@ -80,7 +78,8 @@ public class ProductServiceImpl implements ProductService {
                 foodFactApi + '/' + code,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<Map<String, Object>>() {});
+                new ParameterizedTypeReference<Map<String, Object>>() {
+                });
 
         if (!response.hasBody()) {
             return null;
@@ -93,10 +92,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
         String thumbnail = (String) ((Map<String, Object>) body.get("product")).get("image_thumb_url");
-        List<String> categories = (List<String>) ((Map<List<String>, Object>) body.get("product")).get("categories_tags");
 
-
-        categories.replaceAll(k -> k.split(":")[1]);
+        List<String> categories = getProductFamilies(body);
 
         Product product = new Product(
                 code,
@@ -110,5 +107,35 @@ public class ProductServiceImpl implements ProductService {
 
         restTemplate.postForObject("http://CATEGORY-SERVICE/api/v1/categories/" + product.getEANCode(), categories, List.class);
         return product;
+    }
+
+    private List<String> getProductFamilies(Map<String, Object> product) {
+        // Tableau des familles
+        Map<String, List<String>> FAMILIES = Map.of(
+                "Drinks", List.of("en:beverages"),
+                "Fruits_And_Vegetables", List.of("en:fruits", "en:vegetables", "en:legumes", "en:seeds", "en:berries"),
+                "Starches", List.of("en:cereals-and-potatoes"),
+                "Meat_Fish_Egg", List.of("en:meats", "en:eggs", "en:seafood", "en:fishes"),
+                "Dairy_Products", List.of("en:dairies", "en:milks"),
+                "Sugary_Products", List.of("en:sweet-snacks", "en:sugars", "en:sweeteners"),
+                "Condiments", List.of("en:condiments", "en:fats")
+        );
+
+        List<String> categoriesHierarchy = (List<String>) ((Map<String, Object>) product.get("product")).get("categories_hierarchy");
+
+        if (categoriesHierarchy == null || categoriesHierarchy.isEmpty()) {
+            return null;
+        }
+
+        List<String> productFamilies = new ArrayList<>();
+        for (String category : categoriesHierarchy) {
+            for (Map.Entry<String, List<String>> entry : FAMILIES.entrySet()) {
+                if (entry.getValue().contains(category)) {
+                    productFamilies.add(entry.getKey());
+                }
+            }
+        }
+
+        return productFamilies;
     }
 }

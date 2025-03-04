@@ -1,4 +1,4 @@
-package org.aelion.productToCommunity.productToCommunity.dto;
+package org.aelion.migration.dto;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,19 +8,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "category_to_community")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Emplacement {
+public class CategoryToCommunityDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String communityId;
+    private Integer communityId;
 
     @Column(nullable = false)
-    private String name;
+    private Long categoryId;
 
+    @Column(nullable = false)
+    private Long preferenciesFactor;
 }
+

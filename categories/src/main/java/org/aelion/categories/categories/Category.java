@@ -17,7 +17,7 @@ import java.io.Serializable;
 @SQLInsert(sql = "INSERT IGNORE INTO category(name,id) VALUES (?,?)")
 public class Category implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 255, nullable = false, unique = true)

@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import org.aelion.exception.NotFoundException;
 import org.myownstock.user.dto.CommunityDto;
 import org.myownstock.user.roles.IRole;
-import org.myownstock.user.user.IUser;
 import org.myownstock.user.user.User;
+import org.myownstock.user.user.UserRepository;
 import org.myownstock.user.user.UserService;
 import org.myownstock.user.user.dto.UserAddRequestDto;
 import org.myownstock.user.user.dto.UserGetRequestDto;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RestTemplate restTemplate;
     @Autowired
-    private IUser repository;
+    private UserRepository repository;
     @Autowired
     private IRole roleRepo;
 
