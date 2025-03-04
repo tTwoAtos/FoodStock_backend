@@ -2,6 +2,7 @@ package org.aelion.authentication.services;
 
 import jakarta.ws.rs.NotFoundException;
 import org.aelion.authentication.dto.CommunityDto;
+import org.aelion.authentication.dto.InvitationDto;
 import org.aelion.authentication.entity.AuthUserEntity;
 import org.aelion.authentication.entity.RoleEntity;
 
@@ -11,6 +12,8 @@ import org.aelion.authentication.repository.RoleRepository;
 import org.aelion.authentication.requests.LoginRequest;
 import org.aelion.authentication.requests.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -67,23 +70,37 @@ public class AuthService {
 
         if (existingUser.isPresent()) throw new AuthException("Username or email already exist");
 
+        String password = user.getPassword();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Default Role
         setRoleBySlug(user, "ROLE_USER");
 
+        authUserRepository.save(user);
+        String token = login(new LoginRequest(user.getEmail(), password)).get("access_token").toString();
+
         // Connect the user to the community it's invited in
         if (registerRequest.getInvitation_code() != null) {
             // get community by invitation
-            CommunityDto community = restTemplate.getForObject(COMMUNITY_API + "/invitation/" + registerRequest.getInvitation_code(), CommunityDto.class);
+            InvitationDto invitation = restTemplate.getForObject(COMMUNITY_API + "/invitations/" + registerRequest.getInvitation_code() + "/user/" + user.getEmail(), InvitationDto.class);
 
-            if (community == null) throw new NotFoundException();
+            if (invitation == null) throw new NotFoundException();
 
-            user.setLoggedInCommunityId(community.getId());
+            user.setLoggedInCommunityId(invitation.getCommunity().getId());
+        } else {
+            CommunityDto newCommunity = new CommunityDto();
+            newCommunity.setName("Communauté de " + user.getFirstname());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + token);
+
+            HttpEntity<CommunityDto> request = new HttpEntity<>(newCommunity, headers);
+            CommunityDto communityDto = restTemplate.postForObject(COMMUNITY_API, request, CommunityDto.class);
+
+            user.setLoggedInCommunityId(communityDto.getId());
         }
 
         authUserRepository.save(user);
-
         return user;
     }
 

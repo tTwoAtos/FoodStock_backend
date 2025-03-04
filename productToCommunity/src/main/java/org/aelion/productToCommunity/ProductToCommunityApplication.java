@@ -20,10 +20,4 @@ public class ProductToCommunityApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProductToCommunityApplication.class, args);
     }
-
-    @Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 }

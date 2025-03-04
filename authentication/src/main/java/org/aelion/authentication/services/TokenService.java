@@ -30,6 +30,7 @@ public class TokenService {
                 .claim("role", auth.getAuthorities().toString())
                 .claim("firstname", user.getFirstname())
                 .claim("lastname", user.getLastname())
+                .claim("logged_in_community_id", user.getLoggedInCommunityId())
                 .claim("user_id", user.getId());
 
         if (user.getLoggedInCommunityId() != null) {

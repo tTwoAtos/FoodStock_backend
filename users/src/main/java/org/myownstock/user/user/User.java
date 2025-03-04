@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "users")
 @DynamicUpdate
 public class User {
     @Id
@@ -39,7 +39,7 @@ public class User {
 
     @Column
     private String loggedInCommunityId;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
     private Role role;

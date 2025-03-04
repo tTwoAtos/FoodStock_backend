@@ -19,7 +19,6 @@ public class UserToCommunityController {
         return userToCommunityService.add(userToCommunity);
     }
 
-
     @PutMapping
     public UserToCommunity update(@RequestBody UserToCommunity userToCommunity) {
         return userToCommunityService.update(userToCommunity);

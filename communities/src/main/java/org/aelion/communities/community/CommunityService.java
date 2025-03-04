@@ -7,7 +7,7 @@ import java.util.List;
 public interface CommunityService {
     List<Community> getAll();
 
-    CommunityResponse getById(String id);
+    CommunityResponse getById(Integer id);
 
     Community createCommunity(Community community);
 }

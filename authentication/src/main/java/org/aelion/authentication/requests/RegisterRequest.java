@@ -3,7 +3,7 @@ package org.aelion.authentication.requests;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -13,7 +13,7 @@ public class RegisterRequest {
     private Integer gender;
     private String email;
     private String password;
-    private String invitation_code;
+    private Optional<String> invitation_code;
 
     @Override
     public String toString() {
@@ -23,6 +23,7 @@ public class RegisterRequest {
                 ", gender=" + gender +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", invitation_code='" + invitation_code + '\'' +
                 '}';
     }
 }

@@ -27,7 +27,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public CommunityResponse getById(String id) {
+    public CommunityResponse getById(Integer id) {
         Community community = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Communauté non trouvée avec l'ID : " + id));
 

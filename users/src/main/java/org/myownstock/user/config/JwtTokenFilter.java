@@ -46,8 +46,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         } catch (KeyStoreException e) {
             throw new RuntimeException(e);
         }
-        try(InputStream keyStoreStream = getClass().getClassLoader().getResourceAsStream(keyStorePath)){
-            if (keyStoreStream == null){
+        try (InputStream keyStoreStream = getClass().getClassLoader().getResourceAsStream(keyStorePath)) {
+            if (keyStoreStream == null) {
                 throw new RuntimeException("Keystore file not found");
             }
             keyStore.load(keyStoreStream, keyStorePassword.toCharArray());
@@ -73,12 +73,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 List<GrantedAuthority> authorities = roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
                 Long userId = claims.get("user_id", Long.class);
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null, authorities);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, token, authorities);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-            } catch (Exception e) {
+            } catch (IOException | CertificateException | NoSuchAlgorithmException | KeyStoreException e) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
                 throw new RuntimeException(e);
             }
