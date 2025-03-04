@@ -2,13 +2,9 @@ package org.aelion.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -43,13 +39,5 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ErrorResponse> handleAuthException(AuthException ex) {
-        ErrorResponse response = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED,
-                ex.getMessage()
-        );
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-    }
 }
 
