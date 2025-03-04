@@ -6,7 +6,7 @@ import org.aelion.authentication.entity.AuthUserEntity;
 import org.aelion.authentication.entity.RoleEntity;
 
 import org.aelion.authentication.repository.AuthUserRepository;
-import org.aelion.exception.AuthException;
+import org.aelion.authentication.exception.AuthException;
 import org.aelion.authentication.repository.RoleRepository;
 import org.aelion.authentication.requests.LoginRequest;
 import org.aelion.authentication.requests.RegisterRequest;
