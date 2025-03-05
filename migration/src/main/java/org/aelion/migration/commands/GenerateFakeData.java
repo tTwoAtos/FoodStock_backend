@@ -5,6 +5,7 @@ import org.aelion.migration.factories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,10 +30,12 @@ public class GenerateFakeData {
     private ProductToCommunityRepositoryDto pTocRepository;
     @Autowired
     private EmplacementRepositoryDto emplacementRepository;
+    @Autowired
+    private ProductToCategoryRepositoryDto pToCatRepository;
 
     @ShellMethod(key = "generate-data", value = "Génère des données fictives et les enregistre en base de données.")
     @Transactional
-    public void generateData() {
+    public void generateData(@ShellOption(defaultValue = "") String group) {
         // Cities
         List<CityDto> cities = CityFactory.generate();
         cityRepository.saveAll(cities);
@@ -80,10 +83,15 @@ public class GenerateFakeData {
         emplacementRepository.saveAll(emplacements);
         System.out.println("Generated " + emplacements.size() + " emplacements");
 
-        // Emplacements
+        // Product To Community
         List<ProductToCommunityDto> pToC = ProductToCommunityFactory.generate(2000, products, communities, emplacements);
         pTocRepository.saveAll(pToC);
         System.out.println("Generated " + pToC.size() + " product to community");
+
+        // Product To Category
+        List<ProductToCategoryDto> pToCat = ProductToCategoryFactory.generate(1500, products, categories);
+        pToCatRepository.saveAll(pToCat);
+        System.out.println("Generated " + pToCat.size() + " product to category");
 
         // Category to community
         List<CategoryToCommunityDto> cToCs = CategoryToCommunityFactory.generate(150, categories, communities);
