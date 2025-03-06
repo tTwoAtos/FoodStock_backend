@@ -14,11 +14,11 @@ import lombok.Setter;
 public class Emplacement {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String communityId;
+    private Integer communityId;
 
     @Column(nullable = false)
     private String name;

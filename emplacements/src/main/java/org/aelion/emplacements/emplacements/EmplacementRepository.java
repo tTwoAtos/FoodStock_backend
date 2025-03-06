@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface EmplacementRepository extends JpaRepository<Emplacement, Long> {
-    List<Emplacement> findAllByCommunityId(String communityId);
+    List<Emplacement> findAllByCommunityId(Integer communityId);
 
     void deleteById(Long id);
 

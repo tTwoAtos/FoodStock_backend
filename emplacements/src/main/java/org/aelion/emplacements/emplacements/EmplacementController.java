@@ -15,7 +15,7 @@ public class EmplacementController {
     private EmplacementService service;
 
     @GetMapping("/community/{communityId}")
-    public List<Emplacement> getAllByCommunity(@PathVariable String communityId) {
+    public List<Emplacement> getAllByCommunity(@PathVariable Integer communityId) {
         return service.getAllByCommunityId(communityId);
     }
 

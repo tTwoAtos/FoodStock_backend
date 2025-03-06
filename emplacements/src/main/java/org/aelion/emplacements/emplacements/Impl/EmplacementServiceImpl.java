@@ -20,7 +20,7 @@ public class EmplacementServiceImpl implements EmplacementService {
     private EmplacementRepository repository;
 
     @Override
-    public List<Emplacement> getAllByCommunityId(String communityId) {
+    public List<Emplacement> getAllByCommunityId(Integer communityId) {
 
         return repository.findAllByCommunityId(communityId);
     }
@@ -44,7 +44,7 @@ public class EmplacementServiceImpl implements EmplacementService {
 
 
     @Override
-    public void add(String communityId, String name) {
+    public void add(Integer communityId, String name) {
         if (communityId == null || name == null || name.isEmpty()) {
             throw new BadRequestException("Le communityId ou le nom ne peuvent pas être vides.");
         }
