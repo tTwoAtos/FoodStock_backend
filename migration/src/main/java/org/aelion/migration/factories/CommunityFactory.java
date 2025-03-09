@@ -14,7 +14,7 @@ public class CommunityFactory {
 
         for (int i = 0; i < number; i++) {
             CommunityDto community = new CommunityDto();
-            community.setName(faker.name().fullName().split(" ")[0]);
+            community.setName("Communauté de " + faker.name().fullName().split(" ")[0]);
             community.setCityCode(cities.get(faker.random().nextInt(0, cities.size() - 1)).getInseeCode());
 
             result.add(community);
