@@ -6,9 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommunityDto {
-    private Integer id;
+    private Long id;
 
     private String name;
 
     private String cityCode;
+
+    private Long nbUsers;
 }

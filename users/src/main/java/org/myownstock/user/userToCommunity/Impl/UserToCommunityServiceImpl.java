@@ -48,6 +48,7 @@ public class UserToCommunityServiceImpl implements UserToCommunityService {
 
         for (UserToCommunity uToC : uToCs) {
             CommunityDto community = restTemplate.getForObject(COMMUNITY_API + '/' + uToC.getCommunityId(), CommunityDto.class);
+            community.setNbUsers(repository.countUsers(String.valueOf(community.getId())));
             res.add(community);
         }
 
