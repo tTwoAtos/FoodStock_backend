@@ -5,10 +5,11 @@ import org.aelion.authentication.dto.CommunityDto;
 import org.aelion.authentication.dto.InvitationDto;
 import org.aelion.authentication.entity.AuthUserEntity;
 import org.aelion.authentication.entity.RoleEntity;
-
-import org.aelion.authentication.repository.AuthUserRepository;
+import org.aelion.authentication.entity.UserToCommunity;
 import org.aelion.authentication.exception.AuthException;
+import org.aelion.authentication.repository.AuthUserRepository;
 import org.aelion.authentication.repository.RoleRepository;
+import org.aelion.authentication.repository.UserToCommunityRepository;
 import org.aelion.authentication.requests.LoginRequest;
 import org.aelion.authentication.requests.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class AuthService {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
+    private UserToCommunityRepository utocRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -43,6 +46,7 @@ public class AuthService {
     @Autowired
     private RestTemplate restTemplate;
     private String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
+    private String USER_TO_COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/users/communities";
 
     @Transactional
     public Map<String, Object> login(LoginRequest loginRequest) throws AuthException {
@@ -87,6 +91,8 @@ public class AuthService {
             if (invitation == null) throw new NotFoundException();
 
             user.setLoggedInCommunityId(invitation.getCommunity().getId());
+            UserToCommunity utoc = new UserToCommunity(invitation.getCommunity().getId(), user);
+            utocRepository.save(utoc);
         } else {
             CommunityDto newCommunity = new CommunityDto();
             newCommunity.setName("Communauté de " + user.getFirstname());
@@ -98,6 +104,8 @@ public class AuthService {
             CommunityDto communityDto = restTemplate.postForObject(COMMUNITY_API, request, CommunityDto.class);
 
             user.setLoggedInCommunityId(communityDto.getId());
+            UserToCommunity utoc = new UserToCommunity(communityDto.getId(), user);
+            utocRepository.save(utoc);
         }
 
         authUserRepository.save(user);
