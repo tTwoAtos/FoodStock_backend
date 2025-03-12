@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public interface UserToCommunityRepository extends JpaRepository<UserToCommunity, Long> {
 
-    List<UserToCommunity> findAllByCommunityId(String communityId);
+    List<UserToCommunity> findAllByCommunityId(Long communityId);
 
     @Query(name = "SELECT * FROM user JOIN user_to_community as utoc ON utoc.user_id = user.id WHERE user.id = ?1", nativeQuery = true)
     List<UserToCommunity> getAllByUserId(Long usersId);
 
     @Query(value = "SELECT count(*) FROM user_to_community as utoc WHERE utoc.community_id = ?1", nativeQuery = true)
-    Long countUsers(String communityId);
+    Long countUsers(Long communityId);
 }

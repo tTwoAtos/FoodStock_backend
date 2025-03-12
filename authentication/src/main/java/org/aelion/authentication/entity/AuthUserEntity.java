@@ -41,7 +41,7 @@ public class AuthUserEntity {
     private Integer gender;
 
     @Column
-    private Integer loggedInCommunityId;
+    private Long loggedInCommunityId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)

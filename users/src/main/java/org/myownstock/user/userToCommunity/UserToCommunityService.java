@@ -8,19 +8,21 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserToCommunityService extends Service<UserToCommunity> {
-    /**w
+    /**
+     * w
+     *
      * @param userToCom userToComunity
      * @return UserToCommunity
      */
     public UserToCommunity add(UserToCommunity userToCom);
 
     /**
-     *
      * @return UserToCommunity[]
      */
     public List<UserToCommunity> getAll();
 
-    public List<User> getAllByCommunity(String communityId);
+    public List<User> getAllByCommunity(Long communityId);
+
     public List<CommunityDto> getAllByUser(Long userId);
 
     public Optional<UserToCommunity> get(Long uToCId);

@@ -36,8 +36,8 @@ public class ProductToCommunityController {
 
     // Récupérer les produits d'une communauté
     @GetMapping("/{communityId}")
-    public Iterable<ProductResponseDto> getAllByCommunity(@PathVariable Integer communityId) {
-        Iterable<ProductResponseDto> products = service.getAllByCommunityId(communityId);
+    public List<ProductResponseDto> getAllByCommunity(@PathVariable Integer communityId) {
+        List<ProductResponseDto> products = service.getAllByCommunityId(communityId);
         if (products == null) {
             throw new NotFoundException("Communauté non trouvée avec l'ID " + communityId);
         }
@@ -47,8 +47,8 @@ public class ProductToCommunityController {
 
     // Récupérer les produits d'une communauté et d'un emplacement donné
     @GetMapping("/{communityId}/{emplacementId}")
-    public Iterable<ProductResponseDto> getAllByCommunityByEmplacement(@PathVariable Integer communityId, @PathVariable Integer emplacementId) {
-        Iterable<ProductResponseDto> products = service.getAllByCommunityIdAndEmplacementId(communityId, emplacementId);
+    public List<ProductResponseDto> getAllByCommunityByEmplacement(@PathVariable Integer communityId, @PathVariable Integer emplacementId) {
+        List<ProductResponseDto> products = service.getAllByCommunityIdAndEmplacementId(communityId, emplacementId);
         if (products == null) {
             throw new NotFoundException("Aucun produit trouvé pour la communauté " + communityId + " et l'emplacement " + emplacementId);
         }
@@ -81,7 +81,7 @@ public class ProductToCommunityController {
     @Transactional
     @PutMapping("/{communityId}/{productId}")
     public ProductToCommunity updateQuantity(@PathVariable Integer communityId, @PathVariable String productId, @RequestBody QuantityDto QDto) {
-        if (QDto.getQte() <= 0) {
+        if (QDto.getQte() < 0) {
             throw new BadRequestException("La quantité doit être supérieure à 0.");
         }
         return service.updateQuantity(communityId, productId, QDto.getQte());

@@ -35,7 +35,7 @@ public class UserToCommunityServiceImpl implements UserToCommunityService {
     }
 
     @Override
-    public List<User> getAllByCommunity(String communityId) {
+    public List<User> getAllByCommunity(Long communityId) {
         List<UserToCommunity> uToCs = repository.findAllByCommunityId(communityId);
 
         return uToCs.stream().map((uToC) -> uToC.getUser()).toList();
@@ -48,7 +48,7 @@ public class UserToCommunityServiceImpl implements UserToCommunityService {
 
         for (UserToCommunity uToC : uToCs) {
             CommunityDto community = restTemplate.getForObject(COMMUNITY_API + '/' + uToC.getCommunityId(), CommunityDto.class);
-            community.setNbUsers(repository.countUsers(String.valueOf(community.getId())));
+            community.setNbUsers(repository.countUsers(community.getId()));
             res.add(community);
         }
 

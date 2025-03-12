@@ -21,6 +21,7 @@ public class UserFactory {
             UserEntityDto user = new UserEntityDto();
             user.setFirstname(faker.name().fullName().split(" ")[0]);
             user.setLastname(faker.name().fullName().split(" ")[1]);
+            user.setPassword("$2a$10$2V/T0mXhpBKwV7NKNGLZd.MB9AIEuDktn5uXlMrgpC0qr4GUO0e5C"); // Correspond to Test23@@
             user.setEmail(faker.internet().emailAddress());
             user.setRole(roleUser);
             user.setGender(faker.random().nextInt(0, 1));

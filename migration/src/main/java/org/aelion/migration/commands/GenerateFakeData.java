@@ -52,7 +52,7 @@ public class GenerateFakeData {
         System.out.println("Generated " + communities.size() + " community");
 
         // Users
-        List<UserEntityDto> users = UserFactory.generate(400, communities);
+        List<UserEntityDto> users = UserFactory.generate(250, communities);
         System.out.println("Generated " + users.size() + " users");
 
         // User to community
@@ -84,7 +84,7 @@ public class GenerateFakeData {
         System.out.println("Generated " + emplacements.size() + " emplacements");
 
         // Product To Community
-        List<ProductToCommunityDto> pToC = ProductToCommunityFactory.generate(2000, products, communities, emplacements);
+        List<ProductToCommunityDto> pToC = ProductToCommunityFactory.generate(4000, products, communities, emplacements);
         pTocRepository.saveAll(pToC);
         System.out.println("Generated " + pToC.size() + " product to community");
 

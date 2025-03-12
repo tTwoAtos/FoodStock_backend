@@ -15,14 +15,14 @@ public class UserToCommunity {
     private Long id;
 
     @Column
-    private String communityId;
+    private Long communityId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AuthUserEntity user;
 
-    public UserToCommunity(Integer communityId, AuthUserEntity user) {
-        this.communityId = String.valueOf(communityId);
+    public UserToCommunity(Long communityId, AuthUserEntity user) {
+        this.communityId = communityId;
         this.user = user;
     }
 }

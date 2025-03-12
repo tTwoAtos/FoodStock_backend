@@ -30,7 +30,7 @@ public class UserToCommunityController {
     }
 
     @GetMapping("/{communityId}")
-    public List<User> getAllByCommunity(@PathVariable String communityId) {
+    public List<User> getAllByCommunity(@PathVariable Long communityId) {
         return userToCommunityService.getAllByCommunity(communityId);
     }
 

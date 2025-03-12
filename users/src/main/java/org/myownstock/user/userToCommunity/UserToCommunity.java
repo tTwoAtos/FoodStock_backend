@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.myownstock.user.user.User;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 public class UserToCommunity {
     @Id
@@ -13,7 +14,7 @@ public class UserToCommunity {
     private Long id;
 
     @Column
-    private String communityId;
+    private Long communityId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

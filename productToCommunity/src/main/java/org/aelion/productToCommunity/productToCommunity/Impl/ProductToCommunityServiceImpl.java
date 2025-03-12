@@ -65,7 +65,9 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
         List<ProductResponseDto> response = new ArrayList<>();
         for (int i = 0; i < products.length; i++) {
             ProductDto product = products[i];
-            Long quantity = productToCommunity.get(i).getQte();
+            Long quantity = productToCommunity.stream()
+                    .filter(ptc -> ptc.getProductId().equals(product.getEANCode()))
+                    .findFirst().get().getQte();
 
             response.add(new ProductResponseDto(product.getEANCode(), product.getName(), product.getNbScanned(), product.getThumbnail(), product.getNbAdded(), quantity, productToCommunity.get(i).getEmplacementId()));
         }
