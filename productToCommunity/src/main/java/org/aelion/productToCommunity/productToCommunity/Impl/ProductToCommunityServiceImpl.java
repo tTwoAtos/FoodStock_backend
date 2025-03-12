@@ -7,11 +7,8 @@ import org.aelion.productToCommunity.productToCommunity.ProductToCommunityServic
 import org.aelion.productToCommunity.productToCommunity.dto.Community;
 import org.aelion.productToCommunity.productToCommunity.dto.ProductDto;
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
-import org.aelion.productToCommunity.productToCommunity.dto.ProductToCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,7 +34,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
-    public List<ProductResponseDto> getAllByCommunityId(String communityId) {
+    public List<ProductResponseDto> getAllByCommunityId(Integer communityId) {
         List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdOrderByProductId(communityId);
 
         List<String> productIds = productToCommunity.stream().map((pToC) -> pToC.getProductId()).toList();
@@ -58,7 +55,7 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
-    public List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId) {
+    public List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(Integer communityId, Integer emplacementId) {
         List<ProductToCommunity> productToCommunity = repository.findAllByCommunityIdAndEmplacementId(communityId, emplacementId);
 
         List<String> productIds = productToCommunity.stream().map((pToC) -> pToC.getProductId()).toList();
@@ -77,8 +74,8 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
-    public Integer countAllByCommunityIdAndEmplacementId(String communityId, String emplacementId) {
-        return repository.countByCommunityIdAndEmplacementId(communityId, emplacementId);
+    public Integer countAllByCommunityIdAndEmplacementId(Integer communityId, Integer emplacementId) {
+        return repository.sumQuantityByCommunityIdAndEmplacementId(communityId, emplacementId);
     }
 
 
@@ -99,9 +96,8 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
 
-
     @Override
-    public ProductToCommunity updateQuantity(String communityId, String productId, Long quantity) {
+    public ProductToCommunity updateQuantity(Integer communityId, String productId, Long quantity) {
         ProductToCommunity pToC = repository.findByCommunityIdAndProductId(communityId, productId).orElseThrow();
 
         pToC.setQte(quantity);
@@ -114,12 +110,12 @@ public class ProductToCommunityServiceImpl implements ProductToCommunityService 
     }
 
     @Override
-    public void delete(String code, String communityId) {
+    public void delete(String code, Integer communityId) {
         repository.deleteByProductIdAndCommunityId(code, communityId);
     }
 
     @Override
-    public void massDelete(List<String> codes, String communityId) {
+    public void massDelete(List<String> codes, Integer communityId) {
         repository.deleteAllByProductIdsForCommunity(codes, communityId);
     }
 

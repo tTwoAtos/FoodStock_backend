@@ -2,6 +2,7 @@ package org.aelion.emplacements.emplacements;
 
 import jakarta.transaction.Transactional;
 import org.aelion.emplacements.emplacements.dto.DeleteEmplacementDto;
+import org.aelion.emplacements.emplacements.dto.EmplacementListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class EmplacementController {
     private EmplacementService service;
 
     @GetMapping("/community/{communityId}")
-    public List<Emplacement> getAllByCommunity(@PathVariable Integer communityId) {
+    public List<EmplacementListResponse> getAllByCommunity(@PathVariable Integer communityId) {
         return service.getAllByCommunityId(communityId);
     }
 

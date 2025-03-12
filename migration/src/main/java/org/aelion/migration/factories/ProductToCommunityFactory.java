@@ -16,10 +16,11 @@ public class ProductToCommunityFactory {
 
         for (int i = 0; i < number; i++) {
             ProductToCommunityDto pToc = new ProductToCommunityDto();
-            
-            pToc.setCommunityId(communities.get(faker.random().nextInt(0, communities.size() - 1)).getId());
+
+            Integer communityId = communities.get(faker.random().nextInt(0, communities.size() - 1)).getId();
+            pToc.setCommunityId(communityId);
             pToc.setProductId(products.get(faker.random().nextInt(0, products.size() - 1)).getEANCode());
-            pToc.setEmplacementId(emplacements.get(faker.random().nextInt(0, emplacements.size() - 1)).getId());
+            pToc.setEmplacementId(emplacements.stream().filter(e -> e.getCommunityId().equals(communityId)).findFirst().get().getId());
             pToc.setQte(Long.valueOf(faker.random().nextInt(1, 5)));
 
             result.add(pToc);

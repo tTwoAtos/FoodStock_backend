@@ -1,35 +1,53 @@
 package org.aelion.emplacements.emplacements.Impl;
 
-import org.aelion.exception.BadRequestException;
-import org.aelion.exception.NotFoundException;
 import org.aelion.emplacements.emplacements.Emplacement;
 import org.aelion.emplacements.emplacements.EmplacementRepository;
 import org.aelion.emplacements.emplacements.EmplacementService;
+import org.aelion.emplacements.emplacements.dto.EmplacementListResponse;
+import org.aelion.exception.BadRequestException;
+import org.aelion.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EmplacementServiceImpl implements EmplacementService {
     private final static String COMMUNITY_API = "http://COMMUNITY-SERVICE/api/v1/communities";
+    private final static String PRODUCT_TO_COMMUNITY_API = "http://PRODUCT-TO-COMMUNITY-SERVICE/api/v1/product-to-community";
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     private EmplacementRepository repository;
 
     @Override
-    public List<Emplacement> getAllByCommunityId(Integer communityId) {
+    public List<EmplacementListResponse> getAllByCommunityId(Integer communityId) {
 
-        return repository.findAllByCommunityId(communityId);
+        List<Emplacement> emplacements = repository.findAllByCommunityId(communityId);
+
+        // foreach emplacement, count nb products
+        List<EmplacementListResponse> response = new ArrayList<EmplacementListResponse>();
+        emplacements.stream().forEach(emplacement -> {
+            Integer nbProducts = restTemplate.getForObject(PRODUCT_TO_COMMUNITY_API + "/" + emplacement.getCommunityId() + "/" + emplacement.getId() + "/count", Integer.class);
+
+            EmplacementListResponse res = new EmplacementListResponse(emplacement);
+            res.setNbProducts(nbProducts);
+            response.add(res);
+        });
+
+        return response;
     }
 
     @Override
     public Emplacement getEmplacementById(Long id) {
         Optional<Emplacement> optionalEmplacement = repository.findById(id);
 
-        if(optionalEmplacement.isEmpty()){
+        if (optionalEmplacement.isEmpty()) {
             throw new NotFoundException("Non trouvé");
         }
 

@@ -2,7 +2,6 @@ package org.aelion.productToCommunity.productToCommunity;
 
 import org.aelion.productToCommunity.productToCommunity.dto.ProductResponseDto;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,19 +9,19 @@ import java.util.Map;
 public interface ProductToCommunityService {
     List<ProductToCommunity> getAll();
 
-    List<ProductResponseDto> getAllByCommunityId(String communityId);
+    List<ProductResponseDto> getAllByCommunityId(Integer communityId);
 
-    List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(String communityId, String emplacementId);
+    List<ProductResponseDto> getAllByCommunityIdAndEmplacementId(Integer communityId, Integer emplacementId);
 
-    Integer countAllByCommunityIdAndEmplacementId(String communityId, String emplacementId);
+    Integer countAllByCommunityIdAndEmplacementId(Integer communityId, Integer emplacementId);
 
     public ProductToCommunity add(ProductToCommunity PtoC);
 
-    ProductToCommunity updateQuantity(String communityId, String productId, Long quantity);
+    ProductToCommunity updateQuantity(Integer communityId, String productId, Long quantity);
 
-    void delete(String code, String communityId);
+    void delete(String code, Integer communityId);
 
-    void massDelete(List<String> codes, String communityId);
+    void massDelete(List<String> codes, Integer communityId);
 
     Object getAll(Pageable pageable, Map<String, String> filters);
 }

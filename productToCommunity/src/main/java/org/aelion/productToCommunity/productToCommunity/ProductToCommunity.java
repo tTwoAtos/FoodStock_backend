@@ -24,10 +24,10 @@ public class ProductToCommunity {
     private String productId;
 
     @Column(nullable = false)
-    private String communityId;
+    private Integer communityId;
 
     @Column
-    private String emplacementId;
+    private Integer emplacementId;
 
     @Column
     private Long qte;

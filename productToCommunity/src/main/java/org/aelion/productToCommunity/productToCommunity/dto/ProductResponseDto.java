@@ -10,12 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponseDto {
-
     private String EANCode;
     private String name;
     private Long nbScanned;
     private String thumbnail;
     private Long nbAdded;
     private Long quantity;
-    private String emplacementId;
+    private Integer emplacementId;
 }
