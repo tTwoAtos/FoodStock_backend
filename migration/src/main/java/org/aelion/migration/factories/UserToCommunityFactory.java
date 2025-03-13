@@ -16,7 +16,7 @@ public class UserToCommunityFactory {
         for (int i = 0; i < users.size(); i++) {
             UserToCommunityDto uToc = new UserToCommunityDto();
             uToc.setCommunityId(communities.get(faker.random().nextInt(0, communities.size() - 1)).getId());
-            uToc.setUser(users.get(faker.random().nextInt(0, users.size() - 1)));
+            uToc.setUser(users.get(i));
 
             result.add(uToc);
         }
