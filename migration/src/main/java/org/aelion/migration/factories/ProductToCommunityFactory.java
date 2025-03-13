@@ -18,9 +18,11 @@ public class ProductToCommunityFactory {
             ProductToCommunityDto pToc = new ProductToCommunityDto();
 
             Integer communityId = communities.get(faker.random().nextInt(0, communities.size() - 1)).getId();
+            List<EmplacementDto> pTocStocks = emplacements.stream().filter(e -> e.getCommunityId().equals(communityId)).toList();
+
             pToc.setCommunityId(communityId);
             pToc.setProductId(products.get(faker.random().nextInt(0, products.size() - 1)).getEANCode());
-            pToc.setEmplacementId(emplacements.stream().filter(e -> e.getCommunityId().equals(communityId)).findFirst().get().getId());
+            pToc.setEmplacementId(pTocStocks.get(faker.random().nextInt(0, pTocStocks.size() - 1)).getId());
             pToc.setQte(Long.valueOf(faker.random().nextInt(1, 5)));
 
             result.add(pToc);
